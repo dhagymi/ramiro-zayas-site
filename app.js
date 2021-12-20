@@ -1,22 +1,21 @@
-import express from "express";
+import express, { json, urlencoded } from "express";
 import errorHandler from "errorhandler";
 import dotenv from "dotenv";
 import morgan from "morgan";
+import cors from "cors";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
 import Prismic from "@prismicio/client";
 import PrismicDOM from "prismic-dom";
-import bodyParser from "body-parser";
-import methodOverride from "method-override";
 
 const app = express();
 dotenv.config();
 const PORT = process.env.PORT || 5000;
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(methodOverride());
+app.use(json());
+app.use(urlencoded({ extended: false }));
+app.use(cors());
 app.use(morgan("dev"));
 app.use(errorHandler());
 app.use(express.static(join(__dirname, "public")));
