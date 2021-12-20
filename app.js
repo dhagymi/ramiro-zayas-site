@@ -19,6 +19,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(methodOverride());
 app.use(morgan("dev"));
 app.use(errorHandler());
+console.log(join(__dirname, "public"));
 app.use(express.static(join(__dirname, "public")));
 
 const initApi = (req) => {
