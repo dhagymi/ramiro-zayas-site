@@ -5,12 +5,14 @@
 	"type": "module",
 	"main": "index.js",
 	"scripts": {
-		"backend:build": "node --experimental-modules app.js",
+		"backend:prod": "node --experimental-modules app.js",
 		"backend:dev": "nodemon --experimental-modules app.js",
-		"frontend:build": "webpack --progress --config webpack.config.build.js",
+		"frontend:prod": "webpack --progress --config webpack.config.build.js",
 		"frontend:dev": "webpack serve --progress --config webpack.config.development.js",
 		"start:dev": "concurrently --kill-others \"yarn backend:dev\" \"yarn frontend:dev\"",
-		"start": "concurrently --kill-others \"yarn frontend:build && yarn backend:build\""
+		"start:prod": "concurrently --kill-others \"yarn frontend:prod && yarn backend:prod\"",
+		"build": "\"yarn frontend:prod`\"",
+		"start": "\"yarn backend:prod`\""
 	},
 	"author": "Agustin Andreacchi",
 	"license": "ISC",
