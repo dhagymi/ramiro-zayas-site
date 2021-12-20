@@ -1,0 +1,22 @@
+extends ../base.pug 
+
+block variables 
+    - var template = "concerts"
+
+block content
+    .concerts 
+        section.concerts__wrapper
+            h1.concerts__title=concerts.data.title 
+            .concerts__shows
+                each concert in concertsData
+                    article.concerts__shows__cardWrapper 
+                        p.concerts__shows__date=`${concert.data.day}.${concert.data.month}.${concert.data.year}`
+                        .concerts__shows__content
+                            h2.concerts__shows__title=concert.data.title 
+                            p.concerts__shows__info=`Time: ${concert.data.hours}:${concert.data.minutes}`
+                            p.concerts__shows__info=`Location: ${concert.data.location} `
+                                a(href=`https://www.google.com/search?q=${concert.data.location}` target="_blank")="(map)"
+                            p.concerts__shows__info=`Price: €${concert.data.price}`
+                            p.concerts__shows__info=`Status: ${concert.data.status}`
+                            p.concerts__shows__info=`Description: ${concert.data.description}`
+                

@@ -1,0 +1,66 @@
+.options
+    @extend %options-16
+
+    align-items: center
+    bottom: 23.6vh
+    display: flex
+    flex-direction: column
+    gap: 1.8rem
+    left: 9rem
+    position: fixed
+    transform: translateY(50%)
+    z-index: z('header')
+
+    &__button
+        align-items: center
+        display: flex
+        flex-direction: column
+        gap: 1.7rem
+        height: 9rem
+        text-transform: uppercase
+        width: 5.5rem
+
+    &__sound
+
+        &__icon
+            align-items: flex-end
+            display: flex
+            gap: .5rem
+            justify-content: center
+
+        &__pulse
+            display: inline-block
+            background: $text-color
+            transition: background .5s
+            width: .75rem
+
+            &--1
+                height: 1.2rem
+
+            &--2
+                height: 4rem
+
+            &--3
+                height: 2.7rem
+
+        &__text
+
+            &--on
+
+            &--off
+                display: none
+        &__audio
+
+    &__darkTheme
+
+        &__icon
+
+            &--on
+                display: none
+            &--off
+
+        &__text
+
+            &--on
+                display: none
+            &--off

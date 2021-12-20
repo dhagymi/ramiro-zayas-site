@@ -1,0 +1,38 @@
+extends ../base.pug 
+
+block variables 
+    - var template = "music"
+
+block content
+    .music 
+        section.music__wrapper        
+            h1.music__title=music.data.title 
+            .music__albums
+                each album in music.data.album 
+                    article.music__albums__card 
+                        a.music__albums__link(href=album.link.url target=album.link.target)
+                            figure.music__albums__image
+                                img.music__albums__image__content(src=album.image.url alt=album.image.alt)
+
+            .music__videos
+                .music__videos__wrapper
+                    each video, index in music.data.videos
+                        article(class=`music__videos__card ${index === 0 ? "music__videos__card--current" : index === 1 ? "music__videos__card--next" : index === music.data.videos.length - 1 ? "music__videos__card--previous" : ""}`)
+                            a.music__videos__link(href=video.link.url target=video.link.target)
+                                figure.music__videos__image
+                                    img.music__videos__image__content(src=video.image.url alt=video.image.alt)
+                                    svg.music__videos__image__playIcon(viewBox="0 0 68 67" fill="none" xmlns="http://www.w3.org/2000/svg")
+                                        path(fill-rule="evenodd" clip-rule="evenodd" d="M27.2 48.575L47.6 33.5L27.2 18.425V48.575ZM34 0C15.232 0 0 15.008 0 33.5C0 51.992 15.232 67 34 67C52.768 67 68 51.992 68 33.5C68 15.008 52.768 0 34 0Z" fill="#EFEFEF")
+
+                .music__videos__controls 
+                    button.music__videos__controls__button.music__videos__controls__button--left
+                        svg.music__videos__controls__arrow(viewBox="0 0 74 23" fill="none" xmlns="http://www.w3.org/2000/svg")
+                            path(d="M0.920656 10.4394C0.342914 11.0252 0.355954 11.9748 0.949781 12.5606L10.6268 22.1056C11.2206 22.6913 12.1704 22.6913 12.7481 22.1056C13.3258 21.5199 13.3128 20.5702 12.719 19.9845L4.1172 11.5L12.486 3.01552C13.0637 2.42979 13.0507 1.48013 12.4569 0.894398C11.863 0.308667 10.9133 0.308667 10.3355 0.894398L0.920656 10.4394ZM73.1762 10.0001L1.97529 10.0001L2.01647 12.9999L73.2174 12.9999L73.1762 10.0001Z" fill="currentColor")
+                    button.music__videos__controls__button.music__videos__controls__button--right
+                        svg.music__videos__controls__arrow(xmlns="http://www.w3.org/2000/svg" viewBox="0 0 74 23")
+                            path(fill="currentColor" d="M63.4,0.9c-0.6-0.6-1.5-0.6-2.1,0c-0.6,0.6-0.6,1.5,0,2.1l8.4,8.5L61,20c-0.6,0.6-0.6,1.5,0,2.1c0.6,0.6,1.5,0.6,2.1,0l9.7-9.5c0.6-0.6,0.6-1.5,0-2.1L63.4,0.9z M0.5,13h71.2l0-3H0.5L0.5,13z")
+
+                    p.music__videos__controls__counter
+                        span.music__videos__controls__position=1
+                        span.music__videos__controls__slash="/"
+                        span.music__videos__controls__quantity=music.data.videos.length > 9 ? music.data.videos.length : `0${music.data.videos.length}`

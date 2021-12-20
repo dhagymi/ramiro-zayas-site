@@ -1,0 +1,70 @@
+.contact__form
+    display: grid
+    grid-template-columns: 44.6rem 1fr
+    grid-template-rows: 1fr
+    height: 45.9rem
+    margin-top: 7.9rem
+    position: relative
+    text-align: left
+
+    &__info
+        grid-column: 1/2
+
+        &__legend
+            @extend %description-50
+
+            letter-spacing: -0.1rem
+            line-height: 1.37
+            width: 33.8rem
+
+        &__contactInfo
+            @extend %description-30
+
+            letter-spacing: -0.05rem
+            margin-top: 2.2rem
+
+    &__inputs
+        display: flex
+        flex-direction: column
+        grid-column: 2/3
+        height: 100%
+        line-height: 1
+        margin-left: .5rem
+        margin-top: 1.1rem
+
+        &__label
+            @extend %description-24
+
+        &__input
+            @extend %description-24
+            background: transparent
+            border: none
+            border-bottom: solid 2px $text-color
+            color: $text-color
+            font-weight: 400
+            margin-bottom: 2rem
+            margin-top: 1rem
+            padding: 0.3rem 0
+            transition: all .3s
+
+            &:focus
+                outline: none
+
+            &--textarea
+                height: 9.5rem
+                resize: none
+                margin-bottom: 0
+
+        &__button
+            align-items: center
+            display: flex
+            gap: 4rem
+            height: 2.5rem
+            margin-top: 3.5rem
+
+            &__text
+                @extend %form-24
+                letter-spacing: .3rem
+
+            &__arrow
+                height: 100%

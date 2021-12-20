@@ -1,0 +1,23 @@
+.options 
+
+    button.options__button.options__darkTheme
+        svg.options__darkTheme__icon.options__darkTheme__icon--off(xmlns="http://www.w3.org/2000/svg" viewBox="0 0 34 53")
+            path(stroke="currentColor" fill="none" d="M32.3,14.1c0-7.2-6.7-13-15-13c-8.3,0-15,5.8-15,13v24.8c0,7.2,6.7,13,15,13c8.3,0,15-5.8,15-13V14.1z" stroke-width="1.5" stroke-miterlimit="10")
+            path(fill="currentColor" d="M17.4,27.6c6.1,0,11-4.9,11-11c0-6.1-4.9-11-11-11c-6.1,0-11,4.9-11,11C6.4,22.6,11.3,27.6,17.4,27.6z")
+
+        svg.options__darkTheme__icon.options__darkTheme__icon--on(xmlns="http://www.w3.org/2000/svg" viewBox="0 0 34 53")
+            path(stroke="currentColor" fill="none" d="M32.3,14.1c0-7.2-6.7-13-15-13c-8.3,0-15,5.8-15,13v24.8c0,7.2,6.7,13,15,13c8.3,0,15-5.8,15-13V14.1z" stroke-width="1.5" stroke-miterlimit="10")
+            path(fill="currentColor" d="M17.3,47.7c6.1,0,11-4.9,11-11c0-6.1-4.9-11-11-11c-6.1,0-11,4.9-11,11C6.3,42.8,11.2,47.7,17.3,47.7z")
+
+        p.options__darkTheme__text.options__darkTheme__text--off=options.data.options[1].option_one
+        p.options__darkTheme__text.options__darkTheme__text--on=options.data.options[1].option_two
+
+    button.options__button.options__sound
+        .options__sound__icon
+            span.options__sound__pulse.options__sound__pulse--1
+            span.options__sound__pulse.options__sound__pulse--2
+            span.options__sound__pulse.options__sound__pulse--3
+        p.options__sound__text.options__sound__text--on=options.data.options[0].option_one
+        p.options__sound__text.options__sound__text--off=options.data.options[0].option_two
+        audio.options__sound__audio(loop)
+            source(src=options.data.background_audio.url, type="audio/mpeg")

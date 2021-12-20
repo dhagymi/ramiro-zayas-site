@@ -1,12 +1,15 @@
-const path = require("path");
+import { merge } from "webpack-merge";
+import { dirname, resolve } from "path";
+import { fileURLToPath } from "url";
 
-const { merge } = require("webpack-merge");
-const config = require("./webpack.config.js");
+import config from "./webpack.config.js";
 
-module.exports = merge(config, {
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
+export default merge(config, {
 	mode: "production",
 
 	output: {
-		path: path.join(__dirname, "public"),
+		path: resolve(__dirname, "public"),
 	},
 });

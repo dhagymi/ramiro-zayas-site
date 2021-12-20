@@ -1,5 +1,6 @@
 node_modules/
 .env
+tiempo
 
 yarn.lock
 yarn.log

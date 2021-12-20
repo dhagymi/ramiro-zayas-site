@@ -1,0 +1,27 @@
+extends ../base.pug 
+
+block variables 
+    - var template = "contact"
+
+block content
+    .contact 
+        section.contact__wrapper
+            h1.contact__title=contact.data.title
+            form.contact__form
+                .contact__form__info
+                    p.contact__form__info__legend=contact.data.form_description 
+                    p.contact__form__info__contactInfo=contact.data.phone
+                    p.contact__form__info__contactInfo=contact.data["e-mail"]
+                .contact__form__inputs 
+                    each input in contact.data.form 
+                        if input.type == "textarea"
+                            label.contact__form__inputs__label(for=input.placeholder_buttontext.toLowerCase())=input.placeholder_buttontext
+                            textarea.contact__form__inputs__input.contact__form__inputs__input--textarea(name=input.placeholder_buttontext.toLowerCase() id=input.placeholder_buttontext.toLowerCase())
+                        else if input.type == "submit"
+                            button.contact__form__inputs__button(type="submit")
+                                span.contact__form__inputs__button__text=input.placeholder_buttontext
+                                svg.contact__form__inputs__button__arrow(viewBox="0 0 74 23" fill="none" xmlns="http://www.w3.org/2000/svg")
+                                    path(d="M71.0602 13.0607C71.646 12.4749 71.646 11.5251 71.0602 10.9393L61.5142 1.3934C60.9284 0.807611 59.9787 0.807611 59.3929 1.3934C58.8071 1.97919 58.8071 2.92893 59.3929 3.51472L67.8782 12L59.3929 20.4853C58.8071 21.0711 58.8071 22.0208 59.3929 22.6066C59.9787 23.1924 60.9284 23.1924 61.5142 22.6066L71.0602 13.0607ZM-0.000488281 13.5H69.9995V10.5H-0.000488281V13.5Z" fill="currentColor")
+                        else
+                            label.contact__form__inputs__label(for=input.placeholder_buttontext.toLowerCase())=input.placeholder_buttontext
+                            input.contact__form__inputs__input(type=input.type name=input.placeholder_buttontext.toLowerCase() id=input.placeholder_buttontext.toLowerCase())

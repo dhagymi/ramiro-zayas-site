@@ -1,0 +1,8 @@
+- var devAndDesign = [footer.data.dev_and_design.split(" - ")[0].trim(), "-", footer.data.dev_and_design.split(" - ")[1].trim()]
+
+footer.footer 
+    p.footer__copyright=footer.data.copyright
+    p.footer__devAndDesign
+        span.footer__dev=devAndDesign[0]
+        span.footer__dash=devAndDesign[1]
+        span.footer__design=devAndDesign[2]

@@ -1,0 +1,52 @@
+.home
+  @extend %page
+
+  overflow: hidden
+  text-align: center
+
+  &--active
+    @extend %page--active
+
+  &__wrapper
+    padding: 24.3rem 39.8rem
+
+  &__title
+    @extend %title-134
+
+  &__subtitle
+    @extend %subtitle-30
+
+    margin-top: 5.5rem
+
+  &__image
+    margin: 7.1rem auto 0
+    width: 109.2rem
+    height: 70.3rem
+
+    &__content
+      width: 100%
+
+  &__text
+    @extend %description-30
+
+    line-height: 2
+    margin-left: 1.3rem
+    margin-top: 7.6rem
+    text-align: left
+
+    strong
+      font-weight: 700
+      text-decoration: underline
+
+  &__spotifyLink
+    color: $bg-color
+    transition: color .3s
+
+    &__button
+      @extend %button-30
+
+      background: $text-color
+      margin-top: 12.5rem
+      height: 11rem
+      transition: background .3s
+      width: 53.2rem

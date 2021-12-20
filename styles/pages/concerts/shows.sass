@@ -1,0 +1,33 @@
+.concerts__shows
+    display: flex
+    flex-direction: column
+    gap: 15.6rem
+    margin-top: 15.9rem
+    text-align: left
+
+    &__cardWrapper
+        display: grid
+        grid-template-columns: 33.6rem 1fr
+        position: relative
+
+        &:after
+            background: $text-color
+            bottom: -6.2rem
+            content: ""
+            height: .1rem
+            position: absolute
+            width: 100%
+
+    &__date
+        @extend %title-30
+
+    &__content
+
+    &__title
+        @extend %title-30
+        font-weight: 600
+        margin-bottom: 5.7rem
+
+    &__info
+        @extend %description-24
+        line-height: 1.7

@@ -1,28 +1,29 @@
-const path = require("path");
-const webpack = require("webpack");
+import { dirname, join } from "path";
+import { fileURLToPath } from "url";
 
-const CopyWebpackPlugin = require("copy-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const TerserPlugin = require("terser-webpack-plugin");
+import webpack from "webpack";
+
+import CopyWebpackPlugin from "copy-webpack-plugin";
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import ImageMinimizerPlugin from "image-minimizer-webpack-plugin";
+import { CleanWebpackPlugin } from "clean-webpack-plugin";
+import TerserPlugin from "terser-webpack-plugin";
 
 const IS_DEVELOPMENT = process.env.NODE_ENV === "dev";
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
-const dirApp = path.join(__dirname, "app");
-const dirImages = path.join(__dirname, "images");
-const dirShared = path.join(__dirname, "shared");
-const dirStyles = path.join(__dirname, "styles");
-const dirVideos = path.join(__dirname, "videos");
+const dirApp = join(__dirname, "app");
+const dirImages = join(__dirname, "images");
+const dirShared = join(__dirname, "shared");
+const dirStyles = join(__dirname, "styles");
+const dirVideos = join(__dirname, "videos");
 const dirNode = "node_modules";
 
-module.exports = {
-	entry: [path.join(dirApp, "index.js"), path.join(dirStyles, "index.sass")],
-
+const config = {
+	entry: [join(dirApp, "index.js"), join(dirStyles, "index.sass")],
 	resolve: {
 		modules: [dirApp, dirImages, dirShared, dirStyles, dirVideos, dirNode],
 	},
-
 	plugins: [
 		new webpack.DefinePlugin({
 			IS_DEVELOPMENT,
@@ -53,7 +54,6 @@ module.exports = {
 		}),
 		new CleanWebpackPlugin(),
 	],
-
 	module: {
 		rules: [
 			{
@@ -76,7 +76,7 @@ module.exports = {
 					{ loader: "sass-loader" },
 				],
 			},
-			{
+			/* 			{
 				test: /\.(jpg?e|png|gif|svg|webp)$/,
 				loader: "file-loader",
 				options: {
@@ -109,6 +109,10 @@ module.exports = {
 					},
 					outputPath: "fonts",
 				},
+			}, */
+			{
+				test: /\.(jpe?g|svg|png|gif|ico|eot|ttf|woff2?)(\?v=\d+\.\d+\.\d+)?$/i,
+				type: "asset/resource",
 			},
 			{
 				test: /\.(glsl|frag|vert)$/,
@@ -122,9 +126,10 @@ module.exports = {
 			},
 		],
 	},
-
 	optimization: {
 		minimize: true,
 		minimizer: [new TerserPlugin()],
 	},
 };
+
+export default config;
