@@ -11,8 +11,8 @@
 		"frontend:dev": "webpack serve --progress --config webpack.config.development.js",
 		"start:dev": "concurrently --kill-others \"yarn backend:dev\" \"yarn frontend:dev\"",
 		"start:prod": "concurrently --kill-others \"yarn frontend:prod && yarn backend:prod\"",
-		"build": "\"yarn frontend:prod\"",
-		"start": "\"yarn backend:prod\""
+		"build": "webpack --progress --config webpack.config.build.js",
+		"start": "node --experimental-modules app.js"
 	},
 	"author": "Agustin Andreacchi",
 	"license": "ISC",
