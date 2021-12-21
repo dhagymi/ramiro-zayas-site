@@ -11,8 +11,8 @@ block content
                 each concert in concertsData
                     article.concerts__shows__cardWrapper 
                         p.concerts__shows__date=`${concert.data.day}.${concert.data.month}.${concert.data.year}`
+                        h2.concerts__shows__title=concert.data.title 
                         .concerts__shows__content
-                            h2.concerts__shows__title=concert.data.title 
                             p.concerts__shows__info=`Time: ${concert.data.hours}:${concert.data.minutes}`
                             p.concerts__shows__info=`Location: ${concert.data.location} `
                                 a(href=`https://www.google.com/search?q=${concert.data.location}` target="_blank")="(map)"

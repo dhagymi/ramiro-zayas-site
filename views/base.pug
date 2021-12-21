@@ -35,13 +35,14 @@ html(lang="es")
         link(href="main.css" rel="stylesheet")
 
     body 
-        include ./partials/footer
-        include ./partials/header
-        include ./partials/options
         include ./partials/preloader
+        include ./partials/options
         include ./partials/social
+        include ./partials/header
 
         main.content#content(data-template=template)
             block content
+
+        include ./partials/footer
         
         script(src="main.js") 

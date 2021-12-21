@@ -12,13 +12,29 @@
     top: unset
     z-index: z('header')
 
+    @include media('<phone')
+        flex-direction: column
+        height: 17.1rem
+        padding: 3.8rem 4.9rem
+
     &__copyright
+        @include media('<phone')
+            font-weight: 500
 
     &__devAndDesign
+        @include media('<phone')
+            align-items: center
+            display: flex
+            flex-direction: column
+            height: 5.6rem
+            justify-content: space-between
 
     &__dev
 
     &__dash
         margin: 0 1rem
+
+        @include media('<phone')
+            display: none
 
     &__design

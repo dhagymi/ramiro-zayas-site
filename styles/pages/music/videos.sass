@@ -2,6 +2,14 @@
     margin: 36.9rem auto 0
     width: 110rem
 
+    @include media('<tablet')
+        margin: 3.4rem auto 0
+        width: 81.5rem
+
+    @include media('<phone')
+        margin: 3.7rem auto 0
+        width: 32.5rem
+
     &__wrapper
         display: flex
         gap: 2.6rem
@@ -10,26 +18,49 @@
         left: -41.2rem
         width: 100vw
 
+        @include media('<tablet')
+            left: 0
+            height: 52rem
+
+        @include media('<tablet')
+            height: 24rem
+
     &__card
         display: none
         height: 100%
         position: absolute
         width: 110rem
 
+        @include media('<tablet')
+            width: 81.5rem
+
+        @include media('<phone')
+            width: 32.4rem
+
         &--current
             display: block
             left: 50vw
             transform: translateX(-50%)
+
+            @include media('<tablet')
+                left: 0
+                transform: translateX(0)
 
         &--previous
             display: block
             left: 0
             transform: scale(0.77) translateX(-69%) translateY(-22%)
 
+            @include media('<tablet')
+                display: none
+
         &--next
             display: block
             right: 0
             transform: scale(0.77) translateX(70%) translateY(22%)
+
+            @include media('<tablet')
+                display: none
 
     &__link
         height: 100%
@@ -56,12 +87,28 @@
             transform: translate(-50%, -50%)
             width: 15rem
 
+            @include media('<tablet')
+                height: 10rem
+                width: 10rem
+
+            @include media('<phone')
+                height: 5rem
+                width: 5rem
+
     &__controls
         align-items: center
         display: flex
         height: 2.5rem
         justify-content: flex-end
         margin-top: 4rem
+
+        @include media('<tablet')
+            margin-top: 2.7rem
+
+        @include media('<phone')
+            height: 3.6rem
+            justify-content: flex-start
+            margin-top: 2.8rem
 
         &__button
             align-items: center
@@ -71,11 +118,27 @@
             padding: 0
             width: 7.9rem
 
+            @include media('<tablet')
+                width: 7rem
+
             &--left
                 margin-right: 1rem
 
+                @include media('<tablet')
+                    margin-right: 2rem
+
+                @include media('<phone')
+                    margin-left: 1rem
+                    margin-right: 2.2rem
+
             &--right
                 margin-right: 4rem
+
+                @include media('<tablet')
+                    margin-right: 2rem
+
+                @include media('<phone')
+                    margin-right: 4.2rem
 
         &__arrow
             height: 100%

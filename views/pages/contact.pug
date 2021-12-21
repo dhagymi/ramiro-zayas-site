@@ -12,6 +12,8 @@ block content
                     p.contact__form__info__legend=contact.data.form_description 
                     p.contact__form__info__contactInfo=contact.data.phone
                     p.contact__form__info__contactInfo=contact.data["e-mail"]
+                    .contact__form__info__social
+                        include ../partials/social
                 .contact__form__inputs 
                     each input in contact.data.form 
                         if input.type == "textarea"

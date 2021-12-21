@@ -9,21 +9,48 @@
   position: fixed
   z-index: z('header')
 
+  @include media('<tablet')
+    height: 18.5rem
+    padding: 6rem 7rem
+
+  @include media('<phone')
+    height: 9.5rem
+    padding: 2.8rem 2.5rem
+
   &__link
     font-size: 0
     height: 2.3rem
     width: 20.5rem
+
+    @include media('<phone')
+      height: 1.7rem
+      width: 13.7rem
 
     &__logo
       height: 2.3rem
       transition: opacity .3s
       width: 20.5rem
 
+      @include media('<phone')
+        height: 1.7rem
+        width: 13.7rem
+
       &:hover
         opacity: .5
 
   &__navigation
     @extend %navigation-24
+
+    @include media('<tablet')
+      background: $dark-color
+      color: $light-color
+      display: none
+      height: 100%
+      left: 0
+      position: fixed
+      top: 0
+      width: 100%
+      z-index: z('menu')
 
     &__list
       align-items: center
@@ -41,3 +68,78 @@
 
   &__options
     display: none
+
+    @include media('<tablet')
+      display: flex
+      height: 100%
+
+    & .options
+      display: none
+
+      @include media('<tablet')
+        display: flex
+        flex-direction: row
+        height: 100%
+        position: static
+        transform: translate(0,0)
+
+      &__button
+        gap: 0
+        height: 100%
+        justify-content: space-between
+        padding: 0
+        width: 7rem
+
+        @include media('<phone')
+          width: 4rem
+
+      &__darkTheme
+
+        &__icon
+          height: 4rem
+
+          @include media('<phone')
+            height: 2rem
+
+        &__text
+          line-height: .8
+      &__sound
+
+        &__icon
+          gap: calc(.13*4rem)
+          height: 4rem
+
+          @include media('<phone')
+            gap: calc(.13*2rem)
+            height: 2rem
+
+          &__pulse
+            width: calc(.13*4rem)
+
+            @include media('<phone')
+              width: calc(.13*2rem)
+
+        &__text
+          line-height: .8
+    &__menu
+      align-items: center
+      display: flex
+      flex-direction: column
+      gap: 0
+      height: 100%
+      justify-content: space-between
+      padding: 0
+      width: 7rem
+
+      @include media('<phone')
+        width: 4rem
+
+      &__icon
+        height: 4rem
+
+        @include media('<phone')
+          height: 2rem
+
+      &__text
+        @extend %options-16
+        line-height: .8

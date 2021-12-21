@@ -11,5 +11,11 @@
     &__wrapper
         padding: 24.3rem 37.7rem
 
+        @include media('<tablet')
+            padding: 22.3rem 10.4rem
+
+        @include media('<phone')
+            padding: 11.6rem 2.6rem 21.3rem
+
     &__title
         @extend %title-134

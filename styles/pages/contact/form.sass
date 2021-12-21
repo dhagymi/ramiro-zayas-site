@@ -7,6 +7,17 @@
     position: relative
     text-align: left
 
+    @include media('<tablet')
+        grid-template-columns: 37.9rem 1fr
+        margin-top: 11.9rem
+        height: 62.4rem
+
+    @include media('<phone')
+        display: flex
+        flex-direction: column
+        height: 109.4rem
+        margin-top: 5.5rem
+
     &__info
         grid-column: 1/2
 
@@ -17,11 +28,56 @@
             line-height: 1.37
             width: 33.8rem
 
+            @include media('<tablet')
+                line-height: 1.45
+
+            @include media('<tablet')
+                line-height: 1.2
+
         &__contactInfo
             @extend %description-30
 
             letter-spacing: -0.05rem
             margin-top: 2.2rem
+
+            @include media('<tablet')
+                margin-top: 1.8rem
+
+        &__social
+
+            & .social
+                display: none
+
+                @include media('<tablet')
+                    display: block
+                    height: 3rem
+                    margin-left: 0.2rem
+                    margin-top: 3.1rem
+                    position: static
+                    transform: translate(0,0)
+
+                @include media('<phone')
+                    height: 3rem
+                    margin-top: 3.1rem
+
+                &__list
+                    @include media('<tablet')
+                        flex-direction: row
+                        gap: 2.8rem
+                        height: 100%
+
+                    &__item
+                        @include media('<tablet')
+                            height: 100%
+
+                    &__link
+                        @include media('<tablet')
+                            height: 100%
+
+                        & svg
+                            @include media('<tablet')
+                                height: 100%
+                                max-width: 3.1rem
 
     &__inputs
         display: flex
@@ -31,6 +87,9 @@
         line-height: 1
         margin-left: .5rem
         margin-top: 1.1rem
+
+        @include media('<phone')
+            margin-top: 4.6rem
 
         &__label
             @extend %description-24
@@ -47,6 +106,14 @@
             padding: 0.3rem 0
             transition: all .3s
 
+            @include media('<tablet')
+                margin-bottom: 3rem
+                margin-top: 1.4rem
+
+            @include media('<phone')
+                margin-bottom: 3.5rem
+                margin-top: 2.3rem
+
             &:focus
                 outline: none
 
@@ -54,6 +121,12 @@
                 height: 9.5rem
                 resize: none
                 margin-bottom: 0
+
+                @include media('<tablet')
+                    height: 18rem
+
+                @include media('<phone')
+                    height: 13rem
 
         &__button
             align-items: center
@@ -64,7 +137,10 @@
 
             &__text
                 @extend %form-24
+                @extend %center
+
                 letter-spacing: .3rem
+                margin-top: 0.4rem
 
             &__arrow
                 height: 100%

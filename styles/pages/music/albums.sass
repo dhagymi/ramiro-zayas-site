@@ -3,9 +3,26 @@
     justify-content: space-between
     margin-top: 17.3rem
 
+    @include media('<tablet')
+        margin-top: 13.2rem
+
+    @include media('<phone')
+        flex-direction: column
+        gap: 0.9rem
+        justify-content: flex-start
+        margin-top: 6.5rem
+
     &__card
         height: 37rem
         width: 37rem
+
+        @include media('<tablet')
+            height: 26rem
+            width: 26rem
+
+        @include media('<phone')
+            height: 32.2rem
+            width: 32.2rem
 
     &__link
         display: block

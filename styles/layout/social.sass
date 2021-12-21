@@ -8,11 +8,18 @@
     transform: translateY(-50%)
     z-index: z('header')
 
+    @include media('<tablet')
+        display: none
+        right: 2.4rem
+
     &__list
         align-items: center
         display: flex
         flex-direction: column
         gap: 2rem
+
+        @include media('<tablet')
+            gap: 1.4rem
 
         &__item
             @extend %center
@@ -22,3 +29,6 @@
             svg
                 height: 3.4rem
                 max-width: 3rem
+
+                @include media('<tablet')
+                    max-width: 2.6rem
