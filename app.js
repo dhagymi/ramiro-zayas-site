@@ -7,6 +7,7 @@ import { dirname, join } from "path";
 import { fileURLToPath } from "url";
 import Prismic from "@prismicio/client";
 import PrismicDOM from "prismic-dom";
+import compression from "compression";
 
 const app = express();
 dotenv.config();
@@ -18,6 +19,7 @@ app.use(urlencoded({ extended: false }));
 app.use(cors());
 app.use(morgan("dev"));
 app.use(errorHandler());
+app.use(compression());
 app.use(express.static(join(__dirname, "public")));
 
 const initApi = (req) => {
