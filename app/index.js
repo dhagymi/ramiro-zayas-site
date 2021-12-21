@@ -14,11 +14,28 @@ class App {
 		this.currentTheme = StorageManager.getTheme() || "light";
 
 		this.createThemeContext();
+		this.createMenuContext();
 		this.addEventListeners();
 	}
 
 	addEventListeners() {
 		window.addEventListener("mousewheel", this.onWheel);
+	}
+	createMenuContext() {
+		document.addEventListener("DOMContentLoaded", () => {
+			const menuButton = document.querySelectorAll(".header__options__menu");
+			const closeMenuButton = document.querySelectorAll(
+				".navigationResponsive__subHeader__closeButton"
+			);
+
+			menuButton.forEach((button) =>
+				button.addEventListener("click", this.menuButtonClickHandle)
+			);
+
+			closeMenuButton.forEach((button) =>
+				button.addEventListener("click", this.menuButtonClickHandle)
+			);
+		});
 	}
 
 	createThemeContext() {
@@ -26,12 +43,22 @@ class App {
 			const html = document.querySelector("html");
 			html.dataset.theme = `theme-${this.currentTheme}`;
 
-			const buttonDarkTheme = document.querySelectorAll(".options__darkTheme");
+			const darkThemeButton = document.querySelectorAll(".options__darkTheme");
 
-			buttonDarkTheme.forEach((button) =>
+			darkThemeButton.forEach((button) =>
 				button.addEventListener("click", this.themeButtonClickHandle)
 			);
 		});
+	}
+
+	menuButtonClickHandle() {
+		const responsiveNavBar = document.querySelector(".navigationResponsive");
+
+		if (responsiveNavBar.classList.contains("navigationResponsive--active")) {
+			responsiveNavBar.classList.remove("navigationResponsive--active");
+		} else {
+			responsiveNavBar.classList.add("navigationResponsive--active");
+		}
 	}
 
 	themeButtonClickHandle() {
