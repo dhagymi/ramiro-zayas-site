@@ -1,12 +1,15 @@
 .preloader
   @extend %center
-  @extend %cover
 
   background: $bg-color
   color: $text-color
+  height: 100vh
+  left: 0
+  position: absolute
   text-align: center
+  top: 0
+  width: 100vw
   z-index: z('preloader')
-  display: none
 
   &__number
     @extend %title-134

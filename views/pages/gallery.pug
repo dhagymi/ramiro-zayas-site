@@ -13,6 +13,6 @@ block content
                         each image, index in imageSet
                             if image 
                                 figure(class=`gallery__images__item gallery__images__item--${index+1}`)
-                                    img(src=image.image.url alt=image.image.alt class=`gallery__images__item__img ${image.copyright ? "gallery__images__item__img--copyright" : ""}`)
+                                    img(data-src=image.image.url alt=image.image.alt class=`gallery__images__item__img ${image.copyright ? "gallery__images__item__img--copyright" : ""}`)
                                     if image.copyright
                                         figcaption.gallery__images__item__caption=image.copyright

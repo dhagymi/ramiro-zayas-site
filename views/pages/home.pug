@@ -4,12 +4,12 @@ block variables
     - var template = "home"
 
 block content
-    .home.home--active
+    .home
         section.home__wrapper
             h1.home__title=home.data.title
             h2.home__subtitle=home.data.subtitle
             figure.home__image
-                img.home__image__content(src=home.data.home_image.url alt=home.data.home_image.alt)
+                img.home__image__content(data-src=home.data.home_image.url alt=home.data.home_image.alt)
             .home__text!=PrismicDOM.RichText.asHtml(home.data.bio, Link)
             a.home__spotifyLink(href=home.data.spotify_link.url target=home.data.spotify_link.target)
                 button.home__spotifyLink__button=home.data.spotify_text

@@ -1,4 +1,12 @@
 import NormalizeWheel from "normalize-wheel";
+import { each, iteratee } from "lodash";
+
+import Concerts from "pages/Concerts/index.js";
+import Home from "pages/Home/index.js";
+import Contact from "pages/Contact/index.js";
+import Gallery from "pages/Gallery/index.js";
+import Music from "pages/Music/index.js";
+import Preloader from "components/Preloader.js";
 
 import StorageManager from "./classes/StorageManager.js";
 
@@ -6,21 +14,61 @@ import { lerp } from "./utils/math.js";
 
 class App {
 	constructor() {
-		this.scroll = {
-			ease: 0.1,
-			current: 0,
-			target: 0,
-		};
 		this.currentTheme = StorageManager.getTheme() || "light";
 
+		this.createPreloader();
+		this.createContent();
+		this.createPages();
 		this.createThemeContext();
 		this.createMenuContext();
+
 		this.addEventListeners();
+		this.addLinkListeners();
+
+		this.update();
 	}
 
-	addEventListeners() {
-		window.addEventListener("mousewheel", this.onWheel);
+	createPreloader() {
+		this.preloader = new Preloader();
+		this.preloader.once("completed", this.onPreloaded.bind(this));
 	}
+
+	createContent() {
+		this.content = document.querySelector(".content");
+		this.template = this.content.getAttribute("data-template");
+	}
+	createPages() {
+		this.pages = {
+			home: new Home(),
+			music: new Music(),
+			concerts: new Concerts(),
+			contact: new Contact(),
+			gallery: new Gallery(),
+		};
+
+		this.page = this.pages[this.template];
+		this.page.create();
+	}
+
+	addLinkListeners() {
+		const links = document.querySelectorAll("a");
+
+		each(links, (link) => {
+			link.addEventListener("click", (event) => {
+				const { href } = link;
+				const location = href.split("/")[href.split("/").length - 1];
+				event.preventDefault();
+
+				if (
+					location !== this.template &&
+					!(location.trim() === "" && this.template === "home")
+				) {
+					this.onChange(href);
+				}
+			});
+		});
+	}
+
 	createMenuContext() {
 		document.addEventListener("DOMContentLoaded", () => {
 			const menuButton = document.querySelectorAll(".header__options__menu");
@@ -68,51 +116,65 @@ class App {
 		localStorage.setItem("themeRZsite", this.currentTheme);
 		html.dataset.theme = `theme-${this.currentTheme}`;
 	}
-
-	onWheel(event) {
-		const header = document.querySelector("header");
-		const main = document.querySelector("main");
-		const footer = document.querySelector("footer");
-
-		if (typeof this.scroll.current != "number") {
-			this.scroll.current = 0;
-			this.scroll.target = 0;
-			this.scroll.ease = 0.5;
+	/* Loop */
+	update() {
+		if (this.page && this.page.update) {
+			this.page.update();
 		}
 
-		const normalized = NormalizeWheel(event);
-		const speed = -normalized.pixelY;
+		this.frame = window.requestAnimationFrame(this.update.bind(this));
+	}
 
-		this.scroll.target += speed;
+	/* Events */
+	async onChange(href) {
+		this.page.hide();
 
-		const newScroll = lerp(
-			this.scroll.current,
-			this.scroll.target,
-			this.scroll.ease
-		);
+		const request = await fetch(href);
 
-		if (newScroll <= 0 && newScroll >= window.innerHeight - main.offsetHeight) {
-			this.scroll.current = newScroll;
-		} else if (newScroll > 0) {
-			this.scroll.current = 0;
-		} else if (newScroll < window.innerHeight - main.offsetHeight) {
-			this.scroll.current = window.innerHeight - main.offsetHeight;
+		if (request.status === 200) {
+			const html = await request.text();
+			const div = document.createElement("div");
+
+			div.innerHTML = html;
+
+			const divContent = div.querySelector(".content");
+
+			this.template = divContent.getAttribute("data-template");
+
+			this.content.setAttribute("data-template", this.template);
+			this.content.innerHTML = divContent.innerHTML;
+
+			this.page = this.pages[this.template];
+			this.page.create();
+
+			this.onResize();
+
+			this.page.show();
+
+			this.addLinkListeners();
+		} else {
+			console.log("Error");
 		}
+	}
 
-		this.scroll.target = this.scroll.current;
+	onPreloaded() {
+		this.preloader.destroy();
 
-		header.setAttribute(
-			"style",
-			`transform: translateY(${this.scroll.current}px)`
-		);
-		main.setAttribute(
-			"style",
-			`transform: translateY(${this.scroll.current}px)`
-		);
-		footer.setAttribute(
-			"style",
-			`transform: translateY(${this.scroll.current}px)`
-		);
+		this.onResize();
+
+		this.page.show();
+	}
+
+	onResize() {
+		if (this.page && this.page.onResize) {
+			this.page.onResize();
+		}
+	}
+
+	/* Listeners */
+
+	addEventListeners() {
+		window.addEventListener("resize", this.onResize.bind(this));
 	}
 }
 
