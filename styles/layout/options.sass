@@ -3,7 +3,7 @@
     bottom: 23.6vh
     display: flex
     flex-direction: column
-    gap: 1.8rem
+    gap: 1rem
     left: 9rem
     position: fixed
     transform: translateY(50%)
@@ -35,28 +35,26 @@
         &__icon
             align-items: flex-end
             display: flex
-            gap: calc(.13*4rem)
-            height: 4rem
+            gap: calc(.23*3rem)
+            height: 3.2rem
             justify-content: center
             position: absolute
-            top: 0
-
-            @include media('<tablet')
-                gap: calc(.13*3rem)
-                height: 3rem
+            top: 2rem
 
         &__pulse
-            transition: height .3s
             animation-duration: 1s
             animation-iteration-count: infinite
             animation-timing-function: ease-in-out
             display: inline-block
             background: $text-color
             transition: background .5s
-            width: calc(.19*4rem)
+            width: calc(.19*3rem)
 
             @include media('<tablet')
-                width: calc(.19*3rem)
+                width: calc(.19*2.3rem)
+
+            @include media('<phone')
+                width: calc(.19*1.6rem)
 
             &--1
                 height: 30%
@@ -81,13 +79,9 @@
 
         &__icon
             position: absolute
-            top: 0
-            height: 5.5rem
-            width: 5.5rem
-
-            @include media('<tablet')
-                height: 4rem
-                width: 4rem
+            top: 1.7rem
+            height: 3.5rem
+            width: 3.5rem
 
             &--on
 

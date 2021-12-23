@@ -92,36 +92,17 @@ export default class Options extends Component {
 	}
 
 	animatePulses() {
-		this.generalComponents.soundPulses.forEach((pulse, index) => {
-			pulse.style["animation-name"] = `pulse${index + 1}`;
+		console.log(this.generalComponents.soundPulses);
+		this.generalComponents.soundPulses.forEach((pulse) => {
+			const index = pulse.className[pulse.className.length - 1];
+			pulse.style["animation-name"] = `pulse${index}`;
 		});
-		/* 		return new Promise((resolve) => {
-			this.timeline = GSAP.timeline;
-			this.timeline.fromTo(
-				this.elements.soundPulses,
-				{
-					height: "0%",
-				},
-				{
-					height: "100%",
-					stagger: 0.2,
-				}
-			);
-			this.timeline.call(() => {
-				resolve();
-			});
-		}); */
 	}
 
 	stopPulsesAnimation() {
 		this.generalComponents.soundPulses.forEach((pulse, index) => {
 			pulse.style["animation-name"] = ``;
 		});
-		/*         return new Promise((resolve)=>{
-            this.timeline.set({
-
-            }) 
-        })*/
 	}
 
 	/* Interactions */
