@@ -10,6 +10,7 @@ export default class Home extends Page {
 				button: ".home__button",
 				wrapper: ".home__wrapper",
 			},
+			title: "About me",
 		});
 	}
 }

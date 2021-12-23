@@ -6,13 +6,13 @@ block variables
 block content
     .gallery 
         section.gallery__wrapper
-            h1.gallery__title=gallery.data.title
+            h1.gallery__title(data-animation="fade")=gallery.data.title
             .gallery__images 
                 each imageSet in galleryData
                     div(class=`gallery__images__imageSet gallery__images__imageSet--${imageSet.length < 4 ? "simple" : imageSet.length < 7 ? "double" : "triple"}`)
                         each image, index in imageSet
                             if image 
-                                figure(class=`gallery__images__item gallery__images__item--${index+1}`)
+                                figure(data-animation="fade" class=`gallery__images__item gallery__images__item--${index+1}`)
                                     img(data-src=image.image.url alt=image.image.alt class=`gallery__images__item__img ${image.copyright ? "gallery__images__item__img--copyright" : ""}`)
                                     if image.copyright
                                         figcaption.gallery__images__item__caption=image.copyright

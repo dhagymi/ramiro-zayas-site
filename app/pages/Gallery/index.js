@@ -6,6 +6,7 @@ export default class Gallery extends Page {
 			id: "gallery",
 			element: ".gallery",
 			elements: { wrapper: ".gallery__wrapper" },
+			title: "Gallery",
 		});
 	}
 }

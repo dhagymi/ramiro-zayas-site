@@ -1,1 +1,22 @@
 .scrollBar
+    background: $bg-color
+    height: 100%
+    position: fixed
+    right: 0
+    top: 0
+    width: 1rem
+    z-index: z("scrollBar")
+
+    &__background
+        background: $text-color
+        height: 100%
+        opacity: .3
+        position: absolute
+        width: 100%
+
+    &__bar
+        background: $text-color
+        height: 10%
+        opacity: 1
+        position: absolute
+        width: 100%

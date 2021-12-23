@@ -6,10 +6,10 @@ block variables
 block content
     .home
         section.home__wrapper
-            h1.home__title=home.data.title
-            h2.home__subtitle=home.data.subtitle
-            figure.home__image
+            h1.home__title(data-animation="fade")=home.data.title
+            h2.home__subtitle(data-animation="fade")=home.data.subtitle
+            figure.home__image(data-animation="fade")
                 img.home__image__content(data-src=home.data.home_image.url alt=home.data.home_image.alt)
-            .home__text!=PrismicDOM.RichText.asHtml(home.data.bio, Link)
-            a.home__spotifyLink(href=home.data.spotify_link.url target=home.data.spotify_link.target)
+            .home__text(data-animation="fade")!=PrismicDOM.RichText.asHtml(home.data.bio, Link)
+            a.home__spotifyLink(data-animation="fade")(href=home.data.spotify_link.url target=home.data.spotify_link.target)
                 button.home__spotifyLink__button=home.data.spotify_text

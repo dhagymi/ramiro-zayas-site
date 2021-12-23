@@ -6,6 +6,7 @@ export default class Music extends Page {
 			id: "music",
 			element: ".music",
 			elements: { wrapper: ".music__wrapper" },
+			title: "Music",
 		});
 	}
 }

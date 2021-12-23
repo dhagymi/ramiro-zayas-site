@@ -6,10 +6,10 @@ block variables
 block content
     .music 
         section.music__wrapper        
-            h1.music__title=music.data.title 
+            h1.music__title(data-animation="fade")=music.data.title 
             .music__albums
                 each album in music.data.album 
-                    article.music__albums__card 
+                    article.music__albums__card(data-animation="fade") 
                         a.music__albums__link(href=album.link.url target=album.link.target)
                             figure.music__albums__image
                                 img.music__albums__image__content(data-src=album.image.url alt=album.image.alt)
@@ -17,14 +17,14 @@ block content
             .music__videos
                 .music__videos__wrapper
                     each video, index in music.data.videos
-                        article(class=`music__videos__card ${index === 0 ? "music__videos__card--current" : index === 1 ? "music__videos__card--next" : index === music.data.videos.length - 1 ? "music__videos__card--previous" : ""}`)
+                        article(data-animation="fade" class=`music__videos__card ${index === 0 ? "music__videos__card--current" : index === 1 ? "music__videos__card--next" : index === music.data.videos.length - 1 ? "music__videos__card--previous" : ""}`)
                             a.music__videos__link(href=video.link.url target=video.link.target)
                                 figure.music__videos__image
                                     img.music__videos__image__content(data-src=video.image.url alt=video.image.alt)
                                     svg.music__videos__image__playIcon(viewBox="0 0 68 67" fill="none" xmlns="http://www.w3.org/2000/svg")
                                         path(fill-rule="evenodd" clip-rule="evenodd" d="M27.2 48.575L47.6 33.5L27.2 18.425V48.575ZM34 0C15.232 0 0 15.008 0 33.5C0 51.992 15.232 67 34 67C52.768 67 68 51.992 68 33.5C68 15.008 52.768 0 34 0Z" fill="#EFEFEF")
 
-                .music__videos__controls 
+                .music__videos__controls(data-animation="fade")
                     button.music__videos__controls__button.music__videos__controls__button--left
                         svg.music__videos__controls__arrow(xmlns="http://www.w3.org/2000/svg" viewBox="0 0 74 23")
                             path(fill="currentColor" d="M0.4,10.4c-0.6,0.6-0.6,1.6,0,2.2l9.8,9.9c0.6,0.6,1.6,0.6,2.2,0c0.6-0.6,0.6-1.6,0-2.2l-8.8-8.8l8.5-8.8c0.6-0.6,0.6-1.6,0-2.2c-0.6-0.6-1.6-0.6-2.2,0L0.4,10.4z M74,9.9H1.5l0,3.1H74L74,9.9z")

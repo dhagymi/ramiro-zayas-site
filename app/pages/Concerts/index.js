@@ -6,6 +6,7 @@ export default class Concerts extends Page {
 			id: "concerts",
 			element: ".concerts",
 			elements: { wrapper: ".concerts__wrapper" },
+			title: "Concerts",
 		});
 	}
 }

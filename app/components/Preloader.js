@@ -14,6 +14,8 @@ export default class Preloader extends Component {
 			},
 		});
 
+		this.create();
+
 		this.length = 0;
 
 		this.createLoader();
@@ -21,16 +23,18 @@ export default class Preloader extends Component {
 
 	createLoader() {
 		each(this.elements.images, (element) => {
-			element.addEventListener("load", () => this.onAssetLoaded());
-			element.src = element.getAttribute("data-src");
+			const image = new Image();
+			image.addEventListener("load", () => this.onAssetLoaded());
+			image.src = element.getAttribute("data-src");
 		});
 
 		each(this.elements.audios, (element) => {
-			element.addEventListener("canplay", () => {
+			const audio = new Audio();
+			audio.addEventListener("canplay", () => {
 				this.onAssetLoaded();
 			});
-			element.src = element.childNodes[0].getAttribute("data-src");
-			element.load();
+			audio.src = element.childNodes[0].getAttribute("data-src");
+			audio.load();
 		});
 	}
 

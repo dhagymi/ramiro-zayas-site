@@ -6,10 +6,10 @@ block variables
 block content
     .concerts 
         section.concerts__wrapper
-            h1.concerts__title=concerts.data.title 
+            h1.concerts__title(data-animation="fade")=concerts.data.title 
             .concerts__shows
                 each concert in concertsData
-                    article.concerts__shows__cardWrapper 
+                    article.concerts__shows__cardWrapper(data-animation="fade")
                         p.concerts__shows__date=`${concert.data.day}.${concert.data.month}.${concert.data.year}`
                         h2.concerts__shows__title=concert.data.title 
                         .concerts__shows__content

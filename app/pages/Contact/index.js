@@ -6,6 +6,7 @@ export default class Contact extends Page {
 			id: "contact",
 			element: ".contact",
 			elements: { wrapper: ".contact__wrapper" },
+			title: "Contact",
 		});
 	}
 }

@@ -21,6 +21,7 @@
         flex-direction: column
         gap: 1.7rem
         height: 9rem
+        position: relative
         text-transform: uppercase
         width: 5.5rem
 
@@ -37,12 +38,18 @@
             gap: calc(.13*4rem)
             height: 4rem
             justify-content: center
+            position: absolute
+            top: 0
 
             @include media('<tablet')
                 gap: calc(.13*3rem)
                 height: 3rem
 
         &__pulse
+            transition: height .3s
+            animation-duration: 1s
+            animation-iteration-count: infinite
+            animation-timing-function: ease-in-out
             display: inline-block
             background: $text-color
             transition: background .5s
@@ -63,22 +70,35 @@
         &__text
             @extend %options-16
 
+            bottom: 0
+            position: absolute
+
             &--on
 
             &--off
-                display: none
 
     &__darkTheme
 
         &__icon
+            position: absolute
+            top: 0
+            height: 5.5rem
+            width: 5.5rem
+
+            @include media('<tablet')
+                height: 4rem
+                width: 4rem
 
             &--on
-                display: none
+
             &--off
 
         &__text
             @extend %options-16
 
+            bottom: 0
+            position: absolute
+
             &--on
-                display: none
+
             &--off

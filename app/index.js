@@ -1,26 +1,30 @@
-import NormalizeWheel from "normalize-wheel";
-import { each, iteratee } from "lodash";
+import { each } from "lodash";
 
 import Concerts from "pages/Concerts/index.js";
 import Home from "pages/Home/index.js";
 import Contact from "pages/Contact/index.js";
 import Gallery from "pages/Gallery/index.js";
 import Music from "pages/Music/index.js";
+
 import Preloader from "components/Preloader.js";
-
-import StorageManager from "./classes/StorageManager.js";
-
-import { lerp } from "./utils/math.js";
+import Header from "components/Header.js";
+import ResponsiveNavBar from "components/ResponsiveNavBar.js";
+import Footer from "components/Footer.js";
+import ScrollBar from "components/ScrollBar.js";
+import Options from "components/Options.js";
 
 class App {
 	constructor() {
-		this.currentTheme = StorageManager.getTheme() || "light";
+		this.createContent();
 
 		this.createPreloader();
-		this.createContent();
+		this.createFooter();
+		this.createResponsiveNavBar();
+		this.createHeader();
+		this.createScrollBar();
+		this.createOptions();
 		this.createPages();
-		this.createThemeContext();
-		this.createMenuContext();
+		this.createTitle();
 
 		this.addEventListeners();
 		this.addLinkListeners();
@@ -28,9 +32,39 @@ class App {
 		this.update();
 	}
 
+	/* Creates */
+
 	createPreloader() {
 		this.preloader = new Preloader();
 		this.preloader.once("completed", this.onPreloaded.bind(this));
+	}
+
+	createHeader() {
+		this.header = new Header({
+			template: this.template,
+			interactionComponents: { responsiveNavBar: this.responsiveNavBar },
+		});
+		this.header.create();
+	}
+
+	createResponsiveNavBar() {
+		this.responsiveNavBar = new ResponsiveNavBar({
+			template: this.template,
+		});
+	}
+
+	createFooter() {
+		this.footer = new Footer({ template: this.template });
+		this.footer.create();
+	}
+
+	createScrollBar() {
+		this.scrollBar = new ScrollBar();
+		this.scrollBar.create();
+	}
+
+	createOptions() {
+		this.options = new Options();
 	}
 
 	createContent() {
@@ -50,90 +84,90 @@ class App {
 		this.page.create();
 	}
 
+	createTitle() {
+		this.title = document.querySelector("title");
+		this.title.innerText = `Ramiro Zayas | ${this.page.title}`;
+	}
+
+	/* Links */
+
 	addLinkListeners() {
-		const links = document.querySelectorAll("a");
+		this.links = document.querySelectorAll("a");
+		this.boundedLinkCallback = this.linkListenersCallback.bind(this);
 
-		each(links, (link) => {
-			link.addEventListener("click", (event) => {
-				const { href } = link;
-				const location = href.split("/")[href.split("/").length - 1];
-				event.preventDefault();
-
-				if (
-					location !== this.template &&
-					!(location.trim() === "" && this.template === "home")
-				) {
-					this.onChange(href);
-				}
-			});
+		each(this.links, (link) => {
+			link.addEventListener("click", this.boundedLinkCallback);
 		});
 	}
 
-	createMenuContext() {
-		document.addEventListener("DOMContentLoaded", () => {
-			const menuButton = document.querySelectorAll(".header__options__menu");
-			const closeMenuButton = document.querySelectorAll(
-				".navigationResponsive__subHeader__closeButton"
-			);
-
-			menuButton.forEach((button) =>
-				button.addEventListener("click", this.menuButtonClickHandle)
-			);
-
-			closeMenuButton.forEach((button) =>
-				button.addEventListener("click", this.menuButtonClickHandle)
-			);
+	removeLinkListeners() {
+		each(this.links, (link) => {
+			link.removeEventListener("click", this.boundedLinkCallback);
 		});
 	}
 
-	createThemeContext() {
-		document.addEventListener("DOMContentLoaded", () => {
-			const html = document.querySelector("html");
-			html.dataset.theme = `theme-${this.currentTheme}`;
-
-			const darkThemeButton = document.querySelectorAll(".options__darkTheme");
-
-			darkThemeButton.forEach((button) =>
-				button.addEventListener("click", this.themeButtonClickHandle)
-			);
-		});
-	}
-
-	menuButtonClickHandle() {
-		const responsiveNavBar = document.querySelector(".navigationResponsive");
-
-		if (responsiveNavBar.classList.contains("navigationResponsive--active")) {
-			responsiveNavBar.classList.remove("navigationResponsive--active");
+	linkListenersCallback(event) {
+		let link;
+		if (!(event.target instanceof window.HTMLAnchorElement)) {
+			link = event.target.parentNode;
+			while (!(link instanceof window.HTMLAnchorElement)) {
+				link = link.parentNode;
+			}
 		} else {
-			responsiveNavBar.classList.add("navigationResponsive--active");
+			link = event.target;
+		}
+
+		const { href: url } = link;
+		const location = url.split("/")[url.split("/").length - 1];
+		event.preventDefault();
+
+		if (
+			location !== this.template &&
+			!(location.trim() === "" && this.template === "home")
+		) {
+			this.onChange({ url });
 		}
 	}
 
-	themeButtonClickHandle() {
-		const html = document.querySelector("html");
-
-		this.currentTheme = this.currentTheme === "dark" ? "light" : "dark";
-		localStorage.setItem("themeRZsite", this.currentTheme);
-		html.dataset.theme = `theme-${this.currentTheme}`;
-	}
 	/* Loop */
 	update() {
 		if (this.page && this.page.update) {
 			this.page.update();
 		}
 
+		if (this.header && this.header.update) {
+			this.header.update(this.page.showed || false);
+		}
+
+		if (this.footer && this.footer.update) {
+			this.footer.update(this.page.showed || false);
+		}
+
+		if (this.scrollBar && this.scrollBar.update) {
+			this.scrollBar.update(this.page.showed || false);
+		}
+
+		if (this.options && this.options.update) {
+			this.options.update(false);
+		}
+
 		this.frame = window.requestAnimationFrame(this.update.bind(this));
 	}
 
 	/* Events */
-	async onChange(href) {
+	async onChange({ url, push = true }) {
+		this.removeLinkListeners();
 		this.page.hide();
 
-		const request = await fetch(href);
+		const request = await fetch(url);
 
 		if (request.status === 200) {
 			const html = await request.text();
 			const div = document.createElement("div");
+
+			if (push) {
+				window.history.pushState({}, "", url);
+			}
 
 			div.innerHTML = html;
 
@@ -141,11 +175,16 @@ class App {
 
 			this.template = divContent.getAttribute("data-template");
 
+			this.header.onChange(this.template);
+			this.responsiveNavBar.onChange(this.template);
+			this.footer.onChange(this.template);
+
 			this.content.setAttribute("data-template", this.template);
 			this.content.innerHTML = divContent.innerHTML;
 
 			this.page = this.pages[this.template];
 			this.page.create();
+			this.createTitle();
 
 			this.onResize();
 
@@ -155,6 +194,10 @@ class App {
 		} else {
 			console.log("Error");
 		}
+	}
+
+	onPopState() {
+		this.onChange({ url: window.location.pathname, push: false });
 	}
 
 	onPreloaded() {
@@ -168,12 +211,16 @@ class App {
 	onResize() {
 		if (this.page && this.page.onResize) {
 			this.page.onResize();
+			this.header.onResize(this.page.elements.wrapper);
+			this.footer.onResize(this.page.elements.wrapper);
+			this.scrollBar.onResize(this.page.elements.wrapper);
 		}
 	}
 
 	/* Listeners */
 
 	addEventListeners() {
+		window.addEventListener("popstate", this.onPopState.bind(this));
 		window.addEventListener("resize", this.onResize.bind(this));
 	}
 }

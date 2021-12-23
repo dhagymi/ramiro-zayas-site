@@ -1,19 +1,25 @@
 import GSAP from "gsap";
+import normalizeWheel from "normalize-wheel";
 import Prefix from "prefix";
-import { each } from "lodash";
+import { each, map } from "lodash";
+
+import Fade from "animations/Fade.js";
+
+import AsyncLoad from "classes/AsyncLoad.js";
 
 import { lerp, clamp } from "utils/math.js";
 
 export default class Page {
-	constructor({ id, element, elements }) {
+	constructor({ id, element, elements, title }) {
 		this.selector = element;
-		this.selectorChildren = { ...elements };
-		this.generalSelectors = {
-			header: ".header",
-			footer: ".footer",
-			options: ".options",
-			social: ".social",
+		this.selectorChildren = {
+			...elements,
+
+			animationsFades: '[data-animation="fade"]',
+
+			preloaders: "[data-src]",
 		};
+		this.title = title;
 
 		this.id = id;
 		this.transformPrefix = Prefix("transform");
@@ -24,13 +30,13 @@ export default class Page {
 	create() {
 		this.element = document.querySelector(this.selector);
 		this.elements = {};
-		this.generalComponents = {};
 
 		this.scroll = {
 			ease: 0.1,
 			current: 0,
 			target: 0,
 			limit: 0,
+			last: 0,
 		};
 
 		each(this.selectorChildren, (selector, key) => {
@@ -52,25 +58,28 @@ export default class Page {
 			}
 		});
 
-		each(this.generalSelectors, (selector, key) => {
-			if (
-				selector instanceof window.HTMLElement ||
-				selector instanceof window.NodeList
-			) {
-				this.generalComponents[key] = selector;
-			} else if (Array.isArray(selector)) {
-				this.generalComponents[key] = selector;
-			} else {
-				this.generalComponents[key] = document.querySelectorAll(selector);
+		this.createAnimations();
 
-				if (this.generalComponents[key].length === 0) {
-					this.generalComponents[key] = null;
-				} else if (this.generalComponents[key].length === 1) {
-					this.generalComponents[key] = document.querySelector(selector);
-				}
-			}
+		this.createPreloader();
+	}
+
+	createAnimations() {
+		this.animationsFades = map(this.elements.animationsFades, (element) => {
+			return new Fade({ element });
 		});
 	}
+
+	createPreloader() {
+		if (this.elements.preloaders.length) {
+			this.preloaders = map(this.elements.preloaders, (element) => {
+				return new AsyncLoad({ element });
+			});
+		} else {
+			this.preloaders = new AsyncLoad({ element: this.elements.preloaders });
+		}
+	}
+
+	/* Animations */
 
 	show() {
 		return new Promise((resolve) => {
@@ -85,6 +94,7 @@ export default class Page {
 
 			this.animationIn.call(() => {
 				this.addEventListeners();
+				this.showed = true;
 
 				resolve();
 			});
@@ -93,7 +103,8 @@ export default class Page {
 
 	hide() {
 		return new Promise((resolve) => {
-			this.removeEventListeners();
+			this.destroy();
+			this.showed = false;
 
 			this.animationOut = GSAP.timeline();
 
@@ -103,6 +114,8 @@ export default class Page {
 			});
 		});
 	}
+
+	/* Loops */
 
 	update() {
 		this.scroll.target = clamp(0, this.scroll.limit, this.scroll.target);
@@ -119,27 +132,19 @@ export default class Page {
 			);
 		}
 
-		if (
-			this.elements.wrapper &&
-			this.generalComponents.header &&
-			this.generalComponents.footer
-		) {
+		if (this.elements.wrapper) {
 			this.elements.wrapper.style[
-				this.transformPrefix
-			] = `translateY(-${this.scroll.current}px)`;
-			this.generalComponents.header.style[
-				this.transformPrefix
-			] = `translateY(-${this.scroll.current}px)`;
-			this.generalComponents.footer.style[
 				this.transformPrefix
 			] = `translateY(-${this.scroll.current}px)`;
 		}
 	}
 
-	onMouseWheel(event) {
-		const { deltaY } = event;
+	/* Events */
 
-		this.scroll.target += deltaY;
+	onMouseWheel(event) {
+		const { pixelY } = normalizeWheel(event);
+
+		this.scroll.target += pixelY;
 	}
 
 	onResize() {
@@ -149,11 +154,19 @@ export default class Page {
 		}
 	}
 
+	/* Listeners */
+
 	addEventListeners() {
 		window.addEventListener("mousewheel", this.onMouseWheelEvent);
 	}
 
 	removeEventListeners() {
 		window.addEventListener("mousewheel", this.onMouseWheelEvent);
+	}
+
+	/* Destroy */
+
+	destroy() {
+		this.removeEventListeners();
 	}
 }
