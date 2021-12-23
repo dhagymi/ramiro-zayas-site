@@ -17,7 +17,7 @@ block content
             .music__videos
                 .music__videos__wrapper
                     each video, index in music.data.videos
-                        article(data-animation="fade" class=`music__videos__card ${index === 0 ? "music__videos__card--current" : index === 1 ? "music__videos__card--next" : index === music.data.videos.length - 1 ? "music__videos__card--previous" : ""}`)
+                        article(data-animation="fade" class=`music__videos__card music__videos__card--${index + 1} ${index === 0 ? "music__videos__card--current" : index === 1 ? "music__videos__card--next" : index === music.data.videos.length - 1 ? "music__videos__card--previous" : ""}`)
                             a.music__videos__link(href=video.link.url target=video.link.target)
                                 figure.music__videos__image
                                     img.music__videos__image__content(data-src=video.image.url alt=video.image.alt)

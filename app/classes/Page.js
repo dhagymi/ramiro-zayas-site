@@ -70,11 +70,11 @@ export default class Page {
 	}
 
 	createPreloader() {
-		if (this.elements.preloaders.length) {
+		if (this.elements.preloaders?.length) {
 			this.preloaders = map(this.elements.preloaders, (element) => {
 				return new AsyncLoad({ element });
 			});
-		} else {
+		} else if (this.elements.preloaders) {
 			this.preloaders = new AsyncLoad({ element: this.elements.preloaders });
 		}
 	}
