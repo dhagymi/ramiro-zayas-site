@@ -1,4 +1,5 @@
 import prefix from "prefix";
+import GSAP from "gsap";
 
 import Component from "classes/Component.js";
 
@@ -24,6 +25,8 @@ export default class Cursor extends Component {
 			currentY: 0,
 			targetY: 0,
 		};
+
+		this.hide();
 	}
 
 	update(available = true) {
@@ -66,7 +69,36 @@ export default class Cursor extends Component {
 					this.leftPrefix
 				] = `${this.cursor.currentX}px`;
 			}
+
+			if (
+				this.element.style.opacity != 1 &&
+				!(
+					window.innerHeight - this.cursor.targetY < 20 ||
+					this.cursor.targetY < 20 ||
+					window.innerWidth - this.cursor.targetX < 20 ||
+					this.cursor.targetX < 20
+				)
+			) {
+				this.show();
+			} else {
+				this.hide();
+			}
 		}
+	}
+
+	/* Animations */
+	show() {
+		return new Promise((resolve) => {
+			this.timeline = GSAP.timeline();
+			this.timeline.to(this.element, { opacity: 1, onComplete: resolve });
+		});
+	}
+
+	hide() {
+		return new Promise((resolve) => {
+			this.timeline = GSAP.timeline();
+			this.timeline.to(this.element, { opacity: 0, onComplete: resolve });
+		});
 	}
 
 	/* Event */
@@ -83,6 +115,5 @@ export default class Cursor extends Component {
 
 	addEventListeners() {
 		window.addEventListener("mousemove", this.onMouseMoveEvent);
-		/* 		window.addEventListener("mousemove", this.onMouseWheelEvent); */
 	}
 }

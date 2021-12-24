@@ -2,6 +2,7 @@ import GSAP from "gsap";
 
 import Component from "classes/Component.js";
 import StorageManager from "classes/StorageManager.js";
+import HideHover from "classes/HideHover.js";
 
 import Audio from "components/Audio.js";
 
@@ -40,7 +41,6 @@ export default class Options extends Component {
 		super.create();
 		this.audio = new Audio();
 		this.audio.create();
-		this.rects = {};
 
 		if (this.currentTheme === "dark") {
 			this.setNightTheme();
@@ -54,49 +54,22 @@ export default class Options extends Component {
 			this.setSoundOff();
 		}
 
-		if (this.generalComponents.musicCardPrevious instanceof HTMLElement) {
-			this.createRects();
+		if (this.generalComponents.musicCardPrevious) {
+			this.themeHideHover = new HideHover({
+				element: this.generalSelectors.themeButton,
+				generalComponents: { toHover: this.generalSelectors.musicCardPrevious },
+			});
+			this.soundHideHover = new HideHover({
+				element: this.generalSelectors.soundButton,
+				generalComponents: { toHover: this.generalSelectors.musicCardPrevious },
+			});
 		}
 	}
 
-	createRects() {
-		this.rects.musicCardPrevious =
-			this.generalComponents.musicCardPrevious.getBoundingClientRect();
-
-		this.rects.themeButton =
-			this.generalComponents.themeButton[0].getBoundingClientRect();
-		this.rects.soundButton =
-			this.generalComponents.soundButton[0].getBoundingClientRect();
-	}
-
 	update() {
-		if (this.generalComponents.musicCardPrevious instanceof HTMLElement) {
-			this.generalComponents.musicCardPrevious = document.querySelector(
-				this.generalSelectors.musicCardPrevious
-			);
-			this.createRects();
-
-			if (
-				this.generalComponents.themeButton[0].style.opacity != 0 &&
-				this.rects?.musicCardPrevious.top - this.rects?.themeButton.bottom <
-					25 &&
-				this.rects?.themeButton.top - this.rects?.musicCardPrevious.bottom < 25
-			) {
-				this.hideElement(this.generalComponents.themeButton[0]);
-			} else {
-				this.showElement(this.generalComponents.themeButton[0]);
-			}
-
-			if (
-				this.generalComponents.soundButton[0].style.opacity != 0 &&
-				this.rects?.musicCardPrevious.top - this.rects?.soundButton.bottom <
-					25 &&
-				this.rects?.soundButton.top - this.rects?.musicCardPrevious.bottom < 25
-			) {
-				this.hideElement(this.generalComponents.soundButton[0]);
-			} else {
-				this.showElement(this.generalComponents.soundButton[0]);
-			}
+		if (this.generalComponents.musicCardPrevious) {
+			this.themeHideHover.update();
+			this.soundHideHover.update();
 		}
 	}
 
@@ -142,7 +115,7 @@ export default class Options extends Component {
 	}
 
 	stopPulsesAnimation() {
-		this.generalComponents.soundPulses.forEach((pulse, index) => {
+		this.generalComponents.soundPulses.forEach((pulse) => {
 			pulse.style["animation-name"] = ``;
 		});
 	}
@@ -201,6 +174,25 @@ export default class Options extends Component {
 	}
 
 	/* Events */
+
+	onChange() {
+		this.generalComponents.musicCardPrevious = document.querySelector(
+			this.generalSelectors.musicCardPrevious
+		);
+		if (this.generalComponents.musicCardPrevious) {
+			this.themeHideHover = new HideHover({
+				element: this.generalSelectors.themeButton,
+				generalComponents: { toHover: this.generalSelectors.musicCardPrevious },
+			});
+			this.soundHideHover = new HideHover({
+				element: this.generalSelectors.soundButton,
+				generalComponents: { toHover: this.generalSelectors.musicCardPrevious },
+			});
+		}
+
+		this.showElement(this.generalComponents.themeButton);
+		this.showElement(this.generalComponents.soundButton);
+	}
 
 	onThemeClick() {
 		this.changeTheme();

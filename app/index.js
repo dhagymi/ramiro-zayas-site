@@ -13,6 +13,7 @@ import ResponsiveNavBar from "components/ResponsiveNavBar.js";
 import Footer from "components/Footer.js";
 import ScrollBar from "components/ScrollBar.js";
 import Options from "components/Options.js";
+import Social from "components/Social.js";
 
 class App {
 	constructor() {
@@ -25,6 +26,7 @@ class App {
 		this.createHeader();
 		this.createScrollBar();
 		this.createOptions();
+		this.createSocial();
 		this.createPages();
 		this.createTitle();
 
@@ -72,6 +74,10 @@ class App {
 
 	createOptions() {
 		this.options = new Options();
+	}
+
+	createSocial() {
+		this.social = new Social();
 	}
 
 	createContent() {
@@ -166,6 +172,10 @@ class App {
 			this.options.update(true);
 		}
 
+		if (this.social && this.social.update) {
+			this.social.update(true);
+		}
+
 		this.frame = window.requestAnimationFrame(this.update.bind(this));
 	}
 
@@ -203,6 +213,8 @@ class App {
 			this.onResize();
 
 			this.page.show();
+			this.options.onChange();
+			this.social.onChange();
 
 			this.addLinkListeners();
 		} else {
