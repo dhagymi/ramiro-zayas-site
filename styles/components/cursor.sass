@@ -1,0 +1,27 @@
+.cursor
+    background: transparent
+    height: 7rem
+    left: 0
+    mix-blend-mode: difference
+    pointer-events: none
+    position: fixed
+    top: 0
+    transform: translate(-50%,-50%)
+    width: 7rem
+    z-index: z("cursor")
+
+    &__circle
+        background: $text-color
+        border-radius: 50%
+        height: 7rem
+        pointer-events: none
+        position: absolute
+        width: 7rem
+        z-index: z("cursor")
+
+@media (pointer: coarse)
+    .cursor
+        display: none
+
+        &__innerCircle
+            display: none

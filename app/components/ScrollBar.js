@@ -1,4 +1,4 @@
-import Prefix from "prefix";
+import prefix from "prefix";
 import GSAP from "gsap";
 import normalizeWheel from "normalize-wheel";
 
@@ -17,7 +17,7 @@ export default class ScrollBar extends Component {
 			isScrolleable: true,
 		});
 
-		this.topPrefix = Prefix("top");
+		this.topPrefix = prefix("top");
 		this.onMouseOverEvent = this.onMouseOver.bind(this);
 		this.onMouseLeaveEvent = this.onMouseLeave.bind(this);
 	}

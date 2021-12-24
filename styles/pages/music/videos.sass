@@ -1,6 +1,6 @@
 .music__videos
     margin: 36.9rem auto 0
-    width: 110rem
+    width: 100%
 
     @include media('<tablet')
         margin: 3.4rem auto 0
@@ -15,7 +15,7 @@
         gap: 2.6rem
         height: 65rem
         position: relative
-        left: -41.2rem
+        left: -37.7rem
         width: 100vw
 
         @include media('<tablet')
@@ -26,9 +26,11 @@
             height: 24rem
 
     &__card
-        display: none
         height: 100%
+        opacity: 0
+        transform: translateX(-100vw)
         position: absolute
+        visibility: hidden
         width: 110rem
 
         @include media('<tablet')
@@ -49,7 +51,7 @@
         &--previous
             display: block
             left: 0
-            transform: scale(0.77) translateX(-69%) translateY(-22%)
+            transform: scale(0.77) translateX(-70%) translateY(-22%)
 
             @include media('<tablet')
                 display: none
@@ -101,9 +103,11 @@
         height: 2.5rem
         justify-content: flex-end
         margin-top: 4rem
+        padding: 0 3.5rem
 
         @include media('<tablet')
             margin-top: 2.7rem
+            padding: 0
 
         @include media('<phone')
             height: 3.6rem

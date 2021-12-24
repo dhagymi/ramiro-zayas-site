@@ -1,6 +1,6 @@
 import EventEmitter from "events";
 import normalizeWheel from "normalize-wheel";
-import Prefix from "prefix";
+import prefix from "prefix";
 import { map, each } from "lodash";
 
 import Fade from "animations/Fade.js";
@@ -19,7 +19,7 @@ export default class Component extends EventEmitter {
 		this.generalSelectors = { ...generalComponents };
 		this.isScrolleable = isScrolleable;
 
-		this.transformPrefix = Prefix("transform");
+		this.transformPrefix = prefix("transform");
 		this.onMouseWheelEvent = this.onMouseWheel.bind(this);
 	}
 
@@ -85,7 +85,13 @@ export default class Component extends EventEmitter {
 
 	createAnimations() {
 		this.animationsFades = map(this.elements.animationsFades, (element) => {
-			return new Fade({ element });
+			if (
+				typeof element === "string" ||
+				element instanceof window.HTMLElement ||
+				element instanceof window.NodeList ||
+				Array.isArray(element)
+			)
+				return new Fade({ element });
 		});
 	}
 

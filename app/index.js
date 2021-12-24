@@ -6,6 +6,7 @@ import Contact from "pages/Contact/index.js";
 import Gallery from "pages/Gallery/index.js";
 import Music from "pages/Music/index.js";
 
+import Cursor from "components/Cursor.js";
 import Preloader from "components/Preloader.js";
 import Header from "components/Header.js";
 import ResponsiveNavBar from "components/ResponsiveNavBar.js";
@@ -17,6 +18,7 @@ class App {
 	constructor() {
 		this.createContent();
 
+		this.createCursor();
 		this.createPreloader();
 		this.createFooter();
 		this.createResponsiveNavBar();
@@ -33,6 +35,11 @@ class App {
 	}
 
 	/* Creates */
+
+	createCursor() {
+		this.cursor = new Cursor();
+		this.cursor.create();
+	}
 
 	createPreloader() {
 		this.preloader = new Preloader();
@@ -119,13 +126,17 @@ class App {
 
 		const { href: url } = link;
 		const location = url.split("/")[url.split("/").length - 1];
-		event.preventDefault();
+		if (url.includes(window.location.origin)) {
+			event.preventDefault();
+		}
 
 		if (
 			location !== this.template &&
 			!(location.trim() === "" && this.template === "home")
 		) {
-			this.onChange({ url });
+			if (url.includes(window.location.origin)) {
+				this.onChange({ url });
+			}
 		}
 	}
 
@@ -147,8 +158,12 @@ class App {
 			this.scrollBar.update(this.page.showed || false);
 		}
 
+		if (this.cursor && this.cursor.update) {
+			this.cursor.update(true);
+		}
+
 		if (this.options && this.options.update) {
-			this.options.update(false);
+			this.options.update(true);
 		}
 
 		this.frame = window.requestAnimationFrame(this.update.bind(this));
@@ -164,7 +179,6 @@ class App {
 		if (request.status === 200) {
 			const html = await request.text();
 			const div = document.createElement("div");
-
 			if (push) {
 				window.history.pushState({}, "", url);
 			}

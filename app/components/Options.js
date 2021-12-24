@@ -21,6 +21,7 @@ export default class Options extends Component {
 				soundPulses: ".options__sound__pulse",
 				soundOnText: ".options__sound__text--on",
 				soundOffText: ".options__sound__text--off",
+				musicCardPrevious: ".music__videos__card--previous",
 			},
 		});
 
@@ -39,6 +40,7 @@ export default class Options extends Component {
 		super.create();
 		this.audio = new Audio();
 		this.audio.create();
+		this.rects = {};
 
 		if (this.currentTheme === "dark") {
 			this.setNightTheme();
@@ -51,10 +53,51 @@ export default class Options extends Component {
 		} else {
 			this.setSoundOff();
 		}
+
+		if (this.generalComponents.musicCardPrevious instanceof HTMLElement) {
+			this.createRects();
+		}
+	}
+
+	createRects() {
+		this.rects.musicCardPrevious =
+			this.generalComponents.musicCardPrevious.getBoundingClientRect();
+
+		this.rects.themeButton =
+			this.generalComponents.themeButton[0].getBoundingClientRect();
+		this.rects.soundButton =
+			this.generalComponents.soundButton[0].getBoundingClientRect();
 	}
 
 	update() {
-		super.update();
+		if (this.generalComponents.musicCardPrevious instanceof HTMLElement) {
+			this.generalComponents.musicCardPrevious = document.querySelector(
+				this.generalSelectors.musicCardPrevious
+			);
+			this.createRects();
+
+			if (
+				this.generalComponents.themeButton[0].style.opacity != 0 &&
+				this.rects?.musicCardPrevious.top - this.rects?.themeButton.bottom <
+					25 &&
+				this.rects?.themeButton.top - this.rects?.musicCardPrevious.bottom < 25
+			) {
+				this.hideElement(this.generalComponents.themeButton[0]);
+			} else {
+				this.showElement(this.generalComponents.themeButton[0]);
+			}
+
+			if (
+				this.generalComponents.soundButton[0].style.opacity != 0 &&
+				this.rects?.musicCardPrevious.top - this.rects?.soundButton.bottom <
+					25 &&
+				this.rects?.soundButton.top - this.rects?.musicCardPrevious.bottom < 25
+			) {
+				this.hideElement(this.generalComponents.soundButton[0]);
+			} else {
+				this.showElement(this.generalComponents.soundButton[0]);
+			}
+		}
 	}
 
 	/* Animations */
@@ -92,7 +135,6 @@ export default class Options extends Component {
 	}
 
 	animatePulses() {
-		console.log(this.generalComponents.soundPulses);
 		this.generalComponents.soundPulses.forEach((pulse) => {
 			const index = pulse.className[pulse.className.length - 1];
 			pulse.style["animation-name"] = `pulse${index}`;

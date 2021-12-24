@@ -61,5 +61,6 @@ export default class ResponsiveNavBar extends Component {
 		this.elements.navLinks.forEach((link) => {
 			link.addEventListener("click", this.onCloseClickEvent);
 		});
+		this.elements.logo.addEventListener("click", this.onCloseClickEvent);
 	}
 }

@@ -1,6 +1,6 @@
 import GSAP from "gsap";
 import normalizeWheel from "normalize-wheel";
-import Prefix from "prefix";
+import prefix from "prefix";
 import { each, map } from "lodash";
 
 import Fade from "animations/Fade.js";
@@ -22,7 +22,7 @@ export default class Page {
 		this.title = title;
 
 		this.id = id;
-		this.transformPrefix = Prefix("transform");
+		this.transformPrefix = prefix("transform");
 
 		this.onMouseWheelEvent = this.onMouseWheel.bind(this);
 	}
