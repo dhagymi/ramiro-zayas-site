@@ -157,6 +157,14 @@ export default class Page {
 		}
 	}
 
+	updateScroll({ ease, current, target, limit, last }) {
+		this.scroll.ease = ease || this.scroll.ease;
+		this.scroll.current = current || this.scroll.current;
+		this.scroll.target = target || this.scroll.target;
+		this.scroll.limit = limit || this.scroll.limit;
+		this.scroll.last = last || this.scroll.last;
+	}
+
 	/* Events */
 
 	onMouseWheel(event) {
@@ -192,13 +200,9 @@ export default class Page {
 	}
 
 	onResize() {
-		console.log("resize");
-		console.log(this.scroll.limit);
 		if (this.elements.wrapper) {
 			this.scroll.limit =
 				this.elements.wrapper.clientHeight - window.innerHeight;
-
-			console.log(this.scroll.limit);
 		}
 	}
 

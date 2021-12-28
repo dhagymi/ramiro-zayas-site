@@ -134,6 +134,14 @@ export default class Component extends EventEmitter {
 		}
 	}
 
+	updateScroll({ ease, current, target, limit, last }) {
+		this.scroll.ease = ease || this.scroll.ease;
+		this.scroll.current = current || this.scroll.current;
+		this.scroll.target = target || this.scroll.target;
+		this.scroll.limit = limit || this.scroll.limit;
+		this.scroll.last = last || this.scroll.last;
+	}
+
 	/* Events */
 
 	onMouseWheel(event) {

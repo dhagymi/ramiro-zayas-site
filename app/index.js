@@ -24,10 +24,10 @@ class App {
 		this.createFooter();
 		this.createResponsiveNavBar();
 		this.createHeader();
-		this.createScrollBar();
 		this.createOptions();
 		this.createSocial();
 		this.createPages();
+		this.createScrollBar();
 		this.createTitle();
 
 		this.addEventListeners();
@@ -68,7 +68,9 @@ class App {
 	}
 
 	createScrollBar() {
-		this.scrollBar = new ScrollBar();
+		this.scrollBar = new ScrollBar({
+			updateScroll: this.updateScroll.bind(this),
+		});
 		this.scrollBar.create();
 	}
 
@@ -177,6 +179,13 @@ class App {
 		}
 
 		this.frame = window.requestAnimationFrame(this.update.bind(this));
+	}
+
+	updateScroll({ ease, current, target, limit, last }) {
+		this.page.updateScroll({ ease, current, target, limit, last });
+		this.header.updateScroll({ ease, current, target, limit, last });
+		this.footer.updateScroll({ ease, current, target, limit, last });
+		this.scrollBar.updateScroll({ ease, current, target, limit, last });
 	}
 
 	/* Events */

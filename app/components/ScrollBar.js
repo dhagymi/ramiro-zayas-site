@@ -7,7 +7,7 @@ import Component from "classes/Component.js";
 import { lerp, clamp } from "utils/math.js";
 
 export default class ScrollBar extends Component {
-	constructor() {
+	constructor({ updateScroll }) {
 		super({
 			element: ".scrollBar",
 			elements: {
@@ -20,6 +20,12 @@ export default class ScrollBar extends Component {
 		this.topPrefix = prefix("top");
 		this.onMouseOverEvent = this.onMouseOver.bind(this);
 		this.onMouseLeaveEvent = this.onMouseLeave.bind(this);
+		this.onScrollBackgroundClickEvent = this.onScrollBackgroundClick.bind(this);
+		this.onTouchBarStartEvent = this.onTouchBarStart.bind(this);
+		this.onTouchBarMoveEvent = this.onTouchBarMove.bind(this);
+		this.onTouchBarEndEvent = this.onTouchBarEnd.bind(this);
+
+		this.globalUpdateScroll = updateScroll;
 	}
 
 	async update(available = true) {
@@ -51,6 +57,12 @@ export default class ScrollBar extends Component {
 	create() {
 		super.create();
 		this.hide();
+		this.yBar = {
+			start: 0,
+			difference: 0,
+			end: 0,
+			realProportion: 0,
+		};
 	}
 
 	/* Animations */
@@ -155,17 +167,106 @@ export default class ScrollBar extends Component {
 		}, 1500);
 	}
 
+	onScrollBackgroundClick(event) {
+		this.clickHeightLevel = event.clientY / window.innerHeight;
+		this.absoluteClickHeightLevel = this.clickHeightLevel * this.scroll.limit;
+		this.globalUpdateScroll({ target: this.absoluteClickHeightLevel });
+	}
+
+	onTouchBarStart(event) {
+		this.isBarTouching = true;
+		this.yBar.start = event.touches ? event.touches[0].clientY : event.clientY;
+
+		console.log("start", this.yBar);
+	}
+
+	onTouchBarMove(event) {
+		if (!this.isBarTouching) return;
+
+		this.yBar.end = event.touches ? event.touches[0].clientY : event.clientY;
+
+		this.yBar.difference = this.yBar.start - this.yBar.end;
+
+		this.yBar.start = this.yBar.end;
+
+		this.yBar.realProportion =
+			(this.yBar.end / window.innerHeight) * this.scroll.limit;
+
+		this.globalUpdateScroll({
+			target: this.yBar.realProportion,
+		});
+	}
+
+	onTouchBarEnd(event) {
+		if (!this.isBarTouching) return;
+
+		this.isBarTouching = false;
+
+		this.yBar.end = event.changedTouches
+			? event.changedTouches[0].clientY
+			: event.clientY;
+
+		this.yBar.difference = this.yBar.start - this.yBar.end;
+
+		this.yBar.realProportion =
+			(this.yBar.end / window.innerHeight) * this.scroll.limit;
+
+		this.globalUpdateScroll({
+			target: this.yBar.realProportion,
+		});
+	}
+
 	/* Listeners */
 
 	addEventListeners() {
 		super.addEventListeners();
 		this.element.addEventListener("mouseover", this.onMouseOverEvent);
 		this.element.addEventListener("mouseleave", this.onMouseLeaveEvent);
+		this.elements.bar.addEventListener("mousedown", this.onTouchBarStartEvent);
+		this.elements.bar.addEventListener("mousemove", this.onTouchBarMoveEvent);
+		this.elements.bar.addEventListener("mouseup", this.onTouchBarEndEvent);
+		this.elements.bar.addEventListener("touchstart", this.onTouchBarStartEvent);
+		this.elements.bar.addEventListener("touchmove", this.onTouchBarMoveEvent);
+		this.elements.bar.addEventListener("touchend", this.onTouchBarEndEvent);
+		this.elements.background.addEventListener(
+			"click",
+			this.onScrollBackgroundClickEvent
+		);
+		window.addEventListener("mousemove", this.onTouchBarMoveEvent);
+		window.addEventListener("mouseup", this.onTouchBarEndEvent);
+		window.addEventListener("touchmove", this.onTouchBarMoveEvent);
+		window.addEventListener("touchend", this.onTouchBarEndEvent);
 	}
 
 	removeEventListeners() {
 		super.removeEventListeners();
 		this.element.removeEventListener("mouseover", this.onMouseOverEvent);
 		this.element.removeEventListener("mouseleave", this.onMouseLeaveEvent);
+		this.elements.bar.removeEventListener(
+			"mousedown",
+			this.onTouchBarStartEvent
+		);
+		this.elements.bar.removeEventListener(
+			"mousemove",
+			this.onTouchBarMoveEvent
+		);
+		this.elements.bar.removeEventListener("mouseup", this.onTouchBarEndEvent);
+		this.elements.bar.removeEventListener(
+			"touchstart",
+			this.onTouchBarStartEvent
+		);
+		this.elements.bar.removeEventListener(
+			"touchmove",
+			this.onTouchBarMoveEvent
+		);
+		this.elements.bar.removeEventListener("touchend", this.onTouchBarEndEvent);
+		this.elements.background.removeEventListener(
+			"click",
+			this.onScrollBackgroundClickEvent
+		);
+		window.removeEventListener("mousemove", this.onTouchBarMoveEvent);
+		window.removeEventListener("mouseup", this.onTouchBarEndEvent);
+		window.removeEventListener("touchmove", this.onTouchBarMoveEvent);
+		window.removeEventListener("touchend", this.onTouchBarEndEvent);
 	}
 }
