@@ -143,7 +143,10 @@ export default class Options extends Component {
 			this.onCanPlay();
 		} else {
 			this.setSoundOff();
-			this.audio.element.addEventListener("canplay", this.onCanPlay.bind(this));
+			this.audio.element.addEventListener(
+				"canplaythrough",
+				this.onCanPlay.bind(this)
+			);
 		}
 	}
 
