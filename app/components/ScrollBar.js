@@ -176,8 +176,6 @@ export default class ScrollBar extends Component {
 	onTouchBarStart(event) {
 		this.isBarTouching = true;
 		this.yBar.start = event.touches ? event.touches[0].clientY : event.clientY;
-
-		console.log("start", this.yBar);
 	}
 
 	onTouchBarMove(event) {
