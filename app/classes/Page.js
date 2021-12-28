@@ -169,7 +169,7 @@ export default class Page {
 
 		this.y.difference = this.y.start - this.y.end;
 		this.y.start = this.y.end;
-		this.scroll.target += this.y.difference;
+		this.scroll.target += this.y.difference * 1.5;
 	}
 
 	onTouchUp(event) {
@@ -179,7 +179,7 @@ export default class Page {
 
 		this.y.difference = this.y.start - this.y.end;
 
-		this.scroll.target += this.y.difference;
+		this.scroll.target += this.y.difference * 1.5;
 	}
 
 	onResize() {
