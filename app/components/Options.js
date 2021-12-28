@@ -48,12 +48,6 @@ export default class Options extends Component {
 			this.setDayTheme();
 		}
 
-		if (this.isSoundOn) {
-			this.setSoundOn();
-		} else {
-			this.setSoundOff();
-		}
-
 		if (this.generalComponents.musicCardPrevious) {
 			this.themeHideHover = new HideHover({
 				element: this.generalSelectors.themeButton,
