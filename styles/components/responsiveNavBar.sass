@@ -45,6 +45,9 @@
                 &:hover
                     opacity: .5
 
+                    @include media('<tablet')
+                        opacity: 1
+
                 @include media('<phone')
                     height: 1.7rem
                     width: 13.7rem
@@ -65,6 +68,9 @@
 
                 &:hover
                     opacity: .5
+
+                    @include media('<tablet')
+                        opacity: 1
 
                 @include media ('<phone')
                     height: 3.3rem
@@ -111,6 +117,10 @@
 
                     &:hover
                         opacity: .5
+
+                        @include media('<tablet')
+                            opacity: 1
+
                     @include media('<tablet')
                         height: 100%
 

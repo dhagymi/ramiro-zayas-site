@@ -44,8 +44,10 @@ a
   text-decoration: none
 
 canvas
+  left: 0
   pointer-events: none
-  position: relative
+  position: absolute
+  top: 0
   z-index: z('canvas')
 
 button
@@ -69,3 +71,6 @@ img
   position: relative
   top: 0
   width: 100%
+
+[data-animation="fade"]
+  opacity: 0

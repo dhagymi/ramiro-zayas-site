@@ -25,6 +25,9 @@ export default class Page {
 		this.transformPrefix = prefix("transform");
 
 		this.onMouseWheelEvent = this.onMouseWheel.bind(this);
+		this.onTouchDownEvent = this.onTouchDown.bind(this);
+		this.onTouchMoveEvent = this.onTouchMove.bind(this);
+		this.onTouchUpEvent = this.onTouchUp.bind(this);
 	}
 
 	create() {
@@ -37,6 +40,12 @@ export default class Page {
 			target: 0,
 			limit: 0,
 			last: 0,
+		};
+
+		this.y = {
+			start: 0,
+			difference: 0,
+			end: 0,
 		};
 
 		each(this.selectorChildren, (selector, key) => {
@@ -147,6 +156,38 @@ export default class Page {
 		this.scroll.target += pixelY;
 	}
 
+	onTouchDown(event) {
+		this.isTouching = true;
+
+		this.y.start = event.touches[0].clientY;
+
+		console.log("down", this.y);
+	}
+
+	onTouchMove(event) {
+		if (!this.isTouching) return;
+
+		this.y.end = event.touches[0].clientY;
+
+		this.y.difference = this.y.start - this.y.end;
+
+		this.scroll.target += this.y.difference;
+
+		console.log("move", this.y);
+	}
+
+	onTouchUp(event) {
+		this.isTouching = false;
+
+		this.y.end = event.changedTouches[0].clientY;
+
+		this.y.difference = this.y.start - this.y.end;
+
+		this.scroll.target += this.y.difference;
+
+		console.log("up", this.y);
+	}
+
 	onResize() {
 		if (this.elements.wrapper) {
 			this.scroll.limit =
@@ -158,10 +199,16 @@ export default class Page {
 
 	addEventListeners() {
 		window.addEventListener("mousewheel", this.onMouseWheelEvent);
+		window.addEventListener("touchstart", this.onTouchDownEvent);
+		window.addEventListener("touchmove", this.onTouchMoveEvent);
+		window.addEventListener("touchend", this.onTouchUpEvent);
 	}
 
 	removeEventListeners() {
 		window.addEventListener("mousewheel", this.onMouseWheelEvent);
+		window.addEventListener("touchstart", this.onTouchDownEvent);
+		window.addEventListener("touchmove", this.onTouchMoveEvent);
+		window.addEventListener("touchend", this.onTouchUpEvent);
 	}
 
 	/* Destroy */

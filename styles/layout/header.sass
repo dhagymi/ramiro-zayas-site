@@ -38,6 +38,9 @@
       &:hover
         opacity: .5
 
+        @include media('<tablet')
+          opacity: 1
+
   &__navigation
     @extend %navigation-24
 
@@ -54,6 +57,9 @@
 
         &:hover
           opacity: .5
+
+          @include media('<tablet')
+            opacity: 1
 
       &__link
 
@@ -88,6 +94,9 @@
 
         &:hover
           opacity: .5
+
+          @include media('<tablet')
+            opacity: 1
 
         @include media('<phone')
           width: 4rem
@@ -139,6 +148,9 @@
 
       &:hover
         opacity: .5
+
+        @include media('<tablet')
+          opacity: 1
 
       @include media('<phone')
         gap: 0
