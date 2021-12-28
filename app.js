@@ -10,6 +10,8 @@ import PrismicDOM from "prismic-dom";
 import compression from "compression";
 import UAParser from "ua-parser-js";
 
+import { getConcerts } from "./app/utils/concerts.js";
+
 const app = express();
 dotenv.config();
 const PORT = process.env.PORT || 5000;
@@ -112,54 +114,16 @@ app.get("/concerts", async (req, res) => {
 	const api = await initApi(req);
 	const autoAdminApi = await initAutoAdminApi(req);
 
+	const concertsList = await getConcerts(autoAdminApi, Prismic);
+
 	const defaults = await handleRequest(api);
-	const { results } = await autoAdminApi.query(
-		Prismic.Predicates.at("document.type", "concert")
-	);
-
-	const concertsData = results.map(({ data: concert }) => {
-		const { title, location, price, status, description, date_and_hour } =
-			concert;
-		const [year, month, day, hours, minutes] = [
-			date_and_hour.slice(0, 4),
-			date_and_hour.slice(5, 7),
-			date_and_hour.slice(8, 10),
-			date_and_hour.slice(11, 13),
-			date_and_hour.slice(14, 16),
-		];
-		return {
-			data: {
-				title,
-				location,
-				price,
-				status,
-				description,
-				year,
-				month,
-				day,
-				hours,
-				minutes,
-			},
-		};
-	});
-
-	concertsData.sort((a, b) => {
-		const dayDifference = a.data.day - b.data.day;
-		const monthDifference = a.data.month - b.data.month;
-		const yearDifference = a.data.year - b.data.year;
-		return yearDifference !== 0
-			? yearDifference
-			: monthDifference !== 0
-			? monthDifference
-			: dayDifference;
-	});
 
 	const concerts = await api.getSingle("concerts");
 
 	res.render("pages/concerts", {
 		...defaults,
 		concerts,
-		concertsData,
+		concertsList,
 	});
 });
 
@@ -227,6 +191,14 @@ app.get("/gallery", async (req, res) => {
 		gallery,
 		galleryData,
 	});
+});
+
+app.get("/getConcerts", async (req, res) => {
+	const autoAdminApi = await initAutoAdminApi(req);
+
+	const concertsList = await getConcerts(autoAdminApi, Prismic);
+
+	res.send(concertsList);
 });
 
 const server = app.listen(PORT, () =>

@@ -15,6 +15,7 @@ export default class HideHover extends Component {
 		super.create();
 
 		this.rects = {};
+		this.isVisible = true;
 
 		this.toHoverComponent = this.generalComponents.toHover;
 
@@ -35,13 +36,19 @@ export default class HideHover extends Component {
 			this.createRects();
 
 			if (
-				this.element.style.opacity != 0 &&
-				this.rects?.toHover.top - this.rects?.element.bottom < 25 &&
-				this.rects?.element.top - this.rects?.toHover.bottom < 25
+				this.isVisible &&
+				this.rects?.toHover.top - this.rects?.element.bottom < 40 &&
+				this.rects?.element.top - this.rects?.toHover.bottom < 40
 			) {
 				this.hideElement(this.element);
-			} else {
+				this.isVisible = false;
+			} else if (
+				!this.isVisible &&
+				(this.rects?.toHover.top - this.rects?.element.bottom > 40 ||
+					this.rects?.element.top - this.rects?.toHover.bottom > 40)
+			) {
 				this.showElement(this.element);
+				this.isVisible = true;
 			}
 		}
 	}
@@ -50,15 +57,16 @@ export default class HideHover extends Component {
 
 	showElement(elements) {
 		return new Promise((resolve) => {
-			this.timeline = GSAP.timeline();
 			if (Array.isArray(elements)) {
 				elements.forEach((element) => {
+					this.timeline = GSAP.timeline();
 					this.timeline.to(element, {
 						autoAlpha: 1,
 						onComplete: resolve,
 					});
 				});
 			} else {
+				this.timeline = GSAP.timeline();
 				this.timeline.to(elements, {
 					autoAlpha: 1,
 					onComplete: resolve,
@@ -69,12 +77,13 @@ export default class HideHover extends Component {
 
 	hideElement(elements) {
 		return new Promise((resolve) => {
-			this.timeline = GSAP.timeline();
 			if (Array.isArray(elements)) {
 				elements.forEach((element) => {
+					this.timeline = GSAP.timeline();
 					this.timeline.to(element, { autoAlpha: 0, onComplete: resolve });
 				});
 			} else {
+				this.timeline = GSAP.timeline();
 				this.timeline.to(elements, { autoAlpha: 0, onComplete: resolve });
 			}
 		});

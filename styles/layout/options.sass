@@ -23,7 +23,11 @@
         height: 9rem
         position: relative
         text-transform: uppercase
+        transition: opacity .3s
         width: 5.5rem
+
+        &:hover
+            opacity: .5
 
         @include media('<tablet')
             gap: 1.5rem

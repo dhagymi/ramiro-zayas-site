@@ -27,7 +27,7 @@ export default class Options extends Component {
 		});
 
 		this.currentTheme = StorageManager.getTheme() || "light";
-		this.isSoundOn = StorageManager.getSound() ?? true;
+		this.isSoundOn = true;
 
 		this.onThemeClickEvent = this.onThemeClick.bind(this);
 		this.onSoundClickEvent = this.onSoundClick.bind(this);
@@ -201,7 +201,6 @@ export default class Options extends Component {
 
 	onSoundClick() {
 		this.switchSound();
-		StorageManager.setSound(this.isSoundOn);
 	}
 
 	onCanPlay() {

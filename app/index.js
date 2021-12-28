@@ -88,7 +88,7 @@ class App {
 		this.pages = {
 			home: new Home(),
 			music: new Music(),
-			concerts: new Concerts(),
+			concerts: new Concerts(this.onResize.bind(this)),
 			contact: new Contact(),
 			gallery: new Gallery(),
 		};

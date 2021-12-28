@@ -1,17 +1,26 @@
 .concerts__shows
     display: flex
     flex-direction: column
-    gap: 15.6rem
     margin-top: 15.9rem
     text-align: left
 
     @include media('<tablet')
         margin-top: 14.2rem
-        gap: 9.9rem
 
     @include media('<phone')
         margin-top: 9.3rem
-        gap: 9.9rem
+
+    &__littleList
+        display: flex
+        flex-direction: column
+        gap: 15.6rem
+        text-align: left
+
+        @include media('<tablet')
+            gap: 9.9rem
+
+        @include media('<phone')
+            gap: 9.9rem
 
     &__cardWrapper
         display: grid

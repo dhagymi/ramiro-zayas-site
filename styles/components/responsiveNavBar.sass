@@ -39,7 +39,11 @@
             &__link
                 font-size: 0
                 height: 2.3rem
+                transition: opacity .3s
                 width: 20.5rem
+
+                &:hover
+                    opacity: .5
 
                 @include media('<phone')
                     height: 1.7rem
@@ -56,7 +60,11 @@
 
             &__closeButton
                 height: 5rem
+                transition: opacity .3s
                 width: 5rem
+
+                &:hover
+                    opacity: .5
 
                 @include media ('<phone')
                     height: 3.3rem
@@ -99,6 +107,10 @@
                     gap: 4rem
 
                 &__item
+                    transition: opacity .3s
+
+                    &:hover
+                        opacity: .5
                     @include media('<tablet')
                         height: 100%
 
