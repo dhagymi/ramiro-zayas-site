@@ -10,6 +10,7 @@ export default class Audio extends Component {
 	play() {
 		if (this.canPlay()) {
 			this.element.play();
+			this.element.muted = false;
 		}
 	}
 

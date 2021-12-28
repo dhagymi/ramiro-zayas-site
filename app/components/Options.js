@@ -212,7 +212,6 @@ export default class Options extends Component {
 		this.hideElement(this.generalComponents.soundOffText);
 		this.audio.play();
 		this.animatePulses();
-		this.audio.element.muted = false;
 	}
 
 	/* Listeners */
