@@ -17,12 +17,17 @@ export default class Component extends EventEmitter {
 			animationsFades: '[data-animation="fade"]',
 		};
 		this.generalSelectors = { ...generalComponents };
-		this.isScrolleable = isScrolleable;
 
+		this.isScrolleable = isScrolleable;
 		this.transformPrefix = prefix("transform");
+
 		this.onMouseWheelEvent = this.onMouseWheel.bind(this);
+		this.onTouchDownEvent = this.onTouchDown.bind(this);
+		this.onTouchMoveEvent = this.onTouchMove.bind(this);
+		this.onTouchUpEvent = this.onTouchUp.bind(this);
 	}
 
+	/* Creates */
 	create() {
 		if (this.selector instanceof window.HTMLElement) {
 			this.element = this.selector;
@@ -38,6 +43,12 @@ export default class Component extends EventEmitter {
 			target: 0,
 			limit: 0,
 			last: 0,
+		};
+
+		this.y = {
+			start: 0,
+			difference: 0,
+			end: 0,
 		};
 
 		each(this.selectorChildren, (selector, key) => {
@@ -95,6 +106,8 @@ export default class Component extends EventEmitter {
 		});
 	}
 
+	/* Loop */
+
 	update(available = true) {
 		this.availableToUpdate = available;
 
@@ -121,11 +134,45 @@ export default class Component extends EventEmitter {
 		}
 	}
 
+	/* Events */
+
 	onMouseWheel(event) {
 		if (this.availableToUpdate) {
 			const { pixelY } = normalizeWheel(event);
 
 			this.scroll.target += pixelY;
+		}
+	}
+
+	onTouchDown(event) {
+		if (this.availableToUpdate) {
+			this.isTouching = true;
+
+			this.y.start = event.touches[0].clientY;
+		}
+	}
+
+	onTouchMove(event) {
+		if (this.availableToUpdate) {
+			if (!this.isTouching) return;
+
+			this.y.end = event.touches[0].clientY;
+
+			this.y.difference = this.y.start - this.y.end;
+			this.y.start = this.y.end;
+			this.scroll.target += this.y.difference * 2;
+		}
+	}
+
+	onTouchUp(event) {
+		if (this.availableToUpdate) {
+			this.isTouching = false;
+
+			this.y.end = event.changedTouches[0].clientY;
+
+			this.y.difference = this.y.start - this.y.end;
+
+			this.scroll.target += this.y.difference * 2;
 		}
 	}
 
@@ -135,13 +182,21 @@ export default class Component extends EventEmitter {
 		}
 	}
 
+	/* Listeners */
+
 	addEventListeners() {
 		if (this.isScrolleable) {
 			window.addEventListener("mousewheel", this.onMouseWheelEvent);
+			window.addEventListener("touchstart", this.onTouchDownEvent);
+			window.addEventListener("touchmove", this.onTouchMoveEvent);
+			window.addEventListener("touchend", this.onTouchUpEvent);
 		}
 	}
 
 	removeEventListeners() {
 		window.addEventListener("mousewheel", this.onMouseWheelEvent);
+		window.addEventListener("touchstart", this.onTouchDownEvent);
+		window.addEventListener("touchmove", this.onTouchMoveEvent);
+		window.addEventListener("touchend", this.onTouchUpEvent);
 	}
 }

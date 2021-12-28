@@ -87,6 +87,58 @@ export default class ScrollBar extends Component {
 		}
 	}
 
+	onTouchDown(event) {
+		if (this.availableToUpdate) {
+			this.isTouching = true;
+
+			this.y.start = event.touches[0].clientY;
+		}
+	}
+
+	onTouchMove(event) {
+		if (this.availableToUpdate) {
+			if (!this.isTouching) return;
+
+			this.y.end = event.touches[0].clientY;
+
+			this.y.difference = this.y.start - this.y.end;
+			this.y.start = this.y.end;
+			this.scroll.target += this.y.difference * 2;
+
+			if (this.y.difference !== 0) {
+				if (this.timer) {
+					clearTimeout(this.timer);
+				}
+				this.show();
+				this.timer = setTimeout(() => {
+					this.hide();
+				}, 1500);
+			}
+		}
+	}
+
+	onTouchUp(event) {
+		if (this.availableToUpdate) {
+			this.isTouching = false;
+
+			this.y.end = event.changedTouches[0].clientY;
+
+			this.y.difference = this.y.start - this.y.end;
+
+			this.scroll.target += this.y.difference * 2;
+
+			if (this.y.difference !== 0) {
+				if (this.timer) {
+					clearTimeout(this.timer);
+				}
+				this.show();
+				this.timer = setTimeout(() => {
+					this.hide();
+				}, 1500);
+			}
+		}
+	}
+
 	onMouseOver() {
 		if (this.timer) {
 			clearTimeout(this.timer);
