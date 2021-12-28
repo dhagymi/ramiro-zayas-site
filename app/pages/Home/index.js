@@ -1,7 +1,7 @@
 import Page from "classes/Page.js";
 
 export default class Home extends Page {
-	constructor() {
+	constructor({ globalOnResize }) {
 		super({
 			id: "home",
 			element: ".home",
@@ -11,6 +11,7 @@ export default class Home extends Page {
 				wrapper: ".home__wrapper",
 			},
 			title: "About me",
+			globalOnResize,
 		});
 	}
 }

@@ -160,7 +160,7 @@ export default class Component extends EventEmitter {
 
 			this.y.difference = this.y.start - this.y.end;
 			this.y.start = this.y.end;
-			this.scroll.target += this.y.difference * 2;
+			this.scroll.target += this.y.difference * 4;
 		}
 	}
 
@@ -172,7 +172,7 @@ export default class Component extends EventEmitter {
 
 			this.y.difference = this.y.start - this.y.end;
 
-			this.scroll.target += this.y.difference * 2;
+			this.scroll.target += this.y.difference * 4;
 		}
 	}
 

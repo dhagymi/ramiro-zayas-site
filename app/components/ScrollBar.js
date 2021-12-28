@@ -103,7 +103,7 @@ export default class ScrollBar extends Component {
 
 			this.y.difference = this.y.start - this.y.end;
 			this.y.start = this.y.end;
-			this.scroll.target += this.y.difference * 2;
+			this.scroll.target += this.y.difference * 4;
 
 			if (this.y.difference !== 0) {
 				if (this.timer) {
@@ -125,7 +125,7 @@ export default class ScrollBar extends Component {
 
 			this.y.difference = this.y.start - this.y.end;
 
-			this.scroll.target += this.y.difference * 2;
+			this.scroll.target += this.y.difference * 4;
 
 			if (this.y.difference !== 0) {
 				if (this.timer) {

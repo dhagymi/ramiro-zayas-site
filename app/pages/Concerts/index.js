@@ -6,7 +6,7 @@ import Page from "classes/Page.js";
 import { innerHtmlTemplate, outerHtmlTemplate } from "../../utils/concerts.js";
 
 export default class Concerts extends Page {
-	constructor(superiorOrderOnResize) {
+	constructor({ globalOnResize }) {
 		super({
 			id: "concerts",
 			element: ".concerts",
@@ -16,9 +16,8 @@ export default class Concerts extends Page {
 				shows: ".concerts__shows",
 			},
 			title: "Concerts",
+			globalOnResize,
 		});
-
-		this.globalOnResize = superiorOrderOnResize;
 	}
 
 	create() {

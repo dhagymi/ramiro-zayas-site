@@ -3,12 +3,13 @@ import Page from "classes/Page.js";
 import Carousel from "components/Carousel.js";
 
 export default class Music extends Page {
-	constructor() {
+	constructor({ globalOnResize }) {
 		super({
 			id: "music",
 			element: ".music",
 			elements: { wrapper: ".music__wrapper" },
 			title: "Music",
+			globalOnResize,
 		});
 	}
 

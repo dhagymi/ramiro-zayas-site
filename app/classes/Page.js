@@ -10,7 +10,7 @@ import AsyncLoad from "classes/AsyncLoad.js";
 import { lerp, clamp } from "utils/math.js";
 
 export default class Page {
-	constructor({ id, element, elements, title }) {
+	constructor({ id, element, elements, title, globalOnResize }) {
 		this.selector = element;
 		this.selectorChildren = {
 			...elements,
@@ -20,6 +20,7 @@ export default class Page {
 			preloaders: "[data-src]",
 		};
 		this.title = title;
+		this.globalOnResize = globalOnResize;
 
 		this.id = id;
 		this.transformPrefix = prefix("transform");
@@ -146,6 +147,14 @@ export default class Page {
 				this.transformPrefix
 			] = `translateY(-${this.scroll.current}px)`;
 		}
+
+		if (
+			this.elements.wrapper.clientHeight - window.innerHeight !== 0 &&
+			this.elements.wrapper.clientHeight - window.innerHeight !== this.size
+		) {
+			this.globalOnResize();
+			this.size = this.elements.wrapper.clientHeight - window.innerHeight;
+		}
 	}
 
 	/* Events */
@@ -169,7 +178,7 @@ export default class Page {
 
 		this.y.difference = this.y.start - this.y.end;
 		this.y.start = this.y.end;
-		this.scroll.target += this.y.difference * 2;
+		this.scroll.target += this.y.difference * 4;
 	}
 
 	onTouchUp(event) {
@@ -179,13 +188,17 @@ export default class Page {
 
 		this.y.difference = this.y.start - this.y.end;
 
-		this.scroll.target += this.y.difference * 2;
+		this.scroll.target += this.y.difference * 4;
 	}
 
 	onResize() {
+		console.log("resize");
+		console.log(this.scroll.limit);
 		if (this.elements.wrapper) {
 			this.scroll.limit =
 				this.elements.wrapper.clientHeight - window.innerHeight;
+
+			console.log(this.scroll.limit);
 		}
 	}
 

@@ -86,11 +86,11 @@ class App {
 	}
 	createPages() {
 		this.pages = {
-			home: new Home(),
-			music: new Music(),
-			concerts: new Concerts(this.onResize.bind(this)),
-			contact: new Contact(),
-			gallery: new Gallery(),
+			home: new Home({ globalOnResize: this.onResize.bind(this) }),
+			music: new Music({ globalOnResize: this.onResize.bind(this) }),
+			concerts: new Concerts({ globalOnResize: this.onResize.bind(this) }),
+			contact: new Contact({ globalOnResize: this.onResize.bind(this) }),
+			gallery: new Gallery({ globalOnResize: this.onResize.bind(this) }),
 		};
 
 		this.page = this.pages[this.template];
