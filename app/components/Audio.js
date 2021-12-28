@@ -7,11 +7,16 @@ export default class Audio extends Component {
 
 	/* Controls */
 
-	play() {
+	async play() {
 		if (this.canPlay()) {
-			this.element.play();
-			this.element.muted = true;
-			this.element.muted = false;
+			try {
+				await this.element.play();
+				this.element.muted = false;
+				return true;
+			} catch (error) {
+				console.log(error);
+				return false;
+			}
 		}
 	}
 
@@ -23,8 +28,14 @@ export default class Audio extends Component {
 		}
 	}
 
-	pause() {
-		this.element.pause();
+	async pause() {
+		try {
+			await this.element.pause();
+			return true;
+		} catch (error) {
+			console.log(error);
+			return false;
+		}
 	}
 
 	/* Listeners */

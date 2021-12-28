@@ -48,6 +48,12 @@ export default class Options extends Component {
 			this.setDayTheme();
 		}
 
+		if (this.isSoundOn) {
+			this.setSoundOn();
+		} else {
+			this.setSoundOff();
+		}
+
 		if (this.generalComponents.musicCardPrevious) {
 			this.themeHideHover = new HideHover({
 				element: this.generalSelectors.themeButton,
@@ -144,11 +150,14 @@ export default class Options extends Component {
 		}
 	}
 
-	setSoundOff() {
-		this.showElement(this.generalComponents.soundOffText);
-		this.hideElement(this.generalComponents.soundOnText);
-		this.audio.pause();
-		this.stopPulsesAnimation();
+	async setSoundOff() {
+		const response = await this.audio.pause();
+		if (response) {
+			this.showElement(this.generalComponents.soundOffText);
+			this.hideElement(this.generalComponents.soundOnText);
+			this.stopPulsesAnimation();
+			this.isSoundOn = false;
+		}
 	}
 
 	changeTheme() {
@@ -163,10 +172,8 @@ export default class Options extends Component {
 
 	switchSound() {
 		if (this.isSoundOn) {
-			this.isSoundOn = false;
 			this.setSoundOff();
 		} else {
-			this.isSoundOn = true;
 			this.setSoundOn();
 		}
 	}
@@ -201,11 +208,14 @@ export default class Options extends Component {
 		this.switchSound();
 	}
 
-	onCanPlay() {
-		this.showElement(this.generalComponents.soundOnText);
-		this.hideElement(this.generalComponents.soundOffText);
-		this.audio.play();
-		this.animatePulses();
+	async onCanPlay() {
+		const response = await this.audio.play();
+		if (response) {
+			this.showElement(this.generalComponents.soundOnText);
+			this.hideElement(this.generalComponents.soundOffText);
+			this.animatePulses();
+			this.isSoundOn = true;
+		}
 	}
 
 	/* Listeners */
