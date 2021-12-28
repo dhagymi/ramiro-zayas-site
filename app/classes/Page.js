@@ -160,8 +160,6 @@ export default class Page {
 		this.isTouching = true;
 
 		this.y.start = event.touches[0].clientY;
-
-		console.log("down", this.y);
 	}
 
 	onTouchMove(event) {
@@ -170,10 +168,8 @@ export default class Page {
 		this.y.end = event.touches[0].clientY;
 
 		this.y.difference = this.y.start - this.y.end;
-
+		this.y.start = this.y.end;
 		this.scroll.target += this.y.difference;
-
-		console.log("move", this.y);
 	}
 
 	onTouchUp(event) {
@@ -184,8 +180,6 @@ export default class Page {
 		this.y.difference = this.y.start - this.y.end;
 
 		this.scroll.target += this.y.difference;
-
-		console.log("up", this.y);
 	}
 
 	onResize() {
