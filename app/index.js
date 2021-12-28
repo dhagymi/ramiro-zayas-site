@@ -237,9 +237,15 @@ class App {
 	onResize() {
 		if (this.page && this.page.onResize) {
 			this.page.onResize();
-			this.header.onResize(this.page.elements.wrapper);
-			this.footer.onResize(this.page.elements.wrapper);
-			this.scrollBar.onResize(this.page.elements.wrapper);
+			if (this.header?.onResize) {
+				this.header.onResize(this.page.elements.wrapper);
+			}
+			if (this.footer?.onResize) {
+				this.footer.onResize(this.page.elements.wrapper);
+			}
+			if (this.scrollBar?.onResize) {
+				this.scrollBar.onResize(this.page.elements.wrapper);
+			}
 		}
 	}
 
