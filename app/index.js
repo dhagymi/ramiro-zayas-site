@@ -103,7 +103,7 @@ class App {
 
 	createTitle() {
 		this.title = document.querySelector("title");
-		this.title.innerText = `Ramiro Zayas | ${this.page.title}`;
+		this.title.innerText = `Ramiro Zayas  |  ${this.page.title}`;
 	}
 
 	/* Links */
