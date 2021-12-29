@@ -87,7 +87,7 @@ export default class ScrollBar extends Component {
 
 			this.scroll.target += pixelY;
 
-			if (pixelY !== 0) {
+			if (this.scroll.limit != 0) {
 				if (this.timer) {
 					clearTimeout(this.timer);
 				}
