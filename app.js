@@ -10,12 +10,15 @@ import PrismicDOM from "prismic-dom";
 import compression from "compression";
 import UAParser from "ua-parser-js";
 
-import { getConcerts } from "./app/utils/concerts.js";
+import contactService from "./services/concerts.service.js";
+import router from "./routers/index.js";
 
 const app = express();
 dotenv.config();
 const PORT = process.env.PORT || 5000;
 const __dirname = dirname(fileURLToPath(import.meta.url));
+
+/* Middlewares */
 
 app.use(json());
 app.use(urlencoded({ extended: false }));
@@ -23,7 +26,14 @@ app.use(cors());
 app.use(morgan("dev"));
 app.use(errorHandler());
 app.use(compression());
+
+/* Static path */
+
 app.use(express.static(join(__dirname, "public")));
+
+/* Router */
+
+app.use("/api", router);
 
 const initApi = (req) => {
 	return Prismic.getApi(process.env.PRISMIC_ENDPOINT, {
@@ -32,7 +42,7 @@ const initApi = (req) => {
 	});
 };
 
-const initAutoAdminApi = (req) => {
+export const initAutoAdminApi = (req) => {
 	return Prismic.getApi(process.env.PRISMIC_AUTOADMIN_ENDPOINT, {
 		accessToken: process.env.PRISMIC_AUTOADMIN_ACCESS_TOKEN,
 		req,
@@ -114,7 +124,7 @@ app.get("/concerts", async (req, res) => {
 	const api = await initApi(req);
 	const autoAdminApi = await initAutoAdminApi(req);
 
-	const concertsList = await getConcerts(autoAdminApi, Prismic);
+	const concertsList = await contactService.getConcerts(autoAdminApi, Prismic);
 
 	const defaults = await handleRequest(api);
 
@@ -191,14 +201,6 @@ app.get("/gallery", async (req, res) => {
 		gallery,
 		galleryData,
 	});
-});
-
-app.get("/getConcerts", async (req, res) => {
-	const autoAdminApi = await initAutoAdminApi(req);
-
-	const concertsList = await getConcerts(autoAdminApi, Prismic);
-
-	res.send(concertsList);
 });
 
 const server = app.listen(PORT, () =>

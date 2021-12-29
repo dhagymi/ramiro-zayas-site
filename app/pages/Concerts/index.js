@@ -34,7 +34,7 @@ export default class Concerts extends Page {
 				const newObserver = new IntersectionObserver(async (entries) => {
 					entries.forEach(async (entry) => {
 						if (entry.isIntersecting) {
-							const { data } = await axios("/getConcerts");
+							const { data } = await axios("/api/concerts/getConcerts");
 
 							const concerts = data.map((array) => {
 								return array.map((concert) => {
@@ -79,7 +79,7 @@ export default class Concerts extends Page {
 			const newObserver = new IntersectionObserver(async (entries) => {
 				entries.forEach(async (entry) => {
 					if (entry.isIntersecting) {
-						const { data } = await axios("/getConcerts");
+						const { data } = await axios("/api/concerts/getConcerts");
 
 						const concerts = data.map((array) => {
 							return array.map((concert) => {

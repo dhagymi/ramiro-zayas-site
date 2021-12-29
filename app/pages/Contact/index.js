@@ -1,5 +1,7 @@
 import Page from "classes/Page.js";
 
+import Form from "components/Form.js";
+
 export default class Contact extends Page {
 	constructor({ globalOnResize }) {
 		super({
@@ -9,5 +11,11 @@ export default class Contact extends Page {
 			title: "Contact",
 			globalOnResize,
 		});
+	}
+
+	create() {
+		super.create();
+
+		this.form = new Form();
 	}
 }

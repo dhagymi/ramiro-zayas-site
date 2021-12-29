@@ -54,6 +54,8 @@
 		"include-media": "^1.4.10",
 		"lodash": "^4.17.21",
 		"morgan": "^1.10.0",
+		"node-emoji": "^1.11.0",
+		"nodemailer": "^6.7.2",
 		"normalize-wheel": "^1.0.1",
 		"prismic-dom": "^2.2.6",
 		"pug": "^3.0.2",
