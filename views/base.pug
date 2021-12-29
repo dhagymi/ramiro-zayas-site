@@ -43,11 +43,11 @@ html(class=isDesktop ? "desktop" : isTablet ? "tablet" : isPhone ? "phone" : "" 
         meta(name="twitter:title" content=meta.data.title)
         meta(name="twitter:description" content=meta.data.description)
         meta(name="twitter:image" content=meta.data.image ? meta.data.image.url : '')
-        meta(name="twitter:site" content=meta.data.twitter || "@ramirozayas")
+        meta(name="twitter:site" content=`@${meta.data.twitter}` || "@ramirozayas")
 
         link(href="main.css" rel="stylesheet")
 
-        script(type="application/ld+json")!=`{"@context":"http://schema.org","@type":"Event","name":"${concertsList[0][0].data.title}","startDate":"${concertsList[0][0].data.year}-${concertsList[0][0].data.month}-${concertsList[0][0].data.day}T${concertsList[0][0].data.hours}:${concertsList[0][0].data.minutes}","location":{"@type":"Place","name":"${concertsList[0][0].data.location}"},"description":"${concertsList[0][0].data.description}","url":"https://ramiro-zayas-site.herokuapp.com/concerts","performer":{"@type":"Person","name":"Ramiro Zayas"},"offers":{"@type":"Offer","price":"${concertsList[0][0].data.price}"},"sameAs":["https://twitter.com/ramirozayas","https://www.facebook.com/ramiro.zayas.7","https://www.youtube.com/user/TheRamirosayas","https://www.instagram.com/ramiro_zayas/"]}`       
+        script(type="application/ld+json")!=`{"@context":"http://schema.org","@type":"Event","name":"${concertsList[0][0].data.title}","startDate":"${concertsList[0][0].data.year}-${concertsList[0][0].data.month}-${concertsList[0][0].data.day}T${concertsList[0][0].data.hours}:${concertsList[0][0].data.minutes}","location":{"@type":"Place","name":"${concertsList[0][0].data.location}"},"description":"${concertsList[0][0].data.description}","url":"https://ramiro-zayas-site.herokuapp.com/concerts","performer":{"@type":"Person","name":"Ramiro Zayas"},"offers":{"@type":"Offer","price":"${concertsList[0][0].data.price}"},"sameAs":["https://twitter.com/${meta.data.twitter}","${meta.data.facebook}","${meta.data.youtube}","${meta.data.instagram}","${meta.data.linkedin}"]}`       
         script(type="text/javascript" defer src="https://www.google-analytics.com/analytics.js")
         script(defer src="//www.google-analytics.com/analytics.js")
 
