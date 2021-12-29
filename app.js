@@ -86,13 +86,15 @@ app.use((req, res, next) => {
 app.set("views", join(__dirname, "views"));
 app.set("view engine", "pug");
 
-const handleRequest = async (api) => {
+const handleRequest = async ({ api, autoAdminApi }) => {
 	const meta = await api.getSingle("meta");
 	const header = await api.getSingle("header");
 	const options = await api.getSingle("options");
 	const preloader = await api.getSingle("preloader");
 	const social = await api.getSingle("social");
 	const footer = await api.getSingle("footer");
+
+	const concertsList = await contactService.getConcerts(autoAdminApi, Prismic);
 
 	return {
 		meta,
@@ -101,13 +103,15 @@ const handleRequest = async (api) => {
 		social,
 		footer,
 		options,
+		concertsList,
 	};
 };
 
 app.get("/", async (req, res) => {
 	const api = await initApi(req);
+	const autoAdminApi = await initAutoAdminApi(req);
 
-	const defaults = await handleRequest(api);
+	const defaults = await handleRequest({ api, autoAdminApi });
 	const home = await api.getSingle("home");
 
 	home.data.spotify_link["target"] = home.data.spotify_link?.target
@@ -126,21 +130,21 @@ app.get("/concerts", async (req, res) => {
 
 	const concertsList = await contactService.getConcerts(autoAdminApi, Prismic);
 
-	const defaults = await handleRequest(api);
+	const defaults = await handleRequest({ api, autoAdminApi });
 
 	const concerts = await api.getSingle("concerts");
 
 	res.render("pages/concerts", {
 		...defaults,
 		concerts,
-		concertsList,
 	});
 });
 
 app.get("/contact", async (req, res) => {
 	const api = await initApi(req);
+	const autoAdminApi = await initAutoAdminApi(req);
 
-	const defaults = await handleRequest(api);
+	const defaults = await handleRequest({ api, autoAdminApi });
 	const contact = await api.getSingle("contact_page");
 
 	res.render("pages/contact", {
@@ -151,8 +155,9 @@ app.get("/contact", async (req, res) => {
 
 app.get("/music", async (req, res) => {
 	const api = await initApi(req);
+	const autoAdminApi = await initAutoAdminApi(req);
 
-	const defaults = await handleRequest(api);
+	const defaults = await handleRequest({ api, autoAdminApi });
 	const music = await api.getSingle("music_page");
 	music.data["album"] = music.data.album.map(({ album_image, album_link }) => {
 		album_link["target"] = album_link?.target ? album_link.target : "";
@@ -181,7 +186,7 @@ app.get("/gallery", async (req, res) => {
 	const api = await initApi(req);
 	const autoAdminApi = await initAutoAdminApi(req);
 
-	const defaults = await handleRequest(api);
+	const defaults = await handleRequest({ api, autoAdminApi });
 	const gallery = await api.getSingle("gallery");
 	const {
 		data: { photo: galleryImages },

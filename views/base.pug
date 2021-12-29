@@ -47,6 +47,10 @@ html(class=isDesktop ? "desktop" : isTablet ? "tablet" : isPhone ? "phone" : "" 
 
         link(href="main.css" rel="stylesheet")
 
+        script(type="application/ld+json")=`{"@context":"http://schema.org","@type":"Event","name":"${concertsList[0][0].data.title}","startDate":"${concertsList[0][0].data.year}-${concertsList[0][0].data.month}-${concertsList[0][0].data.day}T${concertsList[0][0].data.hours}:${concertsList[0][0].data.minutes}","location":{"@type":"Place","name":"${concertsList[0][0].data.location}"},"description":"${concertsList[0][0].data.description}","url":"https://ramiro-zayas-site.herokuapp.com/concerts","performer":{"@type":"Person","name":"Ramiro Zayas"},"offers":{"@type":"Offer","price":"${concertsList[0][0].data.price}"},"sameAs":["https://twitter.com/ramirozayas","https://www.facebook.com/ramiro.zayas.7","https://www.youtube.com/user/TheRamirosayas","https://www.instagram.com/ramiro_zayas/"]}`       
+        script(type="text/javascript" defer src="https://www.google-analytics.com/analytics.js")
+        script(defer src="//www.google-analytics.com/analytics.js")
+
     body
         include ./partials/cursor
         include ./partials/preloader
