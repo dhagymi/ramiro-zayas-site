@@ -5,6 +5,7 @@ import Home from "pages/Home/index.js";
 import Contact from "pages/Contact/index.js";
 import Gallery from "pages/Gallery/index.js";
 import Music from "pages/Music/index.js";
+import ErrorPage from "pages/Error/index.js";
 
 import Cursor from "components/Cursor.js";
 import Preloader from "components/Preloader.js";
@@ -93,6 +94,7 @@ class App {
 			concerts: new Concerts({ globalOnResize: this.onResize.bind(this) }),
 			contact: new Contact({ globalOnResize: this.onResize.bind(this) }),
 			gallery: new Gallery({ globalOnResize: this.onResize.bind(this) }),
+			error: new ErrorPage({ globalOnResize: this.onResize.bind(this) }),
 		};
 
 		this.page = this.pages[this.template];

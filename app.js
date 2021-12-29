@@ -128,8 +128,6 @@ app.get("/concerts", async (req, res) => {
 	const api = await initApi(req);
 	const autoAdminApi = await initAutoAdminApi(req);
 
-	const concertsList = await contactService.getConcerts(autoAdminApi, Prismic);
-
 	const defaults = await handleRequest({ api, autoAdminApi });
 
 	const concerts = await api.getSingle("concerts");
@@ -205,6 +203,17 @@ app.get("/gallery", async (req, res) => {
 		...defaults,
 		gallery,
 		galleryData,
+	});
+});
+
+app.get("/*", async (req, res) => {
+	const api = await initApi(req);
+	const autoAdminApi = await initAutoAdminApi(req);
+
+	const defaults = await handleRequest({ api, autoAdminApi });
+
+	res.render("pages/error", {
+		...defaults,
 	});
 });
 
