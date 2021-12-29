@@ -212,7 +212,7 @@ app.get("/*", async (req, res) => {
 
 	const defaults = await handleRequest({ api, autoAdminApi });
 
-	res.render("pages/error", {
+	res.status(404).render("pages/error", {
 		...defaults,
 	});
 });
