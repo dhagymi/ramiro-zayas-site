@@ -1,0 +1,10 @@
+/* SITE INFORMATION */
+
+	Site name:  	Ramiro Zayas Site
+	Site URL:   	https://ramiro-zayas-site.herokuapp.com/
+	Web develop:	Agustín Andreacchi
+	Web design:		Micaela Zayas
+	Contact:    	https://dhaweb.com/contact/
+	Location:   	Germany
+	Built with: 	Express
+	Launched:   	2022
