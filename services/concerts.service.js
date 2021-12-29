@@ -33,9 +33,9 @@ class ContactService {
 		});
 
 		concertsData.sort((a, b) => {
-			const dayDifference = a.data.day - b.data.day;
-			const monthDifference = a.data.month - b.data.month;
-			const yearDifference = a.data.year - b.data.year;
+			const dayDifference = b.data.day - a.data.day;
+			const monthDifference = b.data.month - a.data.month;
+			const yearDifference = b.data.year - a.data.year;
 			return yearDifference !== 0
 				? yearDifference
 				: monthDifference !== 0
