@@ -35,6 +35,11 @@ class App {
 		this.addLinkListeners();
 
 		this.update();
+
+		console.log(
+			`%cDeveloped & Designed by DHATeam ${String.fromCodePoint(0x0270c)}`,
+			"color: #F8F8F8; background: #2F2F2F; padding: 5px 10px; border-radius: 3px; font-family: 'Verdana'"
+		);
 	}
 
 	/* Creates */
