@@ -13,14 +13,14 @@
     &__littleList
         display: flex
         flex-direction: column
-        gap: 15.6rem
+        gap: 12.6rem
         text-align: left
 
         @include media('<tablet')
-            gap: 9.9rem
+            gap: 7.9rem
 
         @include media('<phone')
-            gap: 9.9rem
+            gap: 6.5rem
 
     &__cardWrapper
         display: grid
@@ -50,6 +50,8 @@
     &__date
         @extend %title-30
 
+        line-height: 1.86
+
         @include media('<tablet')
             letter-spacing: 0.09em
 
@@ -61,8 +63,10 @@
 
     &__title
         @extend %title-30
+
         font-weight: 600
         margin-bottom: 5.7rem
+        line-height: 1.86
 
         @include media('<tablet')
             margin-bottom: 3.5rem
