@@ -18,7 +18,7 @@ block content
                                     .concerts__shows__content
                                         p.concerts__shows__info=`Time: ${concert.data.hours}:${concert.data.minutes}`
                                         p.concerts__shows__info=`Location: ${concert.data.location} `
-                                            a(href=`https://www.google.com/search?q=${concert.data.location}` target="_blank")="(map)"
+                                            a(href=`https://google.com.ar/maps/search/${concert.data.location.replace(" ","+")}` target="_blank")="(map)"
                                         p.concerts__shows__info=`Price: €${concert.data.price}`
                                         p.concerts__shows__info=`Status: ${concert.data.status}`
                                         p.concerts__shows__info=`Description: ${concert.data.description}`
