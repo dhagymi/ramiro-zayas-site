@@ -114,9 +114,10 @@ app.get("/", async (req, res) => {
 	const defaults = await handleRequest({ api, autoAdminApi });
 	const home = await api.getSingle("home");
 
-	home.data.spotify_link["target"] = home.data.spotify_link?.target
-		? home.data.spotify_link.target
-		: "";
+	home.data.spotify_link["target"] =
+		home.data.spotify_link && home.data.spotify_link.target
+			? home.data.spotify_link.target
+			: "";
 
 	res.render("pages/home", {
 		...defaults,
@@ -158,7 +159,8 @@ app.get("/music", async (req, res) => {
 	const defaults = await handleRequest({ api, autoAdminApi });
 	const music = await api.getSingle("music_page");
 	music.data["album"] = music.data.album.map(({ album_image, album_link }) => {
-		album_link["target"] = album_link?.target ? album_link.target : "";
+		album_link["target"] =
+			album_link && album_link.target ? album_link.target : "";
 		return {
 			image: album_image,
 			link: album_link,
@@ -166,7 +168,8 @@ app.get("/music", async (req, res) => {
 	});
 	music.data["videos"] = music.data.videos.map(
 		({ video_image, video_link }) => {
-			video_link["target"] = video_link?.target ? video_link.target : "";
+			video_link["target"] =
+				video_link && video_link.target ? video_link.target : "";
 			return {
 				image: video_image,
 				link: video_link,
