@@ -1,10 +1,17 @@
 import axios from "axios";
+import GSAP from "gsap";
 
 import Component from "classes/Component.js";
 
 export default class Form extends Component {
 	constructor() {
-		super({ element: ".contact__form", elements: {} });
+		super({
+			element: ".contact__form",
+			elements: {
+				successMessage: ".contact__form__message--success",
+				errorMessage: ".contact__form__message--error",
+			},
+		});
 
 		this.onSubmitEvent = this.onSubmit.bind(this);
 
@@ -47,6 +54,7 @@ export default class Form extends Component {
 				event.target.reset();
 				this.isOk = true;
 				this.isLoading = false;
+				this.showMessage(this.elements.successMessage);
 				setTimeout(() => {
 					this.isError = false;
 					this.isOk = false;
@@ -56,12 +64,22 @@ export default class Form extends Component {
 		} catch (error) {
 			this.isError = true;
 			this.isLoading = false;
+			this.showMessage(this.elements.errorMessage);
 			setTimeout(() => {
 				this.isError = false;
 				this.isOk = false;
 			}, 3000);
 			console.log(error);
 		}
+	}
+
+	showMessage(element) {
+		GSAP.to(element, { display: "block" });
+		GSAP.to(element, { autoAlpha: 1 });
+		setTimeout(() => {
+			GSAP.to(element, { autoAlpha: 0 });
+			GSAP.to(element, { display: "none" });
+		}, 3000);
 	}
 
 	/* Listeners */

@@ -27,3 +27,5 @@ block content
                         else
                             label.contact__form__inputs__label(data-animation="fade" for=input.placeholder_buttontext.toLowerCase())=input.placeholder_buttontext
                             input.contact__form__inputs__input(data-animation="fade" type=input.type name=input.placeholder_buttontext.toLowerCase() id=input.placeholder_buttontext.toLowerCase())
+                p.contact__form__message.contact__form__message--success=contact.data.success_message
+                p.contact__form__message.contact__form__message--error=contact.data.error_message
