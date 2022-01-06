@@ -76,40 +76,6 @@ const config = {
 					{ loader: "sass-loader" },
 				],
 			},
-			/* 			{
-				test: /\.(jpg?e|png|gif|svg|webp)$/,
-				loader: "file-loader",
-				options: {
-					name() {
-						return "[hash].[ext]";
-					},
-					outputPath: "images",
-				},
-			},
-			{
-				test: /\.(jpe?g|png|gif|svg|webp)$/i,
-				use: [
-					{
-						loader: ImageMinimizerPlugin.loader,
-						options: {
-							severityError: "warning",
-							minimizerOptions: {
-								plugins: ["gifsicle"],
-							},
-						},
-					},
-				],
-			},
-			{
-				test: /\.(woff2?|fnt)$/,
-				loader: "file-loader",
-				options: {
-					name() {
-						return "[hash].[ext]";
-					},
-					outputPath: "fonts",
-				},
-			}, */
 			{
 				test: /\.(jpe?g|svg|png|gif|ico|eot|ttf|woff2?)(\?v=\d+\.\d+\.\d+)?$/i,
 				type: "asset/resource",

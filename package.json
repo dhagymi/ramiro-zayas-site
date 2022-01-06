@@ -43,6 +43,7 @@
 		"webpack-merge": "^5.8.0"
 	},
 	"dependencies": {
+		"@babel/plugin-transform-async-to-generator": "^7.16.7",
 		"@prismicio/client": "^5.1.0",
 		"axios": "^0.24.0",
 		"compression": "^1.7.4",
