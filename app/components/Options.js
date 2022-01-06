@@ -215,6 +215,10 @@ export default class Options extends Component {
 			this.hideElement(this.generalComponents.soundOffText);
 			this.animatePulses();
 			this.isSoundOn = true;
+			this.audio.element.removeEventListener(
+				"canplaythrough",
+				this.onCanPlay.bind(this)
+			);
 		} else {
 			this.setSoundOff();
 		}
