@@ -9,11 +9,15 @@ export default class Audio extends Component {
 
 	async play() {
 		if (this.canPlay()) {
+			alert("In play");
 			try {
 				await this.element.play();
+
+				alert("Play ok");
 				this.element.muted = false;
 				return true;
 			} catch (error) {
+				alert(error.message);
 				console.log(error);
 				return false;
 			}
@@ -22,8 +26,10 @@ export default class Audio extends Component {
 
 	canPlay() {
 		if (this.element.readyState > 2) {
+			alert(this.element.readyState);
 			return true;
 		} else {
+			alert(this.element.readyState);
 			return false;
 		}
 	}

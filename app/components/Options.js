@@ -209,6 +209,7 @@ export default class Options extends Component {
 	}
 
 	async onCanPlay() {
+		alert("Can play");
 		const response = await this.audio.play();
 		if (response) {
 			this.showElement(this.generalComponents.soundOnText);
