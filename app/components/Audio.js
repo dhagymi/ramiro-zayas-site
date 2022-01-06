@@ -3,9 +3,28 @@ import Component from "classes/Component.js";
 export default class Audio extends Component {
 	constructor() {
 		super({ element: "audio", elements: { sources: "source" } });
+
+		this.onStalledEvent = this.onStalled.bind(this);
+	}
+
+	create() {
+		super.create();
+
+		this.element.addEventListener("stalled", this.onStalledEvent);
+
+		this.load();
 	}
 
 	/* Controls */
+
+	load() {
+		try {
+			this.element.load();
+			alert("loading");
+		} catch (error) {
+			alert(error.message);
+		}
+	}
 
 	async play() {
 		if (this.canPlay()) {
@@ -42,6 +61,13 @@ export default class Audio extends Component {
 			console.log(error);
 			return false;
 		}
+	}
+
+	/* Events */
+
+	onStalled() {
+		alert("stalled");
+		this.load();
 	}
 
 	/* Listeners */
