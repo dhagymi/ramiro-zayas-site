@@ -17,12 +17,15 @@ export default class Audio extends Component {
 
 	/* Controls */
 
-	load() {
+	async load() {
 		try {
-			this.element.load();
 			alert("loading");
+			await this.element.load();
+			alert("loaded");
+			this.isLoaded = true;
 		} catch (error) {
 			alert(error.message);
+			this.isLoaded = false;
 		}
 	}
 
@@ -40,6 +43,11 @@ export default class Audio extends Component {
 				console.log(error);
 				return false;
 			}
+		} else if (isLoaded) {
+			this.play();
+		} else {
+			await this.load();
+			this.play();
 		}
 	}
 
