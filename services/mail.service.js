@@ -20,7 +20,7 @@ class Mailer {
 
 	sendEmail = async ({
 		from = process.env.EMAIL_DIRECTION,
-		to = "amandreacchi@gmail.com",
+		to = "info@ramirozayas.com",
 		subject,
 		text = "",
 		html = "",

@@ -1,4 +1,4 @@
 User-Agent: *
 Allow: /
 
-Sitemap: https://ramiro-zayas-site.herokuapp.com/sitemap.xml
+Sitemap: https://ramirozayas.com/sitemap.xml
