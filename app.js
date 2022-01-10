@@ -221,6 +221,6 @@ app.get("/*", async (req, res) => {
 });
 
 const server = app.listen(PORT, () =>
-	console.log(`Serve on http://localhost:${PORT}`)
+	console.log(`Serve on https://www.ramirozayas.com`)
 );
 server.on("error", (error) => console.log(error));
