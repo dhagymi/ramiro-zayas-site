@@ -49,7 +49,9 @@ html(class=isDesktop ? "desktop" : isTablet ? "tablet" : isPhone ? "phone" : "" 
         script(type="application/ld+json")!=`{"@context":"http://schema.org","@type":"Event","name":"${concertsList[0][0].data.title}","startDate":"${concertsList[0][0].data.year}-${concertsList[0][0].data.month}-${concertsList[0][0].data.day}T${concertsList[0][0].data.hours}:${concertsList[0][0].data.minutes}","location":{"@type":"Place","name":"${concertsList[0][0].data.location}"},"description":"${concertsList[0][0].data.description}","url":"https://ramirozayas.com/concerts","performer":{"@type":"Person","name":"Ramiro Zayas"},"offers":{"@type":"Offer","price":"${concertsList[0][0].data.price}"},"sameAs":["https://twitter.com/${meta.data.twitter}","${meta.data.facebook}","${meta.data.youtube}","${meta.data.instagram}","${meta.data.linkedin}"]}`       
         script(type="text/javascript" defer src="https://www.google-analytics.com/analytics.js")
         script(defer src="//www.google-analytics.com/analytics.js")
-        script(async src="https://www.googletagmanager.com/gtag/js?id=297906052")
+        script(async src="https://www.googletagmanager.com/gtag/js?id=G-90LW69N0XS")
+        script!=`window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-90LW69N0XS');`
+
 
     body
         include ./partials/cursor
