@@ -59,7 +59,6 @@ export default class Form extends Component {
 					this.isError = false;
 					this.isOk = false;
 				}, 3000);
-				console.log("mail enviado");
 			}
 		} catch (error) {
 			this.isError = true;
