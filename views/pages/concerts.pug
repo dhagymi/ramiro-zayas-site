@@ -16,11 +16,18 @@ block content
                                     p.concerts__shows__date=`${concert.data.day}.${concert.data.month}.${concert.data.year}`
                                     h2.concerts__shows__title=concert.data.title 
                                     .concerts__shows__content
-                                        p.concerts__shows__info=`Time: ${concert.data.hours}:${concert.data.minutes}`
-                                        p.concerts__shows__info=`Location: ${concert.data.location} `
-                                            a(href=`https://google.com.ar/maps/search/${concert.data.location.replace(" ","+")}` target="_blank")="(map)"
-                                        p.concerts__shows__info=`Price: €${concert.data.price}`
-                                        p.concerts__shows__info=`Status: ${concert.data.status}`
-                                        p.concerts__shows__info=`Description: ${concert.data.description}`
+                                        if concert.data.hours && concert.data.minutes
+                                            p.concerts__shows__info=`Time: ${concert.data.hours}:${concert.data.minutes}`
+                                        if concert.data.location
+                                            p.concerts__shows__info=`Location: ${concert.data.location} `
+                                                a(href=`https://google.com.ar/maps/search/${concert.data.location.replace(" ","+")}` target="_blank")="(map)"
+                                        if concert.data.price && concert.data.price != 0
+                                            p.concerts__shows__info=`Price: €${concert.data.price}` 
+                                        else if concert.data.price && concert.data.price == 0
+                                            p.concerts__shows__info=`Price: Free` 
+                                        if concert.data.status
+                                            p.concerts__shows__info=`Status: ${concert.data.status}`
+                                        if concert.data.description
+                                            p.concerts__shows__info=`Description: ${concert.data.description}`
                             .concerts__shows__littleList__observer(data-observer=index+1)
                         
