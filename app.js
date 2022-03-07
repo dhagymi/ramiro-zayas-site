@@ -80,6 +80,8 @@ app.use((req, res, next) => {
 
 	res.locals.PrismicDOM = PrismicDOM;
 
+	res.locals.pathname = req.path.slice(1);
+
 	next();
 });
 
