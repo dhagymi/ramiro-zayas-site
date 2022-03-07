@@ -11,8 +11,7 @@ html(class=isDesktop ? "desktop" : isTablet ? "tablet" : isPhone ? "phone" : "" 
 
         title=meta.data.title
         meta(name="description" content=meta.data.description)
-        link(rel="canonical" href=meta.data.canonical)
-        meta(name="keywords" content="ramiro, zayas, piano, berlin, germany, pianist, composer, jazz, grupo, anonimus, big, band, tundra, nant, rio, interior, cumulus, mingus")
+        link(rel="canonical" href=`${meta.data.canonical}${window.location.pathname}`)
 
         link(rel="apple-touch-icon" sizes="57x57" href="icons/apple-icon-57x57.png")
         link(rel="apple-touch-icon" sizes="60x60" href="icons/apple-icon-60x60.png")
