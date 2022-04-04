@@ -17,260 +17,264 @@ import Options from "components/Options.js";
 import Social from "components/Social.js";
 
 class App {
-	constructor() {
-		this.createContent();
+    constructor() {
+        this.createContent();
 
-		this.createCursor();
-		this.createPreloader();
-		this.createFooter();
-		this.createResponsiveNavBar();
-		this.createHeader();
-		this.createOptions();
-		this.createSocial();
-		this.createPages();
-		this.createScrollBar();
-		this.createTitle();
+        this.createCursor();
+        this.createPreloader();
+        this.createFooter();
+        this.createResponsiveNavBar();
+        this.createHeader();
+        this.createOptions();
+        this.createSocial();
+        this.createPages();
+        this.createScrollBar();
+        this.createTitle();
 
-		this.addEventListeners();
-		this.addLinkListeners();
+        this.addEventListeners();
+        this.addLinkListeners();
 
-		this.update();
+        this.update();
 
-		console.log(
-			`%cDeveloped & Designed by DHATeam ${String.fromCodePoint(0x0270c)}`,
-			"color: #F8F8F8; background: #2F2F2F; padding: 5px 10px; border-radius: 3px; font-family: 'Verdana'"
-		);
-	}
+        console.log(
+            `%cDeveloped & Designed by DHATeam ${String.fromCodePoint(
+                0x0270c
+            )}`,
+            "color: #F8F8F8; background: #2F2F2F; padding: 5px 10px; border-radius: 3px; font-family: 'Verdana'"
+        );
+    }
 
-	/* Creates */
+    /* Creates */
 
-	createCursor() {
-		this.cursor = new Cursor();
-		this.cursor.create();
-	}
+    createCursor() {
+        this.cursor = new Cursor();
+        this.cursor.create();
+    }
 
-	createPreloader() {
-		this.preloader = new Preloader();
-		this.preloader.once("completed", this.onPreloaded.bind(this));
-	}
+    createPreloader() {
+        this.preloader = new Preloader();
+        this.preloader.once("completed", this.onPreloaded.bind(this));
+    }
 
-	createHeader() {
-		this.header = new Header({
-			template: this.template,
-			interactionComponents: { responsiveNavBar: this.responsiveNavBar },
-		});
-		this.header.create();
-	}
+    createHeader() {
+        this.header = new Header({
+            template: this.template,
+            interactionComponents: { responsiveNavBar: this.responsiveNavBar },
+        });
+        this.header.create();
+    }
 
-	createResponsiveNavBar() {
-		this.responsiveNavBar = new ResponsiveNavBar({
-			template: this.template,
-		});
-	}
+    createResponsiveNavBar() {
+        this.responsiveNavBar = new ResponsiveNavBar({
+            template: this.template,
+        });
+    }
 
-	createFooter() {
-		this.footer = new Footer({ template: this.template });
-		this.footer.create();
-	}
+    createFooter() {
+        this.footer = new Footer({ template: this.template });
+        this.footer.create();
+    }
 
-	createScrollBar() {
-		this.scrollBar = new ScrollBar({
-			updateScroll: this.updateScroll.bind(this),
-		});
-		this.scrollBar.create();
-	}
+    createScrollBar() {
+        this.scrollBar = new ScrollBar({
+            updateScroll: this.updateScroll.bind(this),
+        });
+        this.scrollBar.create();
+    }
 
-	createOptions() {
-		this.options = new Options();
-	}
+    createOptions() {
+        this.options = new Options();
+    }
 
-	createSocial() {
-		this.social = new Social();
-	}
+    createSocial() {
+        this.social = new Social();
+    }
 
-	createContent() {
-		this.content = document.querySelector(".content");
-		this.template = this.content.getAttribute("data-template");
-	}
-	createPages() {
-		this.pages = {
-			home: new Home({ globalOnResize: this.onResize.bind(this) }),
-			music: new Music({ globalOnResize: this.onResize.bind(this) }),
-			concerts: new Concerts({ globalOnResize: this.onResize.bind(this) }),
-			contact: new Contact({ globalOnResize: this.onResize.bind(this) }),
-			gallery: new Gallery({ globalOnResize: this.onResize.bind(this) }),
-			error: new ErrorPage({ globalOnResize: this.onResize.bind(this) }),
-		};
+    createContent() {
+        this.content = document.querySelector(".content");
+        this.template = this.content.getAttribute("data-template");
+    }
+    createPages() {
+        this.pages = {
+            home: new Home({ globalOnResize: this.onResize.bind(this) }),
+            music: new Music({ globalOnResize: this.onResize.bind(this) }),
+            concerts: new Concerts({
+                globalOnResize: this.onResize.bind(this),
+            }),
+            contact: new Contact({ globalOnResize: this.onResize.bind(this) }),
+            gallery: new Gallery({ globalOnResize: this.onResize.bind(this) }),
+            error: new ErrorPage({ globalOnResize: this.onResize.bind(this) }),
+        };
 
-		this.page = this.pages[this.template];
-		this.page.create();
-	}
+        this.page = this.pages[this.template];
+        this.page.create();
+    }
 
-	createTitle() {
-		this.title = document.querySelector("title");
-		this.title.innerText = `Ramiro Zayas  |  ${this.page.title}`;
-	}
+    createTitle() {
+        this.title = document.querySelector("title");
+        this.title.innerText = `Ramiro Zayas  |  ${this.page.title}`;
+    }
 
-	/* Links */
+    /* Links */
 
-	addLinkListeners() {
-		this.links = document.querySelectorAll("a");
-		this.boundedLinkCallback = this.linkListenersCallback.bind(this);
+    addLinkListeners() {
+        this.links = document.querySelectorAll("a");
+        this.boundedLinkCallback = this.linkListenersCallback.bind(this);
 
-		each(this.links, (link) => {
-			link.addEventListener("click", this.boundedLinkCallback);
-		});
-	}
+        each(this.links, (link) => {
+            link.addEventListener("click", this.boundedLinkCallback);
+        });
+    }
 
-	removeLinkListeners() {
-		each(this.links, (link) => {
-			link.removeEventListener("click", this.boundedLinkCallback);
-		});
-	}
+    removeLinkListeners() {
+        each(this.links, (link) => {
+            link.removeEventListener("click", this.boundedLinkCallback);
+        });
+    }
 
-	linkListenersCallback(event) {
-		let link;
-		if (!(event.target instanceof window.HTMLAnchorElement)) {
-			link = event.target.parentNode;
-			while (!(link instanceof window.HTMLAnchorElement)) {
-				link = link.parentNode;
-			}
-		} else {
-			link = event.target;
-		}
+    linkListenersCallback(event) {
+        let link;
+        if (!(event.target instanceof window.HTMLAnchorElement)) {
+            link = event.target.parentNode;
+            while (!(link instanceof window.HTMLAnchorElement)) {
+                link = link.parentNode;
+            }
+        } else {
+            link = event.target;
+        }
 
-		const { href: url } = link;
-		const location = url.split("/")[url.split("/").length - 1];
-		if (url.includes(window.location.origin)) {
-			event.preventDefault();
-		}
+        const { href: url } = link;
+        const location = url.split("/")[url.split("/").length - 1];
+        if (url.includes(window.location.origin)) {
+            event.preventDefault();
+        }
 
-		if (
-			location !== this.template &&
-			!(location.trim() === "" && this.template === "home")
-		) {
-			if (url.includes(window.location.origin)) {
-				this.onChange({ url });
-			}
-		}
-	}
+        if (
+            location !== this.template &&
+            !(location.trim() === "" && this.template === "home")
+        ) {
+            if (url.includes(window.location.origin)) {
+                this.onChange({ url });
+            }
+        }
+    }
 
-	/* Loop */
-	update() {
-		if (this.page && this.page.update) {
-			this.page.update();
-		}
+    /* Loop */
+    update() {
+        if (this.page && this.page.update) {
+            this.page.update();
+        }
 
-		if (this.header && this.header.update) {
-			this.header.update(this.page.showed || false);
-		}
+        if (this.header && this.header.update) {
+            this.header.update(this.page.showed || false);
+        }
 
-		if (this.footer && this.footer.update) {
-			this.footer.update(this.page.showed || false);
-		}
+        if (this.footer && this.footer.update) {
+            this.footer.update(this.page.showed || false);
+        }
 
-		if (this.scrollBar && this.scrollBar.update) {
-			this.scrollBar.update(this.page.showed || false);
-		}
+        if (this.scrollBar && this.scrollBar.update) {
+            this.scrollBar.update(this.page.showed || false);
+        }
 
-		if (this.cursor && this.cursor.update) {
-			this.cursor.update(true);
-		}
+        if (this.cursor && this.cursor.update) {
+            this.cursor.update(true);
+        }
 
-		if (this.options && this.options.update) {
-			this.options.update(true);
-		}
+        if (this.options && this.options.update) {
+            this.options.update(true);
+        }
 
-		if (this.social && this.social.update) {
-			this.social.update(true);
-		}
+        if (this.social && this.social.update) {
+            this.social.update(true);
+        }
 
-		this.frame = window.requestAnimationFrame(this.update.bind(this));
-	}
+        this.frame = window.requestAnimationFrame(this.update.bind(this));
+    }
 
-	updateScroll({ ease, current, target, limit, last }) {
-		this.page.updateScroll({ ease, current, target, limit, last });
-		this.header.updateScroll({ ease, current, target, limit, last });
-		this.footer.updateScroll({ ease, current, target, limit, last });
-		this.scrollBar.updateScroll({ ease, current, target, limit, last });
-	}
+    updateScroll({ ease, current, target, limit, last }) {
+        this.page.updateScroll({ ease, current, target, limit, last });
+        this.header.updateScroll({ ease, current, target, limit, last });
+        this.footer.updateScroll({ ease, current, target, limit, last });
+        this.scrollBar.updateScroll({ ease, current, target, limit, last });
+    }
 
-	/* Events */
-	async onChange({ url, push = true }) {
-		this.removeLinkListeners();
-		this.page.hide();
+    /* Events */
+    async onChange({ url, push = true }) {
+        this.removeLinkListeners();
+        this.page.hide();
 
-		const request = await fetch(url);
+        const request = await fetch(url);
 
-		if (request.status === 200) {
-			const html = await request.text();
-			const div = document.createElement("div");
-			if (push) {
-				window.history.pushState({}, "", url);
-			}
+        if (request.status === 200) {
+            const html = await request.text();
+            const div = document.createElement("div");
+            if (push) {
+                window.history.pushState({}, "", url);
+            }
 
-			div.innerHTML = html;
+            div.innerHTML = html;
 
-			const divContent = div.querySelector(".content");
+            const divContent = div.querySelector(".content");
 
-			this.template = divContent.getAttribute("data-template");
+            this.template = divContent.getAttribute("data-template");
 
-			this.header.onChange(this.template);
-			this.responsiveNavBar.onChange(this.template);
-			this.footer.onChange(this.template);
+            this.header.onChange(this.template);
+            this.responsiveNavBar.onChange(this.template);
+            this.footer.onChange(this.template);
 
-			this.content.setAttribute("data-template", this.template);
-			this.content.innerHTML = divContent.innerHTML;
+            this.content.setAttribute("data-template", this.template);
+            this.content.innerHTML = divContent.innerHTML;
 
-			this.page = this.pages[this.template];
-			this.page.create();
-			this.createTitle();
+            this.page = this.pages[this.template];
+            this.page.create();
+            this.createTitle();
 
-			this.onResize();
+            this.onResize();
 
-			this.page.show();
-			this.options.onChange();
-			this.social.onChange();
+            this.page.show();
+            this.options.onChange();
+            this.social.onChange();
 
-			this.addLinkListeners();
-		} else {
-			console.log("Error");
-		}
-	}
+            this.addLinkListeners();
+        } else {
+            console.log("Error");
+        }
+    }
 
-	onPopState() {
-		this.onChange({ url: window.location.pathname, push: false });
-	}
+    onPopState() {
+        this.onChange({ url: window.location.pathname, push: false });
+    }
 
-	onPreloaded() {
-		this.preloader.destroy();
+    onPreloaded() {
+        this.preloader.destroy();
 
-		this.onResize();
+        this.onResize();
 
-		this.page.show();
-	}
+        this.page.show();
+    }
 
-	onResize() {
-		if (this.page && this.page.onResize) {
-			this.page.onResize();
-			if (this.header?.onResize) {
-				this.header.onResize(this.page.elements.wrapper);
-			}
-			if (this.footer?.onResize) {
-				this.footer.onResize(this.page.elements.wrapper);
-			}
-			if (this.scrollBar?.onResize) {
-				this.scrollBar.onResize(this.page.elements.wrapper);
-			}
-		}
-	}
+    onResize() {
+        if (this.page && this.page.onResize) {
+            this.page.onResize();
+            if (this.header?.onResize) {
+                this.header.onResize(this.page.elements.wrapper);
+            }
+            if (this.footer?.onResize) {
+                this.footer.onResize(this.page.elements.wrapper);
+            }
+            if (this.scrollBar?.onResize) {
+                this.scrollBar.onResize(this.page.elements.wrapper);
+            }
+        }
+    }
 
-	/* Listeners */
+    /* Listeners */
 
-	addEventListeners() {
-		window.addEventListener("popstate", this.onPopState.bind(this));
-		window.addEventListener("resize", this.onResize.bind(this));
-	}
+    addEventListeners() {
+        window.addEventListener("popstate", this.onPopState.bind(this));
+        window.addEventListener("resize", this.onResize.bind(this));
+    }
 }
 
 new App();

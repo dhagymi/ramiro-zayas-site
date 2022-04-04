@@ -10,221 +10,225 @@ import AsyncLoad from "classes/AsyncLoad.js";
 import { lerp, clamp } from "utils/math.js";
 
 export default class Page {
-	constructor({ id, element, elements, title, globalOnResize }) {
-		this.selector = element;
-		this.selectorChildren = {
-			...elements,
+    constructor({ id, element, elements, title, globalOnResize }) {
+        this.selector = element;
+        this.selectorChildren = {
+            ...elements,
 
-			animationsFades: '[data-animation="fade"]',
+            animationsFades: '[data-animation="fade"]',
 
-			preloaders: "[data-src]",
-		};
-		this.title = title;
-		this.globalOnResize = globalOnResize;
+            preloaders: "[data-src]",
+        };
+        this.title = title;
+        this.globalOnResize = globalOnResize;
 
-		this.id = id;
-		this.transformPrefix = prefix("transform");
+        this.id = id;
+        this.transformPrefix = prefix("transform");
 
-		this.onMouseWheelEvent = this.onMouseWheel.bind(this);
-		this.onTouchDownEvent = this.onTouchDown.bind(this);
-		this.onTouchMoveEvent = this.onTouchMove.bind(this);
-		this.onTouchUpEvent = this.onTouchUp.bind(this);
-	}
+        this.onMouseWheelEvent = this.onMouseWheel.bind(this);
+        this.onTouchDownEvent = this.onTouchDown.bind(this);
+        this.onTouchMoveEvent = this.onTouchMove.bind(this);
+        this.onTouchUpEvent = this.onTouchUp.bind(this);
+    }
 
-	create() {
-		this.element = document.querySelector(this.selector);
-		this.elements = {};
+    create() {
+        this.element = document.querySelector(this.selector);
+        this.elements = {};
 
-		this.scroll = {
-			ease: 0.1,
-			current: 0,
-			target: 0,
-			limit: 0,
-			last: 0,
-		};
+        this.scroll = {
+            ease: 0.1,
+            current: 0,
+            target: 0,
+            limit: 0,
+            last: 0,
+        };
 
-		this.y = {
-			start: 0,
-			difference: 0,
-			end: 0,
-		};
+        this.y = {
+            start: 0,
+            difference: 0,
+            end: 0,
+        };
 
-		each(this.selectorChildren, (selector, key) => {
-			if (
-				selector instanceof window.HTMLElement ||
-				selector instanceof window.NodeList
-			) {
-				this.elements[key] = selector;
-			} else if (Array.isArray(selector)) {
-				this.elements[key] = selector;
-			} else {
-				this.elements[key] = this.element.querySelectorAll(selector);
+        each(this.selectorChildren, (selector, key) => {
+            if (
+                selector instanceof window.HTMLElement ||
+                selector instanceof window.NodeList
+            ) {
+                this.elements[key] = selector;
+            } else if (Array.isArray(selector)) {
+                this.elements[key] = selector;
+            } else {
+                this.elements[key] = this.element?.querySelectorAll(selector);
 
-				if (this.elements[key].length === 0) {
-					this.elements[key] = null;
-				} else if (this.elements[key].length === 1) {
-					this.elements[key] = this.element.querySelector(selector);
-				}
-			}
-		});
+                if (this.elements[key].length === 0) {
+                    this.elements[key] = null;
+                } else if (this.elements[key].length === 1) {
+                    this.elements[key] = this.element?.querySelector(selector);
+                }
+            }
+        });
 
-		this.createAnimations();
+        this.createAnimations();
 
-		this.createPreloader();
-	}
+        this.createPreloader();
+    }
 
-	createAnimations() {
-		this.animationsFades = map(this.elements.animationsFades, (element) => {
-			return new Fade({ element });
-		});
-	}
+    createAnimations() {
+        this.animationsFades = map(this.elements.animationsFades, (element) => {
+            return new Fade({ element });
+        });
+    }
 
-	createPreloader() {
-		if (this.elements.preloaders?.length) {
-			this.preloaders = map(this.elements.preloaders, (element) => {
-				return new AsyncLoad({ element });
-			});
-		} else if (this.elements.preloaders) {
-			this.preloaders = new AsyncLoad({ element: this.elements.preloaders });
-		}
-	}
+    createPreloader() {
+        if (this.elements.preloaders?.length) {
+            this.preloaders = map(this.elements.preloaders, (element) => {
+                return new AsyncLoad({ element });
+            });
+        } else if (this.elements.preloaders) {
+            this.preloaders = new AsyncLoad({
+                element: this.elements.preloaders,
+            });
+        }
+    }
 
-	/* Animations */
+    /* Animations */
 
-	show() {
-		return new Promise((resolve) => {
-			this.animationIn = GSAP.timeline();
-			this.animationIn.fromTo(
-				this.element,
-				{ autoAlpha: 0 },
-				{
-					autoAlpha: 1,
-				}
-			);
+    show() {
+        return new Promise((resolve) => {
+            this.animationIn = GSAP.timeline();
+            this.animationIn.fromTo(
+                this.element,
+                { autoAlpha: 0 },
+                {
+                    autoAlpha: 1,
+                }
+            );
 
-			this.animationIn.call(() => {
-				this.addEventListeners();
-				this.showed = true;
+            this.animationIn.call(() => {
+                this.addEventListeners();
+                this.showed = true;
 
-				resolve();
-			});
-		});
-	}
+                resolve();
+            });
+        });
+    }
 
-	hide() {
-		return new Promise((resolve) => {
-			this.destroy();
-			this.showed = false;
+    hide() {
+        return new Promise((resolve) => {
+            this.destroy();
+            this.showed = false;
 
-			this.animationOut = GSAP.timeline();
+            this.animationOut = GSAP.timeline();
 
-			this.animationOut.to(this.element, {
-				autoAlpha: 0,
-				onComplete: resolve,
-			});
-		});
-	}
+            this.animationOut.to(this.element, {
+                autoAlpha: 0,
+                onComplete: resolve,
+            });
+        });
+    }
 
-	/* Loops */
+    /* Loops */
 
-	update() {
-		this.scroll.target = clamp(0, this.scroll.limit, this.scroll.target);
+    update() {
+        this.scroll.target = clamp(0, this.scroll.limit, this.scroll.target);
 
-		if (
-			lerp(this.scroll.current, this.scroll.target, this.scroll.ease) < 0.01
-		) {
-			this.scroll.current = 0;
-		} else {
-			this.scroll.current = lerp(
-				this.scroll.current,
-				this.scroll.target,
-				this.scroll.ease
-			);
-		}
+        if (
+            lerp(this.scroll.current, this.scroll.target, this.scroll.ease) <
+            0.01
+        ) {
+            this.scroll.current = 0;
+        } else {
+            this.scroll.current = lerp(
+                this.scroll.current,
+                this.scroll.target,
+                this.scroll.ease
+            );
+        }
 
-		if (this.elements.wrapper) {
-			this.elements.wrapper.style[
-				this.transformPrefix
-			] = `translateY(-${this.scroll.current}px)`;
-		}
+        if (this.elements.wrapper) {
+            this.elements.wrapper.style[
+                this.transformPrefix
+            ] = `translateY(-${this.scroll.current}px)`;
+        }
 
-		if (
-			this.elements.wrapper.clientHeight - window.innerHeight !== 0 &&
-			this.elements.wrapper.clientHeight - window.innerHeight !== this.size
-		) {
-			this.globalOnResize();
-			this.size = this.elements.wrapper.clientHeight - window.innerHeight;
-		}
-	}
+        if (
+            this.elements.wrapper.clientHeight - window.innerHeight !== 0 &&
+            this.elements.wrapper.clientHeight - window.innerHeight !==
+                this.size
+        ) {
+            this.globalOnResize();
+            this.size = this.elements.wrapper.clientHeight - window.innerHeight;
+        }
+    }
 
-	updateScroll({ ease, current, target, limit, last }) {
-		this.scroll.ease = ease || this.scroll.ease;
-		this.scroll.current = current || this.scroll.current;
-		this.scroll.target = target || this.scroll.target;
-		this.scroll.limit = limit || this.scroll.limit;
-		this.scroll.last = last || this.scroll.last;
-	}
+    updateScroll({ ease, current, target, limit, last }) {
+        this.scroll.ease = ease || this.scroll.ease;
+        this.scroll.current = current || this.scroll.current;
+        this.scroll.target = target || this.scroll.target;
+        this.scroll.limit = limit || this.scroll.limit;
+        this.scroll.last = last || this.scroll.last;
+    }
 
-	/* Events */
+    /* Events */
 
-	onMouseWheel(event) {
-		const { pixelY } = normalizeWheel(event);
+    onMouseWheel(event) {
+        const { pixelY } = normalizeWheel(event);
 
-		this.scroll.target += pixelY;
-	}
+        this.scroll.target += pixelY;
+    }
 
-	onTouchDown(event) {
-		this.isTouching = true;
+    onTouchDown(event) {
+        this.isTouching = true;
 
-		this.y.start = event.touches[0].clientY;
-	}
+        this.y.start = event.touches[0].clientY;
+    }
 
-	onTouchMove(event) {
-		if (!this.isTouching) return;
+    onTouchMove(event) {
+        if (!this.isTouching) return;
 
-		this.y.end = event.touches[0].clientY;
+        this.y.end = event.touches[0].clientY;
 
-		this.y.difference = this.y.start - this.y.end;
-		this.y.start = this.y.end;
-		this.scroll.target += this.y.difference * 4;
-	}
+        this.y.difference = this.y.start - this.y.end;
+        this.y.start = this.y.end;
+        this.scroll.target += this.y.difference * 4;
+    }
 
-	onTouchUp(event) {
-		this.isTouching = false;
+    onTouchUp(event) {
+        this.isTouching = false;
 
-		this.y.end = event.changedTouches[0].clientY;
+        this.y.end = event.changedTouches[0].clientY;
 
-		this.y.difference = this.y.start - this.y.end;
+        this.y.difference = this.y.start - this.y.end;
 
-		this.scroll.target += this.y.difference * 4;
-	}
+        this.scroll.target += this.y.difference * 4;
+    }
 
-	onResize() {
-		if (this.elements.wrapper) {
-			this.scroll.limit =
-				this.elements.wrapper.clientHeight - window.innerHeight;
-		}
-	}
+    onResize() {
+        if (this.elements.wrapper) {
+            this.scroll.limit =
+                this.elements.wrapper.clientHeight - window.innerHeight;
+        }
+    }
 
-	/* Listeners */
+    /* Listeners */
 
-	addEventListeners() {
-		window.addEventListener("mousewheel", this.onMouseWheelEvent);
-		window.addEventListener("touchstart", this.onTouchDownEvent);
-		window.addEventListener("touchmove", this.onTouchMoveEvent);
-		window.addEventListener("touchend", this.onTouchUpEvent);
-	}
+    addEventListeners() {
+        window.addEventListener("mousewheel", this.onMouseWheelEvent);
+        window.addEventListener("touchstart", this.onTouchDownEvent);
+        window.addEventListener("touchmove", this.onTouchMoveEvent);
+        window.addEventListener("touchend", this.onTouchUpEvent);
+    }
 
-	removeEventListeners() {
-		window.addEventListener("mousewheel", this.onMouseWheelEvent);
-		window.addEventListener("touchstart", this.onTouchDownEvent);
-		window.addEventListener("touchmove", this.onTouchMoveEvent);
-		window.addEventListener("touchend", this.onTouchUpEvent);
-	}
+    removeEventListeners() {
+        window.addEventListener("mousewheel", this.onMouseWheelEvent);
+        window.addEventListener("touchstart", this.onTouchDownEvent);
+        window.addEventListener("touchmove", this.onTouchMoveEvent);
+        window.addEventListener("touchend", this.onTouchUpEvent);
+    }
 
-	/* Destroy */
+    /* Destroy */
 
-	destroy() {
-		this.removeEventListeners();
-	}
+    destroy() {
+        this.removeEventListeners();
+    }
 }
