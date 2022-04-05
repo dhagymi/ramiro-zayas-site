@@ -21,51 +21,113 @@
         @include media('<phone')
             padding: 0 3.8rem
 
-        &--active
-            @include media('<tablet')
-                display: flex
-
-        &__subHeader
-            align-items: center
+    &--active
+        @include media('<tablet')
             display: flex
-            justify-content: space-between
-            height: 17rem
-            padding: 6rem 0
+
+    &__subHeader
+        align-items: center
+        display: flex
+        justify-content: space-between
+        height: 17rem
+        padding: 6rem 0
+
+        @include media('<phone')
+            height: 13vh
+            padding: 5vh 0
+
+        &__link
+            color: $light-color
+            font-size: 0
+            height: 2.3rem
+            transition: opacity .3s
+            width: 20.5rem
+
+            &:hover
+                opacity: .5
+
+            @include media('<tablet')
+                &:hover
+                    opacity: 1
 
             @include media('<phone')
-                height: 13vh
-                padding: 5vh 0
+                height: 1.7rem
+                width: 13.7rem
 
-            &__link
-                font-size: 0
+            &__logo
+                color: $light-color
                 height: 2.3rem
                 transition: opacity .3s
                 width: 20.5rem
-
-                &:hover
-                    opacity: .5
-
-                @include media('<tablet')
-                    &:hover
-                        opacity: 1
 
                 @include media('<phone')
                     height: 1.7rem
                     width: 13.7rem
 
-                &__logo
-                    height: 2.3rem
-                    transition: opacity .3s
-                    width: 20.5rem
+        &__closeButton
+            color: $light-color
+            height: 5rem
+            transition: opacity .3s
+            width: 5rem
 
-                    @include media('<phone')
-                        height: 1.7rem
-                        width: 13.7rem
+            &:hover
+                opacity: .5
 
-            &__closeButton
-                height: 5rem
+            @include media('<tablet')
+                &:hover
+                    opacity: 1
+
+            @include media ('<phone')
+                height: 3.3rem
+                width: 3.3rem
+
+            &__icon
+                height: 100%
+                width: 100%
+
+    &__list
+        display: flex
+        flex-direction: column
+        gap: 4.75vh
+        margin-top: calc(10vh - 6rem)
+
+        @include media('<phone')
+            margin-top: calc(10vh - 3.9rem)
+
+        &__link
+            color: $light-color
+
+            &:link
+                color: $light-color
+
+            &:visited
+                color: $light-color
+
+    & .social
+        display: none
+
+        @include media('<tablet')
+            display: block
+            height: 5rem
+            margin-left: 0.3rem
+            margin-top: 8vh
+            position: static
+            transform: translate(0,0)
+
+        @include media('<phone')
+            height: 3rem
+
+        &__list
+            @include media('<tablet')
+                flex-direction: row
+                gap: 2.8rem
+                height: 100%
+
+            @include media('<phone')
+                gap: 4rem
+
+            &__item
                 transition: opacity .3s
-                width: 5rem
 
                 &:hover
                     opacity: .5
@@ -74,67 +136,19 @@
                     &:hover
                         opacity: 1
 
-                @include media ('<phone')
-                    height: 3.3rem
-                    width: 3.3rem
-
-                &__icon
-                    height: 100%
-                    width: 100%
-
-        &__list
-            display: flex
-            flex-direction: column
-            gap: 4.75vh
-            margin-top: calc(10vh - 6rem)
-
-            @include media('<phone')
-                margin-top: calc(10vh - 3.9rem)
-
-        & .social
-            display: none
-
-            @include media('<tablet')
-                display: block
-                height: 5rem
-                margin-left: 0.3rem
-                margin-top: 8vh
-                position: static
-                transform: translate(0,0)
-
-            @include media('<phone')
-                height: 3rem
-
-            &__list
                 @include media('<tablet')
-                    flex-direction: row
-                    gap: 2.8rem
                     height: 100%
 
-                @include media('<phone')
-                    gap: 4rem
+            &__link
+                color: $light-color
 
-                &__item
-                    transition: opacity .3s
+                @include media('<tablet')
+                    height: 100%
 
-                    &:hover
-                        opacity: .5
+                    & svg
+                        @include media('<tablet')
+                            height: 100%
+                            max-width: 6.1rem
 
-                    @include media('<tablet')
-                        &:hover
-                            opacity: 1
-
-                    @include media('<tablet')
-                        height: 100%
-
-                &__link
-                    @include media('<tablet')
-                        height: 100%
-
-                        & svg
-                            @include media('<tablet')
-                                height: 100%
-                                max-width: 6.1rem
-
-                                @include media('<phone')
-                                    max-width: 3.1rem
+                            @include media('<phone')
+                                max-width: 3.1rem
