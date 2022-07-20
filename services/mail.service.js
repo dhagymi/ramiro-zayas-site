@@ -8,9 +8,9 @@ class Mailer {
 		this.user = user;
 		this.pass = pass;
 		this.transporter = nodemailer.createTransport({
-			host: "smtp.gmail.com",
+			host: "smtp.hostinger.com",
+			secureConnection: true,
 			port: 465,
-			secure: true,
 			auth: {
 				user,
 				pass,
