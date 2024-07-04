@@ -21,8 +21,8 @@ jobs:
           port: 22
           script: |
             cd ~
-            cd ../repos/ramiro-zayas-site/apps/node1
+            cd ../repos/ramiro-zayas-site
             git pull origin master
-            git status
-            npm install --only=prod
-            pm2 restart node1
+            npm install
+            npm run build
+            pm2 restart app

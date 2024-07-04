@@ -20,8 +20,9 @@ jobs:
           password: ${{ secrets.CD_PASSWORD }}
           port: 22
           script: |
-            cd ~/home/danielwetan/apps/node1
-            git pull origin master
-            git status
-            npm install --only=prod
-            pm2 restart node1
+            cd ~
+            cd ../repos/ramiro-zayas-site@dev
+            git pull origin dev
+            npm install
+            npm run build
+            pm2 restart app@dev
