@@ -185,8 +185,6 @@ export default class Component extends EventEmitter {
                 if (this.availableToUpdate) {
                         if (!this.isTouching) return;
 
-                        event.preventDefault();
-
                         this.y.end = event.touches[0].clientY;
 
                         this.y.difference = this.y.start - this.y.end;
