@@ -1,24 +1,29 @@
 .music__albums
-    display: flex
-    justify-content: space-between
+    display: grid
+    /* justify-content: space-between */
     margin-top: 17.3rem
+    grid-template-columns: repeat(3, $desktop_cards-size)
+    gap: calc(((100vw - ($desktop_horizontal-page-padding * 2)) - ($desktop_cards-size * 3)) / 2 )
 
     @include media('<tablet')
         margin-top: 13.2rem
+        grid-template-columns: repeat(3, $tablet_cards-size)
+        gap: calc(((100vw - ($tablet_horizontal-page-padding * 2)) - ($tablet_cards-size * 3)) / 2 )
 
     @include media('<phone')
+        display: flex
         flex-direction: column
         gap: 0.9rem
         justify-content: flex-start
         margin-top: 6.5rem
 
     &__card
-        height: 37rem
-        width: 37rem
+        height: $desktop_cards-size
+        width: $desktop_cards-size
 
         @include media('<tablet')
-            height: 26rem
-            width: 26rem
+            height: $tablet_cards-size
+            width: $tablet_cards-size
 
         @include media('<phone')
             height: 32.2rem
