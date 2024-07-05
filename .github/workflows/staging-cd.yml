@@ -1,7 +1,7 @@
 name: Node.js CI
 
 on:
-  pull_request:
+  push:
     branches: [dev]
 
 jobs:
@@ -12,10 +12,6 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - name: Extract branch name
-        shell: bash
-        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
-        id: extract_branch
       - name: Deploy using ssh
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -25,10 +21,8 @@ jobs:
           port: 22
           script: |
             cd ~
-            cd ../repos/ramiro-zayas-site@dev
-            git fetch origin
-            git checkout ${{ steps.extract_branch.outputs.branch }}
-            git pull origin ${{ steps.extract_branch.outputs.branch }}
+            cd ../repos/ramiro-zayas-site@stg
+            git pull origin dev
             npm install
             npm run build
-            pm2 restart app@dev
+            pm2 restart app@stg
