@@ -11,7 +11,7 @@ export default class Header extends Component {
         options: ".header__options",
         menuButton: ".header__options__menu",
       },
-      isScrolleable: false,
+      isScrolleable: true,
     });
 
     this.interactionComponents = interactionComponents;
