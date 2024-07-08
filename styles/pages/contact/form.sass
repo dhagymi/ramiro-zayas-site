@@ -141,7 +141,9 @@
             display: flex
             gap: 4rem
             height: 2.5rem
-            margin-top: 3.5rem
+            left: -1rem
+            margin-top: 4.6rem
+            position: relative
             transition: opacity .3s
 
             &:hover
@@ -160,6 +162,41 @@
 
             &__arrow
                 height: 100%
+
+        &__checkbox
+            align-items: center
+            display: flex
+            gap: 2rem
+            margin-top: 4rem
+
+            &__input
+                display: none
+
+            &__label
+                @extend %description-24
+
+                align-items: center
+                display: flex
+                gap: 1rem
+                left: -1rem
+                position: relative
+
+            &__link
+                text-decoration: underline
+
+            &__svg
+                &Container
+                    height: 4rem
+                    position: relative
+                    width: 4rem
+
+                    @include media('<phone')
+                        height: 3rem
+                        width: 3rem
+
+                &Icon
+                    opacity: 1
+                    position: absolute
 
     &__message
         @extend %description-30
