@@ -9,13 +9,13 @@ footer.footer
             span=copyright[0]
             span.footer__dash=copyright[1]
             span=copyright[2]
-            a.footer__ppLink(target=footer.data.dha_site_link.target href=footer.data.dha_site_link.url)=copyright[3]
+            a.footer__link(target=footer.data.dha_site_link.target href=footer.data.dha_site_link.url)=copyright[3]
             span=copyright[4]
         else 
             span=copyright[0]
-            a.footer__ppLink(target=footer.data.dha_site_link.target href=footer.data.dha_site_link.url)=copyright[1]
+            a.footer__link(target=footer.data.dha_site_link.target href=footer.data.dha_site_link.url)=copyright[1]
             span=copyright[2]
 
 
     p.footer__privacyPolicy(data-animation="fade")
-        a.footer__ppLink(target=footer.data.privacy_policy.target href=footer.data.privacy_policy.url)=footer.data.dev_and_design
+        a.footer__link(target=footer.data.privacy_policy.target href=footer.data.privacy_policy.url)=footer.data.dev_and_design
