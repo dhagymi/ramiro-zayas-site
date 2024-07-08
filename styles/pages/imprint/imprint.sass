@@ -1,0 +1,77 @@
+.imprint
+  @extend %page
+
+  overflow: hidden
+  text-align: center
+
+  &--active
+    @extend %page--active
+
+  &__wrapper
+    padding: 24.3rem 39.8rem
+
+    @include media('<tablet')
+      padding: 23.2rem 10.5rem
+
+    @include media('<phone')
+      padding: 11.7rem 2rem 22rem
+
+  &__title
+    @extend %title-134
+
+    @include media('<phone')
+      letter-spacing: -0.09rem
+
+  &__subtitle
+    @extend %subtitle-lowercase-30
+
+    font-weight: 400
+    margin-top: 5.5rem
+
+    @include media('<tablet')
+      margin-top: 2.1rem
+
+    @include media('<phone')
+      line-height: 1.2
+      margin-top: 2.2rem
+      padding: 0 4rem
+
+  &__personalInformation
+    @extend %imprint-info-30
+
+    align-items: center
+    display: flex
+    flex-direction: column
+    line-height: 1.6
+    margin-top: 5.5rem
+    text-align: center
+
+    @include media('<tablet')
+      margin-top: 6.1rem
+
+    @include media('<phone')
+      margin-top: 2.7rem
+
+  &__contactTitle
+    @extend %imprint-info-30
+
+    font-weight: 700
+    line-height: 1.6
+    margin-top: 3.6rem
+
+    @include media('<tablet')
+      margin-top: 3rem
+
+    @include media('<phone')
+      margin-top: 1.4rem
+
+  &__contactInformation
+    @extend %imprint-info-30
+
+    align-items: center
+    display: flex
+    flex-direction: column
+    line-height: 1.6
+    text-align: center
+
+  &__line

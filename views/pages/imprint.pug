@@ -1,0 +1,17 @@
+extends ../base.pug 
+
+block variables 
+    - var template = "imprint"
+
+block content
+    .imprint
+        section.imprint__wrapper
+            h1.imprint__title(data-animation="fade")=imprint.data.title
+            h2.imprint__subtitle(data-animation="fade")=imprint.data.subtitle
+            p.imprint__personalInformation(data-animation="fade")
+                each line in imprint.data.personal_information
+                    span.imprint__line=line
+            p.imprint__contactTitle(data-animation="fade")=imprint.data.contact_title
+            p.imprint__contactInformation(data-animation="fade")
+                each line in imprint.data.contact_information
+                    span.imprint__line=line
