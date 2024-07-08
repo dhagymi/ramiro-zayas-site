@@ -1,8 +1,10 @@
-- var devAndDesign = [footer.data.dev_and_design.split(" - ")[0].trim(), "-", footer.data.dev_and_design.split(" - ")[1].trim()]
+- var splitCopyright = footer.data.copyright.split(" - ")
+- var copyright = splitCopyright.length >= 2 ? [footer.data.copyright.split(" - ")[0].trim(), "-", footer.data.copyright.split(" - ")[1].trim()] : splitCopyright
 
 footer.footer
-    p.footer__copyright(data-animation="fade")=footer.data.copyright
-    p.footer__devAndDesign(data-animation="fade")
-        span.footer__dev=devAndDesign[0]
-        span.footer__dash=devAndDesign[1]
-        span.footer__design=devAndDesign[2]
+    p.footer__copyright(data-animation="fade")
+        span=copyright[0]
+        span.footer__dash=copyright[1]
+        span=copyright[2]
+    p.footer__privacyPolicy(data-animation="fade")
+        a.footer__ppLink(target="_blank" href=footer.data.privacy_policy)=footer.data.dev_and_design
