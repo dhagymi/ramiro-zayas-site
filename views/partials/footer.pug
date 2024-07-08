@@ -1,7 +1,8 @@
 - var splitCopyright = footer.data.copyright.split(" - ")
 - var copyrightHasBeenSplitted = splitCopyright.length >= 2
 - var copyright = copyrightHasBeenSplitted ? [footer.data.copyright.split(" - ")[0].trim(), "-", footer.data.copyright.split(" - ")[1].trim()] : splitCopyright
-- var splitDha = copyrightHasBeenSplitted ? [copyright[0], copyright[1], copyright[2].split("Dhá")[0], "Dhá", copyright[2].split("Dhá")[1]] : [copyright[0].split("Dhá")[0], "Dhá", copyright[0].split("Dhá")[1]]
+- var hasDha = copyrightHasBeenSplitted ? copyright[2].includes("Dhá") : copyright[0].includes("Dhá")
+- var splitDha = hasDha ? copyrightHasBeenSplitted ? [copyright[0], copyright[1], copyright[2].split("Dhá")[0], "Dhá", copyright[2].split("Dhá")[1]] : [copyright[0].split("Dhá")[0], "Dhá", copyright[0].split("Dhá")[1]] : copyright
 
 footer.footer
     p.footer__copyright(data-animation="fade")
