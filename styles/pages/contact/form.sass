@@ -149,9 +149,15 @@
             &:hover
                 opacity: .5 !important
 
+            &:disabled
+                opacity: .5 !important
+
             @include media('<tablet')
                 &:hover
                     opacity: 1 !important
+
+                &:disabled
+                    opacity: .5 !important
 
             &__text
                 @extend %form-24
