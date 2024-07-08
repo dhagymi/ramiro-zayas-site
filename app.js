@@ -82,6 +82,8 @@ app.use((req, res, next) => {
 
         res.locals.pathname = req.path.slice(1);
 
+        res.locals.env = process.env.ENVIRONMENT;
+
         next();
 });
 
@@ -218,6 +220,35 @@ app.get("/gallery", async (req, res) => {
                 ...defaults,
                 gallery,
                 galleryData,
+        });
+});
+
+app.get("/imprint", async (req, res) => {
+        const api = await initApi(req);
+        const autoAdminApi = await initAutoAdminApi(req);
+
+        const defaults = await handleRequest({ api, autoAdminApi });
+        const imprint = await api.getSingle("imprint_page");
+
+        const personalInformation = imprint.data.personal_information
+                .split("\n")
+                .map((line) => line.trim());
+        const contactInformation = imprint.data.contact_information
+                .split("\n")
+                .map((line) => line.trim());
+
+        const modifiedImprint = {
+                ...imprint,
+                data: {
+                        ...imprint.data,
+                        personal_information: personalInformation,
+                        contact_information: contactInformation,
+                },
+        };
+
+        res.render("pages/imprint", {
+                ...defaults,
+                imprint: modifiedImprint,
         });
 });
 
