@@ -82,6 +82,8 @@ app.use((req, res, next) => {
 
         res.locals.pathname = req.path.slice(1);
 
+        res.locals.env = process.env.ENVIRONMENT;
+
         next();
 });
 

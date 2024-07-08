@@ -6,15 +6,17 @@
 footer.footer
     p.footer__copyright(data-animation="fade")
         if copyrightHasBeenSplitted
-            span=copyright[0]
-            span.footer__dash=copyright[1]
-            span=copyright[2]
-            a.footer__link(target=footer.data.dha_site_link.target href=footer.data.dha_site_link.url)=copyright[3]
-            span=copyright[4]
+            span.footer__line=splitDha[0]
+            span.footer__line.footer__dash=splitDha[1]
+            span.footer__line
+                span=splitDha[2]
+                a.footer__link(target=footer.data.dha_site_link.target href=footer.data.dha_site_link.url)=splitDha[3]
+                span=splitDha[4]
         else 
-            span=copyright[0]
-            a.footer__link(target=footer.data.dha_site_link.target href=footer.data.dha_site_link.url)=copyright[1]
-            span=copyright[2]
+            span.footer__line
+                span=splitDha[0]
+                 a.footer__link(target=footer.data.dha_site_link.target href=footer.data.dha_site_link.url)=splitDha[1]
+                span=splitDha[2]
 
 
     p.footer__privacyPolicy(data-animation="fade")
