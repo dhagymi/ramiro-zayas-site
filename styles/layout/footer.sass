@@ -21,15 +21,14 @@
         @include media('<phone')
             font-weight: 500
 
-    &__devAndDesign
+    &__privacyPolicy
         @include media('<phone')
             align-items: center
             display: flex
             flex-direction: column
             height: 5.6rem
             justify-content: space-between
-
-    &__dev
+            text-align: center
 
     &__dash
         margin: 0 1rem
@@ -37,4 +36,9 @@
         @include media('<phone')
             display: none
 
-    &__design
+    &__link
+        text-decoration: underline
+        transition: opacity .3s
+
+        &:hover
+            opacity: .5

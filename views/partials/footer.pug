@@ -1,8 +1,21 @@
-- var devAndDesign = [footer.data.dev_and_design.split(" - ")[0].trim(), "-", footer.data.dev_and_design.split(" - ")[1].trim()]
+- var splitCopyright = footer.data.copyright.split(" - ")
+- var copyrightHasBeenSplitted = splitCopyright.length >= 2
+- var copyright = copyrightHasBeenSplitted ? [footer.data.copyright.split(" - ")[0].trim(), "-", footer.data.copyright.split(" - ")[1].trim()] : splitCopyright
+- var splitDha = copyrightHasBeenSplitted ? [copyright[0], copyright[1], copyright[2].split("Dhá")[0], "Dhá", copyright[2].split("Dhá")[1]] : [copyright[0].split("Dhá")[0], "Dhá", copyright[0].split("Dhá")[1]]
 
 footer.footer
-    p.footer__copyright(data-animation="fade")=footer.data.copyright
-    p.footer__devAndDesign(data-animation="fade")
-        span.footer__dev=devAndDesign[0]
-        span.footer__dash=devAndDesign[1]
-        span.footer__design=devAndDesign[2]
+    p.footer__copyright(data-animation="fade")
+        if copyrightHasBeenSplitted
+            span=copyright[0]
+            span.footer__dash=copyright[1]
+            span=copyright[2]
+            a.footer__link(target=footer.data.dha_site_link.target href=footer.data.dha_site_link.url)=copyright[3]
+            span=copyright[4]
+        else 
+            span=copyright[0]
+            a.footer__link(target=footer.data.dha_site_link.target href=footer.data.dha_site_link.url)=copyright[1]
+            span=copyright[2]
+
+
+    p.footer__privacyPolicy(data-animation="fade")
+        a.footer__link(target=footer.data.privacy_policy.target href=footer.data.privacy_policy.url)=footer.data.dev_and_design
