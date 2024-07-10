@@ -169,18 +169,21 @@ app.get("/music", async (req, res) => {
 
         const defaults = await handleRequest({ api, autoAdminApi });
         const music = await api.getSingle("music_page");
-        music.data["album"] = music.data.album.map(
-                ({ album_image, album_link }) => {
-                        album_link["target"] =
-                                album_link && album_link.target
-                                        ? album_link.target
-                                        : "";
-                        return {
-                                image: album_image,
-                                link: album_link,
-                        };
-                }
-        );
+
+        const {
+                data: { album },
+        } = await autoAdminApi.getSingle("albums");
+
+        music.data["album"] = album.map(({ album_image, album_link }) => {
+                album_link["target"] =
+                        album_link && album_link.target
+                                ? album_link.target
+                                : "";
+                return {
+                        image: album_image,
+                        link: album_link,
+                };
+        });
         music.data["videos"] = music.data.videos.map(
                 ({ video_image, video_link }) => {
                         video_link["target"] =
