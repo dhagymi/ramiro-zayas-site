@@ -119,7 +119,7 @@ export default class Form extends Component {
                         });
 
                         if (this.response.status === 200) {
-                                resetForm(event.target);
+                                this.resetForm(event.target);
                                 this.isOk = true;
                                 this.isLoading = false;
                                 this.showMessage(this.elements.successMessage);
