@@ -66,6 +66,10 @@ const handleLinkResolver = (doc) => {
                 return "/gallery";
         }
 
+        if (doc.type === "imprint_page") {
+                return "/imprint";
+        }
+
         return "/";
 };
 
