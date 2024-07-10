@@ -92,6 +92,11 @@ export default class Form extends Component {
                 return true;
         }
 
+        resetForm(form) {
+                form.reset();
+                this.elements.checkbox.checked = false;
+        }
+
         async onSubmit(event) {
                 try {
                         this.isError = false;
@@ -114,7 +119,7 @@ export default class Form extends Component {
                         });
 
                         if (this.response.status === 200) {
-                                event.target.reset();
+                                resetForm(event.target);
                                 this.isOk = true;
                                 this.isLoading = false;
                                 this.showMessage(this.elements.successMessage);
