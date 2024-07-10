@@ -7,264 +7,332 @@ import Component from "classes/Component.js";
 import { lerp, clamp } from "utils/math.js";
 
 export default class ScrollBar extends Component {
-	constructor({ updateScroll }) {
-		super({
-			element: ".scrollBar",
-			elements: {
-				background: ".scrollBar__background",
-				bar: ".scrollBar__bar",
-			},
-			isScrolleable: true,
-		});
+        constructor({ updateScroll }) {
+                super({
+                        element: ".scrollBar",
+                        elements: {
+                                background: ".scrollBar__background",
+                                bar: ".scrollBar__bar",
+                        },
+                        isScrolleable: true,
+                });
 
-		this.topPrefix = prefix("top");
-		this.onMouseOverEvent = this.onMouseOver.bind(this);
-		this.onMouseLeaveEvent = this.onMouseLeave.bind(this);
-		this.onScrollBackgroundClickEvent = this.onScrollBackgroundClick.bind(this);
-		this.onTouchBarStartEvent = this.onTouchBarStart.bind(this);
-		this.onTouchBarMoveEvent = this.onTouchBarMove.bind(this);
-		this.onTouchBarEndEvent = this.onTouchBarEnd.bind(this);
+                this.topPrefix = prefix("top");
+                this.onMouseOverEvent = this.onMouseOver.bind(this);
+                this.onMouseLeaveEvent = this.onMouseLeave.bind(this);
+                this.onScrollBackgroundClickEvent =
+                        this.onScrollBackgroundClick.bind(this);
+                this.onTouchBarStartEvent = this.onTouchBarStart.bind(this);
+                this.onTouchBarMoveEvent = this.onTouchBarMove.bind(this);
+                this.onTouchBarEndEvent = this.onTouchBarEnd.bind(this);
 
-		this.globalUpdateScroll = updateScroll;
-	}
+                this.globalUpdateScroll = updateScroll;
+        }
 
-	async update(available = true) {
-		this.availableToUpdate = available;
+        async update(available = true) {
+                this.availableToUpdate = available;
 
-		if (this.availableToUpdate) {
-			this.scroll.target = clamp(0, this.scroll.limit, this.scroll.target);
+                if (this.availableToUpdate) {
+                        this.scroll.target = clamp(
+                                0,
+                                this.scroll.limit,
+                                this.scroll.target
+                        );
 
-			if (
-				lerp(this.scroll.current, this.scroll.target, this.scroll.ease) < 0.01
-			) {
-				this.scroll.current = 0;
-			} else {
-				this.scroll.current = lerp(
-					this.scroll.current,
-					this.scroll.target,
-					this.scroll.ease
-				);
-			}
+                        if (
+                                lerp(
+                                        this.scroll.current,
+                                        this.scroll.target,
+                                        this.scroll.ease
+                                ) < 0.01
+                        ) {
+                                this.scroll.current = 0;
+                        } else {
+                                this.scroll.current = lerp(
+                                        this.scroll.current,
+                                        this.scroll.target,
+                                        this.scroll.ease
+                                );
+                        }
 
-			this.percent = this.scroll.current / this.scroll.limit;
+                        this.percent = this.scroll.current / this.scroll.limit;
 
-			if (this.elements.bar) {
-				this.elements.bar.style[this.topPrefix] = `${90 * this.percent}%`;
-			}
-		}
-	}
+                        if (this.elements.bar) {
+                                this.elements.bar.style[this.topPrefix] = `${
+                                        90 * this.percent
+                                }%`;
+                        }
+                }
+        }
 
-	create() {
-		super.create();
-		this.hide();
-		this.yBar = {
-			start: 0,
-			difference: 0,
-			end: 0,
-			realProportion: 0,
-		};
-	}
+        create() {
+                super.create();
+                this.hide();
+                this.yBar = {
+                        start: 0,
+                        difference: 0,
+                        end: 0,
+                        realProportion: 0,
+                };
+        }
 
-	/* Animations */
-	show() {
-		return new Promise((resolve) => {
-			this.timeline = GSAP.timeline();
-			this.timeline.to(this.element, { opacity: 1, onComplete: resolve });
-		});
-	}
+        /* Animations */
+        show() {
+                return new Promise((resolve) => {
+                        this.timeline = GSAP.timeline();
+                        this.timeline.to(this.element, {
+                                opacity: 1,
+                                onComplete: resolve,
+                        });
+                });
+        }
 
-	hide() {
-		return new Promise((resolve) => {
-			this.timeline = GSAP.timeline();
-			this.timeline.to(this.element, { opacity: 0, onComplete: resolve });
-		});
-	}
+        hide() {
+                return new Promise((resolve) => {
+                        this.timeline = GSAP.timeline();
+                        this.timeline.to(this.element, {
+                                opacity: 0,
+                                onComplete: resolve,
+                        });
+                });
+        }
 
-	/* Events */
-	onMouseWheel(event) {
-		if (this.availableToUpdate) {
-			const { pixelY } = normalizeWheel(event);
+        /* Events */
+        onMouseWheel(event) {
+                if (this.availableToUpdate) {
+                        const { pixelY } = normalizeWheel(event);
 
-			this.scroll.target += pixelY;
+                        this.scroll.target += pixelY;
 
-			if (this.scroll.limit != 0) {
-				if (this.timer) {
-					clearTimeout(this.timer);
-				}
-				this.show();
-				this.timer = setTimeout(() => {
-					this.hide();
-				}, 1500);
-			}
-		}
-	}
+                        if (this.scroll.limit != 0) {
+                                if (this.timer) {
+                                        clearTimeout(this.timer);
+                                }
+                                this.show();
+                                this.timer = setTimeout(() => {
+                                        this.hide();
+                                }, 1500);
+                        }
+                }
+        }
 
-	onTouchDown(event) {
-		if (this.availableToUpdate) {
-			this.isTouching = true;
+        onTouchDown(event) {
+                if (this.availableToUpdate) {
+                        this.isTouching = true;
 
-			this.y.start = event.touches[0].clientY;
-		}
-	}
+                        this.y.start = event.touches[0].clientY;
+                }
+        }
 
-	onTouchMove(event) {
-		if (this.availableToUpdate) {
-			if (!this.isTouching) return;
+        onTouchMove(event) {
+                if (this.availableToUpdate) {
+                        if (!this.isTouching) return;
 
-			this.y.end = event.touches[0].clientY;
+                        this.y.end = event.touches[0].clientY;
 
-			this.y.difference = this.y.start - this.y.end;
-			this.y.start = this.y.end;
-			this.scroll.target += this.y.difference * 4;
+                        this.y.difference = this.y.start - this.y.end;
+                        this.y.start = this.y.end;
+                        this.scroll.target += this.y.difference * 2;
 
-			if (this.y.difference !== 0) {
-				if (this.timer) {
-					clearTimeout(this.timer);
-				}
-				this.show();
-				this.timer = setTimeout(() => {
-					this.hide();
-				}, 1500);
-			}
-		}
-	}
+                        if (this.y.difference !== 0) {
+                                if (this.timer) {
+                                        clearTimeout(this.timer);
+                                }
+                                this.show();
+                                this.timer = setTimeout(() => {
+                                        this.hide();
+                                }, 1500);
+                        }
+                }
+        }
 
-	onTouchUp(event) {
-		if (this.availableToUpdate) {
-			this.isTouching = false;
+        onTouchUp(event) {
+                if (this.availableToUpdate) {
+                        this.isTouching = false;
 
-			this.y.end = event.changedTouches[0].clientY;
+                        this.y.end = event.changedTouches[0].clientY;
 
-			this.y.difference = this.y.start - this.y.end;
+                        this.y.difference = this.y.start - this.y.end;
 
-			this.scroll.target += this.y.difference * 4;
+                        this.scroll.target += this.y.difference * 2;
 
-			if (this.y.difference !== 0) {
-				if (this.timer) {
-					clearTimeout(this.timer);
-				}
-				this.show();
-				this.timer = setTimeout(() => {
-					this.hide();
-				}, 1500);
-			}
-		}
-	}
+                        if (this.y.difference !== 0) {
+                                if (this.timer) {
+                                        clearTimeout(this.timer);
+                                }
+                                this.show();
+                                this.timer = setTimeout(() => {
+                                        this.hide();
+                                }, 1500);
+                        }
+                }
+        }
 
-	onMouseOver() {
-		if (this.timer) {
-			clearTimeout(this.timer);
-		}
-		this.show();
-	}
+        onMouseOver() {
+                if (this.timer) {
+                        clearTimeout(this.timer);
+                }
+                this.show();
+        }
 
-	onMouseLeave() {
-		if (this.timer) {
-			clearTimeout(this.timer);
-		}
-		this.timer = setTimeout(() => {
-			this.hide();
-		}, 1500);
-	}
+        onMouseLeave() {
+                if (this.timer) {
+                        clearTimeout(this.timer);
+                }
+                this.timer = setTimeout(() => {
+                        this.hide();
+                }, 1500);
+        }
 
-	onScrollBackgroundClick(event) {
-		this.clickHeightLevel = event.clientY / window.innerHeight;
-		this.absoluteClickHeightLevel = this.clickHeightLevel * this.scroll.limit;
-		this.globalUpdateScroll({ target: this.absoluteClickHeightLevel });
-	}
+        onScrollBackgroundClick(event) {
+                this.clickHeightLevel = event.clientY / window.innerHeight;
+                this.absoluteClickHeightLevel =
+                        this.clickHeightLevel * this.scroll.limit;
+                this.globalUpdateScroll({
+                        target: this.absoluteClickHeightLevel,
+                });
+        }
 
-	onTouchBarStart(event) {
-		this.isBarTouching = true;
-		this.yBar.start = event.touches ? event.touches[0].clientY : event.clientY;
-	}
+        onTouchBarStart(event) {
+                this.isBarTouching = true;
+                this.yBar.start = event.touches
+                        ? event.touches[0].clientY
+                        : event.clientY;
+        }
 
-	onTouchBarMove(event) {
-		if (!this.isBarTouching) return;
+        onTouchBarMove(event) {
+                if (!this.isBarTouching) return;
 
-		this.yBar.end = event.touches ? event.touches[0].clientY : event.clientY;
+                this.yBar.end = event.touches
+                        ? event.touches[0].clientY
+                        : event.clientY;
 
-		this.yBar.difference = this.yBar.start - this.yBar.end;
+                this.yBar.difference = this.yBar.start - this.yBar.end;
 
-		this.yBar.start = this.yBar.end;
+                this.yBar.start = this.yBar.end;
 
-		this.yBar.realProportion =
-			(this.yBar.end / window.innerHeight) * this.scroll.limit;
+                this.yBar.realProportion =
+                        (this.yBar.end / window.innerHeight) *
+                        this.scroll.limit;
 
-		this.globalUpdateScroll({
-			target: this.yBar.realProportion,
-		});
-	}
+                this.globalUpdateScroll({
+                        target: this.yBar.realProportion,
+                });
+        }
 
-	onTouchBarEnd(event) {
-		if (!this.isBarTouching) return;
+        onTouchBarEnd(event) {
+                if (!this.isBarTouching) return;
 
-		this.isBarTouching = false;
+                this.isBarTouching = false;
 
-		this.yBar.end = event.changedTouches
-			? event.changedTouches[0].clientY
-			: event.clientY;
+                this.yBar.end = event.changedTouches
+                        ? event.changedTouches[0].clientY
+                        : event.clientY;
 
-		this.yBar.difference = this.yBar.start - this.yBar.end;
+                this.yBar.difference = this.yBar.start - this.yBar.end;
 
-		this.yBar.realProportion =
-			(this.yBar.end / window.innerHeight) * this.scroll.limit;
+                this.yBar.realProportion =
+                        (this.yBar.end / window.innerHeight) *
+                        this.scroll.limit;
 
-		this.globalUpdateScroll({
-			target: this.yBar.realProportion,
-		});
-	}
+                this.globalUpdateScroll({
+                        target: this.yBar.realProportion,
+                });
+        }
 
-	/* Listeners */
+        /* Listeners */
 
-	addEventListeners() {
-		super.addEventListeners();
-		this.element.addEventListener("mouseover", this.onMouseOverEvent);
-		this.element.addEventListener("mouseleave", this.onMouseLeaveEvent);
-		this.elements.bar.addEventListener("mousedown", this.onTouchBarStartEvent);
-		this.elements.bar.addEventListener("mousemove", this.onTouchBarMoveEvent);
-		this.elements.bar.addEventListener("mouseup", this.onTouchBarEndEvent);
-		this.elements.bar.addEventListener("touchstart", this.onTouchBarStartEvent);
-		this.elements.bar.addEventListener("touchmove", this.onTouchBarMoveEvent);
-		this.elements.bar.addEventListener("touchend", this.onTouchBarEndEvent);
-		this.elements.background.addEventListener(
-			"click",
-			this.onScrollBackgroundClickEvent
-		);
-		window.addEventListener("mousemove", this.onTouchBarMoveEvent);
-		window.addEventListener("mouseup", this.onTouchBarEndEvent);
-		window.addEventListener("touchmove", this.onTouchBarMoveEvent);
-		window.addEventListener("touchend", this.onTouchBarEndEvent);
-	}
+        addEventListeners() {
+                super.addEventListeners();
+                this.element.addEventListener(
+                        "mouseover",
+                        this.onMouseOverEvent
+                );
+                this.element.addEventListener(
+                        "mouseleave",
+                        this.onMouseLeaveEvent
+                );
+                this.elements.bar.addEventListener(
+                        "mousedown",
+                        this.onTouchBarStartEvent
+                );
+                this.elements.bar.addEventListener(
+                        "mousemove",
+                        this.onTouchBarMoveEvent
+                );
+                this.elements.bar.addEventListener(
+                        "mouseup",
+                        this.onTouchBarEndEvent
+                );
+                this.elements.bar.addEventListener(
+                        "touchstart",
+                        this.onTouchBarStartEvent
+                );
+                this.elements.bar.addEventListener(
+                        "touchmove",
+                        this.onTouchBarMoveEvent
+                );
+                this.elements.bar.addEventListener(
+                        "touchend",
+                        this.onTouchBarEndEvent
+                );
+                this.elements.background.addEventListener(
+                        "click",
+                        this.onScrollBackgroundClickEvent
+                );
+                window.addEventListener("mousemove", this.onTouchBarMoveEvent);
+                window.addEventListener("mouseup", this.onTouchBarEndEvent);
+                window.addEventListener("touchmove", this.onTouchBarMoveEvent);
+                window.addEventListener("touchend", this.onTouchBarEndEvent);
+        }
 
-	removeEventListeners() {
-		super.removeEventListeners();
-		this.element.removeEventListener("mouseover", this.onMouseOverEvent);
-		this.element.removeEventListener("mouseleave", this.onMouseLeaveEvent);
-		this.elements.bar.removeEventListener(
-			"mousedown",
-			this.onTouchBarStartEvent
-		);
-		this.elements.bar.removeEventListener(
-			"mousemove",
-			this.onTouchBarMoveEvent
-		);
-		this.elements.bar.removeEventListener("mouseup", this.onTouchBarEndEvent);
-		this.elements.bar.removeEventListener(
-			"touchstart",
-			this.onTouchBarStartEvent
-		);
-		this.elements.bar.removeEventListener(
-			"touchmove",
-			this.onTouchBarMoveEvent
-		);
-		this.elements.bar.removeEventListener("touchend", this.onTouchBarEndEvent);
-		this.elements.background.removeEventListener(
-			"click",
-			this.onScrollBackgroundClickEvent
-		);
-		window.removeEventListener("mousemove", this.onTouchBarMoveEvent);
-		window.removeEventListener("mouseup", this.onTouchBarEndEvent);
-		window.removeEventListener("touchmove", this.onTouchBarMoveEvent);
-		window.removeEventListener("touchend", this.onTouchBarEndEvent);
-	}
+        removeEventListeners() {
+                super.removeEventListeners();
+                this.element.removeEventListener(
+                        "mouseover",
+                        this.onMouseOverEvent
+                );
+                this.element.removeEventListener(
+                        "mouseleave",
+                        this.onMouseLeaveEvent
+                );
+                this.elements.bar.removeEventListener(
+                        "mousedown",
+                        this.onTouchBarStartEvent
+                );
+                this.elements.bar.removeEventListener(
+                        "mousemove",
+                        this.onTouchBarMoveEvent
+                );
+                this.elements.bar.removeEventListener(
+                        "mouseup",
+                        this.onTouchBarEndEvent
+                );
+                this.elements.bar.removeEventListener(
+                        "touchstart",
+                        this.onTouchBarStartEvent
+                );
+                this.elements.bar.removeEventListener(
+                        "touchmove",
+                        this.onTouchBarMoveEvent
+                );
+                this.elements.bar.removeEventListener(
+                        "touchend",
+                        this.onTouchBarEndEvent
+                );
+                this.elements.background.removeEventListener(
+                        "click",
+                        this.onScrollBackgroundClickEvent
+                );
+                window.removeEventListener(
+                        "mousemove",
+                        this.onTouchBarMoveEvent
+                );
+                window.removeEventListener("mouseup", this.onTouchBarEndEvent);
+                window.removeEventListener(
+                        "touchmove",
+                        this.onTouchBarMoveEvent
+                );
+                window.removeEventListener("touchend", this.onTouchBarEndEvent);
+        }
 }

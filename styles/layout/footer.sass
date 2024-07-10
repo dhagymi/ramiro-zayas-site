@@ -15,21 +15,28 @@
     @include media('<phone')
         flex-direction: column
         height: 17.1rem
-        padding: 3.8rem 4.9rem
+        padding: 3.8rem 2.9rem
 
     &__copyright
         @include media('<phone')
-            font-weight: 500
+            font-weight: 300
+            line-height: 1.7
+            text-align: center
 
-    &__devAndDesign
+    &__privacyPolicy
         @include media('<phone')
             align-items: center
             display: flex
             flex-direction: column
             height: 5.6rem
             justify-content: space-between
+            line-height: 1.5
+            text-align: center
 
-    &__dev
+    &__line
+        @include media('<phone')
+            display: block
+            width: 100%
 
     &__dash
         margin: 0 1rem
@@ -37,4 +44,9 @@
         @include media('<phone')
             display: none
 
-    &__design
+    &__link
+        text-decoration: underline
+        transition: opacity .3s
+
+        &:hover
+            opacity: .5
