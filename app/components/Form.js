@@ -96,6 +96,7 @@ export default class Form extends Component {
                 form.reset();
                 this.elements.checkbox.checked = false;
                 this.hideAndShowCheckbox();
+                this.onChangeForm();
         }
 
         async onSubmit(event) {
