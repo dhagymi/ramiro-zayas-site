@@ -19,6 +19,7 @@
         z-index: z('menu')
 
         @include media('<phone')
+            justify-content: space-around
             padding: 0 3.8rem
 
     &--active
@@ -92,7 +93,7 @@
         margin-top: calc(10vh - 6rem)
 
         @include media('<phone')
-            margin-top: calc(10vh - 3.9rem)
+            margin-top: 0
 
         &__link
             color: $light-color
@@ -116,7 +117,8 @@
 
         @include media('<phone')
             height: 3rem
-            margin-top: 15vw
+            margin-bottom: 3rem
+            margin-top: 3rem
 
         &__list
             @include media('<tablet')
