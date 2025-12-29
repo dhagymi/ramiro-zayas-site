@@ -9,6 +9,7 @@ import Prismic from "@prismicio/client";
 import PrismicDOM from "prismic-dom";
 import compression from "compression";
 import UAParser from "ua-parser-js";
+import "express-async-errors";
 
 import contactService from "./services/concerts.service.js";
 import router from "./routers/index.js";
@@ -16,6 +17,7 @@ import router from "./routers/index.js";
 const app = express();
 dotenv.config();
 const PORT = process.env.PORT || 5000;
+const PRISMIC_TIMEOUT_IN_MS = Number(process.env.PRISMIC_TIMEOUT_IN_MS || 4000);
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 /* Middlewares */
@@ -39,6 +41,7 @@ const initApi = (req) => {
         return Prismic.getApi(process.env.PRISMIC_ENDPOINT, {
                 accessToken: process.env.PRISMIC_ACCESS_TOKEN,
                 req,
+                timeoutInMs: PRISMIC_TIMEOUT_IN_MS,
         });
 };
 
@@ -46,6 +49,7 @@ export const initAutoAdminApi = (req) => {
         return Prismic.getApi(process.env.PRISMIC_AUTOADMIN_ENDPOINT, {
                 accessToken: process.env.PRISMIC_AUTOADMIN_ACCESS_TOKEN,
                 req,
+                timeoutInMs: PRISMIC_TIMEOUT_IN_MS,
         });
 };
 
@@ -268,6 +272,12 @@ app.get("/*", async (req, res) => {
         res.status(404).render("pages/error", {
                 ...defaults,
         });
+});
+
+app.use((err, req, res, next) => {
+        console.error(err);
+        if (res.headersSent) return next(err);
+        res.status(503).send("Temporarily unavailable");
 });
 
 const server = app.listen(PORT, () => {
